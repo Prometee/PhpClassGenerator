@@ -22,10 +22,6 @@ class PropertyMethods implements PropertyMethodsInterface
 
     /** @var PropertyInterface */
     protected $property;
-    /** @var bool */
-    protected $readOnly = false;
-    /** @var bool */
-    protected $writeOnly = false;
 
     public function __construct(
         UsesInterface $uses,
@@ -37,14 +33,9 @@ class PropertyMethods implements PropertyMethodsInterface
         $this->getterSetterModelFactory = $getterSetterModelFactory;
     }
 
-    public function configure(
-        PropertyInterface $property,
-        bool $readOnly = false,
-        bool $writeOnly = false
-    ): void {
+    public function configure(PropertyInterface $property): void
+    {
         $this->property = $property;
-        $this->readOnly = $readOnly;
-        $this->writeOnly = $writeOnly;
     }
 
     public function getMethods(string $indent = null): array
@@ -67,32 +58,8 @@ class PropertyMethods implements PropertyMethodsInterface
             $propertyMethods = $this->getterSetterModelFactory->create($this->uses);
         }
 
-        $propertyMethods->configure(
-            $this->property,
-            $this->readOnly,
-            $this->writeOnly
-        );
+        $propertyMethods->configure($this->property);
 
         return $propertyMethods->getMethods($indent);
-    }
-
-    public function isReadOnly(): bool
-    {
-        return $this->readOnly;
-    }
-
-    public function setReadOnly(bool $readOnly): void
-    {
-        $this->readOnly = $readOnly;
-    }
-
-    public function isWriteOnly(): bool
-    {
-        return $this->writeOnly;
-    }
-
-    public function setWriteOnly(bool $writeOnly): void
-    {
-        $this->writeOnly = $writeOnly;
     }
 }

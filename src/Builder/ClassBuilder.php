@@ -136,9 +136,6 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->implements = $implements;
     }
 
-    /**
-     * @param string|null $classType
-     */
     public function setClassType(string $classType): void
     {
         $this->classType = ucfirst($classType);

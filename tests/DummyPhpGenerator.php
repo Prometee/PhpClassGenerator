@@ -40,11 +40,11 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
         $this->classBuilder->addProperty(
             'anArrayOfItems',
             [
-                $this->baseNamespace.'\\'.$className.'[]',
+                $this->baseNamespace . '\\' . $className . '[]',
                 'null'
             ],
             null,
-            'My array field description'."\n".'with line break'
+            'My array field description' . "\n" . 'with line break'
         );
 
         $this->classBuilder->addProperty(

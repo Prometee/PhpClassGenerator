@@ -45,7 +45,8 @@ class GetterSetter implements GetterSetterInterface
         return true;
     }
 
-    public function configure(PropertyInterface $propertyGenerator): void {
+    public function configure(PropertyInterface $propertyGenerator): void
+    {
         $this->property = $propertyGenerator;
     }
 

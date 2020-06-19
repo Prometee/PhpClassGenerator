@@ -2,11 +2,11 @@
 
 namespace Tests\Prometee\PhpClassGenerator;
 
+use PHPUnit\Framework\TestCase;
 use Prometee\PhpClassGenerator\Builder\ClassBuilder;
 use Prometee\PhpClassGenerator\Builder\ModelFactoryBuilder;
 use Prometee\PhpClassGenerator\Builder\ViewFactoryBuilder;
 use Prometee\PhpClassGenerator\PhpGeneratorInterface;
-use PHPUnit\Framework\TestCase;
 
 class PhpGeneratorTest extends TestCase
 {
@@ -26,6 +26,6 @@ class PhpGeneratorTest extends TestCase
 
         $generated = $dummyPhpGenerator->generate();
         $this->assertTrue($generated);
-        $this->assertFileEquals($basePath.'/Foo.php', __DIR__.'/Resources/Foo.php');
+        $this->assertFileEquals($basePath . '/Foo.php', __DIR__ . '/Resources/Foo.php');
     }
 }
