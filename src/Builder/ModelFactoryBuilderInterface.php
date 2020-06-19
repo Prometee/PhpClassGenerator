@@ -18,7 +18,6 @@ use Prometee\PhpClassGenerator\Factory\Model\Method\GetterSetterModelFactoryInte
 use Prometee\PhpClassGenerator\Factory\Model\Method\IsserSetterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\Method\PropertyMethodsModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\MethodsModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\PropertiesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\TraitsModelFactoryInterface;
@@ -44,8 +43,6 @@ interface ModelFactoryBuilderInterface
     public function getPropertiesClass(): string;
 
     public function setInterfaceClassModelFactoryClass(string $interfaceClassModelFactoryClass): void;
-
-    public function setPropertyMethodsModelFactoryClass(string $propertyMethodsModelFactoryClass): void;
 
     public function buildAbstractClassModelFactory(): AbstractClassModelFactoryInterface;
 
@@ -125,8 +122,6 @@ interface ModelFactoryBuilderInterface
 
     public function getMethodModelFactoryClass(): string;
 
-    public function getPropertyMethodsModelFactoryClass(): string;
-
     public function setFinalClassModelFactoryClass(string $finalClassModelFactoryClass): void;
 
     public function setArrayGetterSetterModelFactoryClass(string $arrayGetterSetterModelFactoryClass): void;
@@ -154,8 +149,6 @@ interface ModelFactoryBuilderInterface
     public function buildGetterSetterModelFactory(): GetterSetterModelFactoryInterface;
 
     public function buildPropertiesModelFactory(): PropertiesModelFactoryInterface;
-
-    public function getPropertyMethodsClass(): string;
 
     public function getPropertiesModelFactoryClass(): string;
 
@@ -191,8 +184,6 @@ interface ModelFactoryBuilderInterface
 
     public function getTraitClassClass(): string;
 
-    public function buildPropertyMethodsModelFactory(): PropertyMethodsModelFactoryInterface;
-
     public function setGetterSetterModelFactoryClass(string $getterSetterModelFactoryClass): void;
 
     public function setMethodClass(string $methodClass): void;
@@ -200,8 +191,6 @@ interface ModelFactoryBuilderInterface
     public function getPropertyModelFactoryClass(): string;
 
     public function buildMethodModelFactory(): MethodModelFactoryInterface;
-
-    public function setPropertyMethodsClass(string $propertyMethodsClass): void;
 
     public function setUsesModelFactoryClass(string $usesModelFactoryClass): void;
 

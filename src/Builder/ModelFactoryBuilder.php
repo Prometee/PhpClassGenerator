@@ -32,8 +32,6 @@ use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\Method\PropertyMethodsModelFactory;
-use Prometee\PhpClassGenerator\Factory\Model\Method\PropertyMethodsModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\MethodsModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Other\MethodsModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\PropertiesModelFactory;
@@ -58,7 +56,6 @@ use Prometee\PhpClassGenerator\Model\Method\GetterSetter;
 use Prometee\PhpClassGenerator\Model\Method\IsserSetter;
 use Prometee\PhpClassGenerator\Model\Method\Method;
 use Prometee\PhpClassGenerator\Model\Method\MethodParameter;
-use Prometee\PhpClassGenerator\Model\Method\PropertyMethods;
 use Prometee\PhpClassGenerator\Model\Other\Methods;
 use Prometee\PhpClassGenerator\Model\Other\Properties;
 use Prometee\PhpClassGenerator\Model\Other\Traits;
@@ -91,8 +88,6 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     private $abstractClassModelFactory;
     /** @var InterfaceClassModelFactoryInterface */
     private $interfaceClassModelFactory;
-    /** @var PropertyMethodsModelFactoryInterface */
-    private $propertyMethodsModelFactory;
     /** @var MethodModelFactoryInterface */
     private $methodModelFactory;
     /** @var GetterSetterModelFactoryInterface */
@@ -133,8 +128,6 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     /** @var string */
     private $interfaceClassModelFactoryClass = InterfaceClassModelFactory::class;
     /** @var string */
-    private $propertyMethodsModelFactoryClass = PropertyMethodsModelFactory::class;
-    /** @var string */
     private $methodModelFactoryClass = MethodModelFactory::class;
     /** @var string */
     private $getterSetterModelFactoryClass = GetterSetterModelFactory::class;
@@ -173,8 +166,6 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     private $abstractClassClass = AbstractClass::class;
     /** @var string */
     private $interfaceClassClass = InterfaceClass::class;
-    /** @var string */
-    private $propertyMethodsClass = PropertyMethods::class;
     /** @var string */
     private $methodClass = Method::class;
     /** @var string */
@@ -330,19 +321,6 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
         }
 
         return $this->interfaceClassModelFactory;
-    }
-
-    public function buildPropertyMethodsModelFactory(): PropertyMethodsModelFactoryInterface
-    {
-        if (null === $this->propertyMethodsModelFactory) {
-            $this->propertyMethodsModelFactory = new $this->propertyMethodsModelFactoryClass(
-                $this->propertyMethodsClass,
-                $this->buildIsserSetterModelFactory(),
-                $this->buildGetterSetterModelFactory()
-            );
-        }
-
-        return $this->propertyMethodsModelFactory;
     }
 
     public function buildMethodModelFactory(): MethodModelFactoryInterface
@@ -551,16 +529,6 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
         $this->interfaceClassModelFactoryClass = $interfaceClassModelFactoryClass;
     }
 
-    public function getPropertyMethodsModelFactoryClass(): string
-    {
-        return $this->propertyMethodsModelFactoryClass;
-    }
-
-    public function setPropertyMethodsModelFactoryClass(string $propertyMethodsModelFactoryClass): void
-    {
-        $this->propertyMethodsModelFactoryClass = $propertyMethodsModelFactoryClass;
-    }
-
     public function getMethodModelFactoryClass(): string
     {
         return $this->methodModelFactoryClass;
@@ -749,16 +717,6 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     public function setInterfaceClassClass(string $interfaceClassClass): void
     {
         $this->interfaceClassClass = $interfaceClassClass;
-    }
-
-    public function getPropertyMethodsClass(): string
-    {
-        return $this->propertyMethodsClass;
-    }
-
-    public function setPropertyMethodsClass(string $propertyMethodsClass): void
-    {
-        $this->propertyMethodsClass = $propertyMethodsClass;
     }
 
     public function getMethodClass(): string
