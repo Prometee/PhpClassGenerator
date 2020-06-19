@@ -1,6 +1,6 @@
 {
-    "name": "prometee/php-classes-generator",
-    "description": "PHP classes generator",
+    "name": "prometee/php-class-generator",
+    "description": "PHP class generator",
     "type": "library",
     "license": "MIT",
     "authors": [
