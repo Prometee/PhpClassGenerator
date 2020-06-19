@@ -46,6 +46,11 @@ $dummyPhpGenerator->generate();
 
 ```
 
+## Result example
+
+[tests/Resources/Foo.php]()
+
+
 [ico-version]: https://img.shields.io/packagist/v/Prometee/php-class-generator.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/Prometee/PhpClassGenerator/master.svg?style=flat-square
