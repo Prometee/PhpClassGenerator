@@ -1,0 +1,8 @@
+imports:
+    - { resource: 'vendor/symplify/easy-coding-standard/config/set/psr12.yaml' }
+
+services:
+    PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocNoUselessInheritdocFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer: ~
+    PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer: ~
