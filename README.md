@@ -19,7 +19,7 @@ $ composer require prometee/php-class-generator
 
 Create your `PhpGenerator`, an example can be found here :
 
-[](tests/DummyPhpGenerator.php)
+[DummyPhpGenerator.php](tests/DummyPhpGenerator.php)
 
 Then instantiate :
 
@@ -48,7 +48,7 @@ $dummyPhpGenerator->generate();
 
 ## Result example
 
-[](tests/Resources/Foo.php)
+[Foo.php](tests/Resources/Foo.php)
 
 
 [ico-version]: https://img.shields.io/packagist/v/Prometee/php-class-generator.svg?style=flat-square
