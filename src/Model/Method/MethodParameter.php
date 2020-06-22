@@ -68,6 +68,10 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
 
     public function getPhpTypeFromTypes(): string
     {
+        if (in_array('mixed', $this->types)) {
+            return '';
+        }
+
         $type = self::getPhpType($this->types);
         $type = $this->uses->guessUseOrReturnType($type);
 

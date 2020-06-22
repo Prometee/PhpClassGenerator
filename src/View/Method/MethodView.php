@@ -103,7 +103,7 @@ class MethodView extends AbstractView implements MethodViewInterface
         $contentLength = strlen($content) - strlen($parametersFutureFormat) + $methodParametersLength;
         if ($contentLength > $wrapOn) {
             // Make parameters go into multiline formation
-            $additionalIndentation = "\n" . $this->indent . $this->indent;
+            $additionalIndentation = $this->eol . $this->indent . $this->indent;
             $parametersStart = $additionalIndentation;
             $parametersEnd = "\n" . $this->indent;
         }

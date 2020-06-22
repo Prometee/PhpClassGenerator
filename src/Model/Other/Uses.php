@@ -35,6 +35,11 @@ class Uses extends AbstractModel implements UsesInterface
             return true;
         }
 
+        // Ex: DateTimeInterface
+        if (interface_exists($str)) {
+            return true;
+        }
+
         return false;
     }
 

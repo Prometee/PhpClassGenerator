@@ -23,7 +23,8 @@ class MethodParameterView extends AbstractView implements MethodParameterViewInt
 
         $content = '';
 
-        $content .= !empty($this->methodParameter->getTypes()) ? $this->methodParameter->getPhpTypeFromTypes() . ' ' : '';
+        $phpType = $this->methodParameter->getPhpTypeFromTypes();
+        $content .= !empty($phpType) ? $phpType . ' ' : '';
         $content .= $this->methodParameter->isByReference() ? '&' : '';
         $content .= $this->methodParameter->getPhpName();
         $content .= ($this->methodParameter->getValue() !== null) ? ' = ' . $this->methodParameter->getValue() : '';

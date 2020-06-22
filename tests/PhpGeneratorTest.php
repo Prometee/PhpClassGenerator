@@ -2,6 +2,7 @@
 
 namespace Tests\Prometee\PhpClassGenerator;
 
+use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
 use Prometee\PhpClassGenerator\Builder\ClassBuilder;
 use Prometee\PhpClassGenerator\Builder\ModelFactoryBuilder;
@@ -39,6 +40,36 @@ class PhpGeneratorTest extends TestCase
                     ],
                     'defaultValue' => '\'\'',
                     'description' => 'My string field description'
+                ],
+                'aFloatField' => [
+                    'types' => [
+                        'float'
+                    ],
+                    'defaultValue' => '0.0',
+                    'description' => 'My float field description'
+                ],
+                'aIntegerField' => [
+                    'types' => [
+                        'int'
+                    ],
+                    'defaultValue' => '0',
+                    'description' => 'My integer field description'
+                ],
+                'aMixedField' => [
+                    'types' => [
+                        'mixed',
+                        'null'
+                    ],
+                    'defaultValue' => null,
+                    'description' => 'My mixed field description'
+                ],
+                'aDateTimeField' => [
+                    'types' => [
+                        DateTimeInterface::class,
+                        'null'
+                    ],
+                    'defaultValue' => null,
+                    'description' => 'My date time field description'
                 ],
             ],
         ];
