@@ -59,9 +59,8 @@ class ClassModel extends AbstractModel implements ClassModelInterface
     ): void {
         // First configure the namespace related fields
         $this->setNamespace($namespace);
-        $this->uses->configure($this->namespace);
-
         $this->setClassName($className);
+        $this->uses->configure($this->namespace, $this->className);
         $this->setExtendClass($extendClass);
         $this->setImplements($implements);
 

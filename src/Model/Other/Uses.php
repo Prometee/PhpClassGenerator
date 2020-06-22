@@ -15,10 +15,17 @@ class Uses extends AbstractModel implements UsesInterface
     private $internalUses = [];
     /** @var string */
     private $namespace = '';
+    /** @var string|null */
+    private $className;
 
-    public function configure(string $namespace, array $uses = [], array $internalUses = []): void
-    {
+    public function configure(
+        string $namespace,
+        ?string $className = null,
+        array $uses = [],
+        array $internalUses = []
+    ): void {
         $this->namespace = $namespace;
+        $this->className = $className;
         $this->uses = $uses;
         $this->internalUses = $internalUses;
     }
@@ -35,7 +42,7 @@ class Uses extends AbstractModel implements UsesInterface
             return true;
         }
 
-        // Ex: DateTimeInterface
+        // Ex: \DateTimeInterface
         if (interface_exists($str)) {
             return true;
         }
@@ -75,12 +82,16 @@ class Uses extends AbstractModel implements UsesInterface
         }
 
         $useParts = explode('\\', $use);
-        array_pop($useParts);
+        $className = array_pop($useParts);
         $namespace = implode('\\', $useParts);
 
         if ($namespace === $this->namespace) {
             $this->processInternalUseName($use, $alias);
             return;
+        }
+
+        if ($className === $this->className) {
+            $alias = empty($alias) ? $className . 'Alias' : $alias;
         }
 
         $this->addUse($use, $alias);
@@ -161,13 +172,14 @@ class Uses extends AbstractModel implements UsesInterface
     public function processInternalUseName(string $use, string $internalUseName = ''): void
     {
         $use = $this->cleanUse($use);
-        $existingInternalUseName = $this->getInternalUseName($use);
-        if (null !== $existingInternalUseName) {
-            return;
-        }
 
         if (empty($use)) {
             throw new LogicException('Given argument $use should not be empty !');
+        }
+
+        $existingInternalUseName = $this->getInternalUseName($use);
+        if (null !== $existingInternalUseName) {
+            return;
         }
 
         if (empty($internalUseName)) {
@@ -180,6 +192,10 @@ class Uses extends AbstractModel implements UsesInterface
         }
 
         $uniqInternalUseName = $internalUseName;
+        if ($uniqInternalUseName === $this->className) {
+            $uniqInternalUseName .= 'Alias';
+        }
+
         if ($this->hasInternalUse($uniqInternalUseName)) {
             $uniqInternalUseName .= 'Alias';
         }

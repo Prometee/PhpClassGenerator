@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Dummy;
 
-use stdClass;
 use DateTimeInterface;
+use stdClass;
+use Tests\Dummy\AFolder\Foo as FooAlias;
 
-final class Foo extends stdClass
+class Foo extends stdClass
 {
     /**
      * My array field description
      * with line break
      *
-     * @var Foo[]|null
+     * @var FooAlias[]|null
      */
     private $anArrayOfItems;
 
@@ -60,7 +61,7 @@ final class Foo extends stdClass
     private $aDateTimeField;
 
     /**
-     * @return Foo[]|null
+     * @return FooAlias[]|null
      */
     public function getAnArrayOfItems(): ?array
     {
@@ -132,7 +133,7 @@ final class Foo extends stdClass
     }
 
     /**
-     * @param Foo[]|null $anArrayOfItems
+     * @param FooAlias[]|null $anArrayOfItems
      */
     public function setAnArrayOfItems(?array $anArrayOfItems): void
     {
@@ -164,9 +165,9 @@ final class Foo extends stdClass
     }
 
     /**
-     * @param Foo $anArrayOfItems
+     * @param FooAlias $anArrayOfItems
      */
-    public function removeAnArrayOfItems(Foo $anArrayOfItems): void
+    public function removeAnArrayOfItems(FooAlias $anArrayOfItems): void
     {
         if ($this->hasAnArrayOfItems($anArrayOfItems)) {
             $index = array_search($anArrayOfItems, $this->anArrayOfItems);
@@ -175,9 +176,9 @@ final class Foo extends stdClass
     }
 
     /**
-     * @param Foo $anArrayOfItems
+     * @param FooAlias $anArrayOfItems
      */
-    public function addAnArrayOfItems(Foo $anArrayOfItems): void
+    public function addAnArrayOfItems(FooAlias $anArrayOfItems): void
     {
         if ($this->hasAnArrayOfItems($anArrayOfItems)) {
             return;
@@ -187,12 +188,12 @@ final class Foo extends stdClass
     }
 
     /**
-     * @param Foo $anArrayOfItems
+     * @param FooAlias $anArrayOfItems
      * @param bool $strict
      *
      * @return bool
      */
-    public function hasAnArrayOfItems(Foo $anArrayOfItems, bool $strict = true): bool
+    public function hasAnArrayOfItems(FooAlias $anArrayOfItems, bool $strict = true): bool
     {
         return in_array($anArrayOfItems, $this->anArrayOfItems, $strict);
     }

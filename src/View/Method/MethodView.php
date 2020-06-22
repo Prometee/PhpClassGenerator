@@ -138,6 +138,8 @@ class MethodView extends AbstractView implements MethodViewInterface
             return '';
         }
 
-        return sprintf(': %s', $this->method->getPhpTypeFromReturnTypes());
+        $phpReturnType = $this->method->getPhpTypeFromReturnTypes();
+        $phpReturnType = $this->method->getUses()->guessUseOrReturnType($phpReturnType);
+        return sprintf(': %s', $phpReturnType);
     }
 }

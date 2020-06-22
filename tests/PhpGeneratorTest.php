@@ -18,10 +18,13 @@ class PhpGeneratorTest extends TestCase
         $baseNamespace = 'Tests\\Dummy';
 
         $classesConfig = [
+            'AFolder\\Foo' => [
+
+            ],
             'Foo' => [
                 'anArrayOfItems' => [
                     'types' => [
-                        $baseNamespace . '\\Foo[]',
+                        $baseNamespace . '\\AFolder\\Foo[]',
                         'null'
                     ],
                     'defaultValue' => null,
@@ -93,5 +96,6 @@ class PhpGeneratorTest extends TestCase
         $generated = $dummyPhpGenerator->generate();
         $this->assertTrue($generated);
         $this->assertFileEquals($basePath . '/Foo.php', __DIR__ . '/Resources/Foo.php');
+        $this->assertFileEquals($basePath . '/AFolder/Foo.php', __DIR__ . '/Resources/AFolder/Foo.php');
     }
 }

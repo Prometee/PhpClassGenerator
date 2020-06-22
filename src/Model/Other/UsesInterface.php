@@ -10,10 +10,16 @@ interface UsesInterface extends ModelInterface
 {
     /**
      * @param string $namespace The current namespace
+     * @param string|null $className
      * @param array<string, string> $uses
      * @param array<string, string> $internalUses
      */
-    public function configure(string $namespace, array $uses = [], array $internalUses = []): void;
+    public function configure(
+        string $namespace,
+        ?string $className = null,
+        array $uses = [],
+        array $internalUses = []
+    ): void;
 
     public function isUsable(string $str): bool;
 
