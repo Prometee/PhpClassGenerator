@@ -13,9 +13,32 @@ class PhpGeneratorTest extends TestCase
     public function testGenerate()
     {
         $basePath = __DIR__ . '/../etc/build/Dummy';
+        $baseNamespace = 'Tests\\Dummy';
+
+        $classesConfig = [
+            'Foo' => [
+                'anArrayOfItems' => [
+                    'types' => [
+                        $baseNamespace . '\\Foo[]',
+                        'null'
+                    ],
+                    'defaultValue' => null,
+                    'description' => 'My array field description' . "\n" . 'with line break'
+                ],
+                'aBoolField' => [
+                    'types' => [
+                        'bool'
+                    ],
+                    'defaultValue' => 'false',
+                    'description' => 'My bool field description'
+                ],
+            ],
+        ];
+
         $dummyPhpGenerator = new DummyPhpGenerator(
             $basePath,
-            'Tests\\Dummy',
+            $baseNamespace,
+            $classesConfig,
             new ClassBuilder(
                 new ModelFactoryBuilder(),
                 new ViewFactoryBuilder()
