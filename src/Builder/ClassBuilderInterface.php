@@ -48,7 +48,9 @@ interface ClassBuilderInterface
 
     public function setEol(string $eol): void;
 
-    public function addProperty(string $name, array $types = [], ?string $value = null, string $description = ''): void;
+    public function addClassicProperty(string $name, array $types = [], ?string $value = null, string $description = ''): void;
+
+    public function addProperty(PropertyInterface $property): void;
 
     public function createProperty(string $name, array $types, ?string $value, string $description): PropertyInterface;
 

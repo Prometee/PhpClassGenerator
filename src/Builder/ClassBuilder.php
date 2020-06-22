@@ -55,13 +55,19 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->classViewFactory = $this->viewFactoryBuilder->buildClassViewFactory();
     }
 
-    public function addProperty(
+    public function addProperty(PropertyInterface $property): void
+    {
+        $this->properties[] = $property;
+    }
+
+    public function addClassicProperty(
         string $name,
         array $types = [],
         ?string $value = null,
         string $description = ''
     ): void {
-        $this->properties[] = $this->createProperty($name, $types, $value, $description);
+        $property = $this->createProperty($name, $types, $value, $description);
+        $this->addProperty($property);
     }
 
     public function createProperty(string $name, array $types, ?string $value, string $description): PropertyInterface

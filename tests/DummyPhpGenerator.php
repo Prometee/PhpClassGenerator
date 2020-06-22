@@ -49,7 +49,7 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
 
         foreach ($this->classesConfig as $className => $properties) {
             foreach ($properties as $propertyName => $property) {
-                $this->classBuilder->addProperty(
+                $this->classBuilder->addClassicProperty(
                     $propertyName,
                     $property['types'],
                     $property['defaultValue'],
