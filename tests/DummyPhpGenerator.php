@@ -45,7 +45,6 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
         $this->classBuilder->setIndent($indent);
         $this->classBuilder->setEol($eol);
         $this->classBuilder->setClassType(ClassBuilderInterface::CLASS_TYPE_FINAL);
-        $this->classBuilder->setExtendClass(\stdClass::class);
 
         foreach ($this->classesConfig as $className => $properties) {
             foreach ($properties as $propertyName => $property) {
@@ -57,12 +56,16 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
                 );
             }
 
+            $path = explode('\\', $className);
+            $className = array_pop($path);
+            $classNamespace = implode('\\', $path);
             $classContent = $this->classBuilder->build(
-                $this->baseNamespace,
+                rtrim($this->baseNamespace . '\\' . $classNamespace, '\\'),
                 $className
             );
 
-            $classFilePath = $this->basePath . '/' . $className . '.php';
+            $classPath = implode('/', $path);
+            $classFilePath = rtrim($this->basePath . '/' . $classPath, '/') . '/' . $className . '.php';
 
             $written = $this->writeClass($classContent, $classFilePath);
 
@@ -80,8 +83,9 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
             return false;
         }
 
-        if (false === is_dir($this->basePath)) {
-            mkdir($this->basePath);
+        $classPath = dirname($classFilePath);
+        if (false === is_dir($classPath)) {
+            mkdir($classPath, 0777, true);
         }
 
         return file_put_contents($classFilePath, $classContent) !== false;

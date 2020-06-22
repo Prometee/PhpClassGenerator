@@ -7,6 +7,7 @@ use Prometee\PhpClassGenerator\Builder\ClassBuilder;
 use Prometee\PhpClassGenerator\Builder\ModelFactoryBuilder;
 use Prometee\PhpClassGenerator\Builder\ViewFactoryBuilder;
 use Prometee\PhpClassGenerator\PhpGeneratorInterface;
+use stdClass;
 
 class PhpGeneratorTest extends TestCase
 {
@@ -32,17 +33,28 @@ class PhpGeneratorTest extends TestCase
                     'defaultValue' => 'false',
                     'description' => 'My bool field description'
                 ],
+                'aStringField' => [
+                    'types' => [
+                        'string'
+                    ],
+                    'defaultValue' => '\'\'',
+                    'description' => 'My string field description'
+                ],
             ],
         ];
+
+        $classBuilder = new ClassBuilder(
+            new ModelFactoryBuilder(),
+            new ViewFactoryBuilder()
+        );
+
+        $classBuilder->setExtendClass(stdClass::class);
 
         $dummyPhpGenerator = new DummyPhpGenerator(
             $basePath,
             $baseNamespace,
             $classesConfig,
-            new ClassBuilder(
-                new ModelFactoryBuilder(),
-                new ViewFactoryBuilder()
-            ),
+            $classBuilder,
         );
 
         $this->assertInstanceOf(PhpGeneratorInterface::class, $dummyPhpGenerator);

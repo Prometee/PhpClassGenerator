@@ -9,6 +9,28 @@ use stdClass;
 final class Foo extends stdClass
 {
     /**
+     * My array field description
+     * with line break
+     *
+     * @var Foo[]|null
+     */
+    private $anArrayOfItems;
+
+    /**
+     * My bool field description
+     *
+     * @var bool
+     */
+    private $aBoolField = false;
+
+    /**
+     * My string field description
+     *
+     * @var string
+     */
+    private $aStringField = '';
+
+    /**
      * @return Foo[]|null
      */
     public function getAnArrayOfItems(): ?array
@@ -72,5 +94,21 @@ final class Foo extends stdClass
     public function setABoolField(bool $aBoolField): void
     {
         $this->aBoolField = $aBoolField;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAStringField(): string
+    {
+        return $this->aStringField;
+    }
+
+    /**
+     * @param string $aStringField
+     */
+    public function setAStringField(string $aStringField): void
+    {
+        $this->aStringField = $aStringField;
     }
 }

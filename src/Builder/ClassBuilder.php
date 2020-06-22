@@ -57,7 +57,7 @@ final class ClassBuilder implements ClassBuilderInterface
 
     public function addProperty(PropertyInterface $property): void
     {
-        $this->properties[] = $property;
+        $this->properties[$property->getName()] = $property;
     }
 
     public function addClassicProperty(
@@ -96,6 +96,7 @@ final class ClassBuilder implements ClassBuilderInterface
         );
 
         foreach ($this->properties as $property) {
+            $this->classModel->getProperties()->addProperty($property);
             $autoGetterSetter = $this->autoGetterSetterModelFactory->create($this->classModel->getUses());
             $getterSetter = $autoGetterSetter->configure($property);
             $this->classModel
