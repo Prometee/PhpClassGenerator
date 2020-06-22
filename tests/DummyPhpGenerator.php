@@ -48,7 +48,6 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
         $this->classBuilder->setExtendClass(\stdClass::class);
 
         foreach ($this->classesConfig as $className => $properties) {
-
             foreach ($properties as $propertyName => $property) {
                 $this->classBuilder->addProperty(
                     $propertyName,
