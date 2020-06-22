@@ -11,15 +11,13 @@ final class AbstractClassModelFactory extends AbstractDecoratedClassModelFactory
 {
     public function create(): AbstractClassInterface
     {
-        $abstractClass = $this->decoratedClassModelFactory->create();
+        $uses = $this->decoratedClassModelFactory->getUsesModelFactory()->create();
 
-        if (false === $abstractClass instanceof AbstractClassInterface) {
-            throw new LogicException(sprintf(
-                'The created class should be an instance of %s !',
-                AbstractClassInterface::class
-            ));
-        }
-
-        return $abstractClass;
+        return new $this->modelClass(
+            $uses,
+            $this->decoratedClassModelFactory->getPropertiesModelFactory()->create($uses),
+            $this->decoratedClassModelFactory->getMethodsModelFactory()->create($uses),
+            $this->decoratedClassModelFactory->getTraitsModelFactory()->create($uses)
+        );
     }
 }

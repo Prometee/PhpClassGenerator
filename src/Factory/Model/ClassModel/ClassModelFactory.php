@@ -39,15 +39,12 @@ final class ClassModelFactory extends AbstractModelFactory implements ClassModel
     public function create(): ClassModelInterface
     {
         $uses = $this->usesModelFactory->create();
-        $properties = $this->propertiesModelFactory->create($uses);
-        $methods = $this->methodsModelFactory->create($uses);
-        $traits = $this->traitsModelFactory->create($uses);
 
         return new $this->modelClass(
             $uses,
-            $properties,
-            $methods,
-            $traits
+            $this->propertiesModelFactory->create($uses),
+            $this->methodsModelFactory->create($uses),
+            $this->traitsModelFactory->create($uses)
         );
     }
 

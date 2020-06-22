@@ -11,15 +11,13 @@ final class FinalClassModelFactory extends AbstractDecoratedClassModelFactory im
 {
     public function create(): FinalClassInterface
     {
-        $finalClass = $this->decoratedClassModelFactory->create();
+        $uses = $this->decoratedClassModelFactory->getUsesModelFactory()->create();
 
-        if (false === $finalClass instanceof FinalClassInterface) {
-            throw new LogicException(sprintf(
-                'The created class should be an instance of %s !',
-                FinalClassInterface::class
-            ));
-        }
-
-        return $finalClass;
+        return new $this->modelClass(
+            $uses,
+            $this->decoratedClassModelFactory->getPropertiesModelFactory()->create($uses),
+            $this->decoratedClassModelFactory->getMethodsModelFactory()->create($uses),
+            $this->decoratedClassModelFactory->getTraitsModelFactory()->create($uses)
+        );
     }
 }

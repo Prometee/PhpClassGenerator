@@ -29,4 +29,9 @@ final class MethodModelFactory extends AbstractModelFactory implements MethodMod
             $this->phpDocModelFactory->create()
         );
     }
+
+    public function getPhpDocModelFactory(): PhpDocModelFactoryInterface
+    {
+        return $this->phpDocModelFactory;
+    }
 }

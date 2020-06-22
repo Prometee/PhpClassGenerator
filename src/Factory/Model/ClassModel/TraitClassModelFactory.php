@@ -11,15 +11,13 @@ final class TraitClassModelFactory extends AbstractDecoratedClassModelFactory im
 {
     public function create(): TraitClassInterface
     {
-        $traitClass = $this->decoratedClassModelFactory->create();
+        $uses = $this->decoratedClassModelFactory->getUsesModelFactory()->create();
 
-        if (false === $traitClass instanceof TraitClassInterface) {
-            throw new LogicException(sprintf(
-                'The created class should be an instance of %s !',
-                TraitClassInterface::class
-            ));
-        }
-
-        return $traitClass;
+        return new $this->modelClass(
+            $uses,
+            $this->decoratedClassModelFactory->getPropertiesModelFactory()->create($uses),
+            $this->decoratedClassModelFactory->getMethodsModelFactory()->create($uses),
+            $this->decoratedClassModelFactory->getTraitsModelFactory()->create($uses)
+        );
     }
 }

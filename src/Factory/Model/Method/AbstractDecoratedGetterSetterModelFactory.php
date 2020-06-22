@@ -17,12 +17,5 @@ abstract class AbstractDecoratedGetterSetterModelFactory extends AbstractModelFa
     ) {
         parent::__construct($modelClass);
         $this->decoratedModelFactory = $decoratedGetterSetterModelFactory;
-        $this->decoratedModelFactory->setModelClass($this->modelClass);
-    }
-
-    public function setModelClass(string $modelClass): void
-    {
-        $this->decoratedModelFactory->setModelClass($this->modelClass);
-        parent::setModelClass($modelClass);
     }
 }

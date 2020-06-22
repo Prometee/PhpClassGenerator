@@ -18,12 +18,5 @@ abstract class AbstractDecoratedPropertyModelFactory extends AbstractModelFactor
     ) {
         parent::__construct($modelClass);
         $this->decoratedModelFactory = $decoratedPropertyModelFactory;
-        $this->decoratedModelFactory->setModelClass($this->modelClass);
-    }
-
-    public function setModelClass(string $modelClass): void
-    {
-        $this->decoratedModelFactory->setModelClass($this->modelClass);
-        parent::setModelClass($modelClass);
     }
 }
