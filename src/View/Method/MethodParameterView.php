@@ -17,10 +17,8 @@ class MethodParameterView extends AbstractView implements MethodParameterViewInt
         $this->methodParameter = $methodParameter;
     }
 
-    public function render(string $indent = null, string $eol = null): ?string
+    protected function doRender(): ?string
     {
-        parent::render($indent, $eol);
-
         $content = '';
 
         $phpType = $this->methodParameter->getPhpTypeFromTypes();

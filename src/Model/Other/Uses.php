@@ -4,30 +4,33 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Model\Other;
 
-use LogicException;
+use Prometee\PhpClassGenerator\Factory\Model\Other\UseModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\AbstractModel;
 
 class Uses extends AbstractModel implements UsesInterface
 {
-    /** @var array<string, string> */
-    protected $uses = [];
-    /** @var array<string, string> */
-    private $internalUses = [];
+    /** @var UseModelFactoryInterface */
+    protected $useModelFactory;
+    /** @var UseModelInterface[] */
+    protected $useModels = [];
     /** @var string */
     private $namespace = '';
     /** @var string|null */
     private $className;
 
+    public function __construct(UseModelFactoryInterface $useModelFactory)
+    {
+        $this->useModelFactory = $useModelFactory;
+    }
+
     public function configure(
         string $namespace,
         ?string $className = null,
-        array $uses = [],
-        array $internalUses = []
+        array $uses = []
     ): void {
         $this->namespace = $namespace;
         $this->className = $className;
-        $this->uses = $uses;
-        $this->internalUses = $internalUses;
+        $this->useModels = $uses;
     }
 
     public function isUsable(string $str): bool
@@ -58,18 +61,24 @@ class Uses extends AbstractModel implements UsesInterface
         return $cleanedUse;
     }
 
-    public function guessUseOrReturnType(string $use): string
+    public function addRawUseOrReturnType(string $use): string
     {
         if (false === $this->isUsable($use)) {
             return $use;
         }
 
-        $isArray = 1 === preg_match('#\[]$#', $use);
-        $this->guessUse($use);
-        return $this->getInternalUseName($use) . ($isArray ? '[]' : '');
+        $arraySuffix =
+            1 === preg_match('#\[]$#', $use)
+                ? '[]'
+                : ''
+        ;
+
+        $this->addRawUse($use);
+
+        return $this->getInternalName($use) . $arraySuffix;
     }
 
-    public function guessUse(string $use, string $alias = ''): void
+    public function addRawUse(string $use, ?string $desiredAlias = null): void
     {
         if (false === $this->isUsable($use)) {
             return;
@@ -81,134 +90,97 @@ class Uses extends AbstractModel implements UsesInterface
             return;
         }
 
-        $useParts = explode('\\', $use);
-        $className = array_pop($useParts);
-        $namespace = implode('\\', $useParts);
+        $useModel = $this->useModelFactory->create();
+        $useModel->configure($use, $desiredAlias);
+        $internalName = $this->processInternalName($useModel);
 
-        if ($namespace === $this->namespace) {
-            $this->processInternalUseName($use, $alias);
-            return;
+        if ($useModel->getAlias() !== $internalName) {
+            $useModel->configureAlias($internalName);
         }
 
-        if ($className === $this->className) {
-            $alias = empty($alias) ? $className . 'Alias' : $alias;
+        if ($useModel->getNamespace() === $this->namespace) {
+            $useModel->markAsMuted();
         }
 
-        $this->addUse($use, $alias);
+        $this->addUse($useModel);
     }
 
-    public function addUse(string $use, string $alias = ''): void
+    public function getInternalName(string $use): ?string
     {
-        if (!$this->hasUse($use)) {
-            $this->setUse($use, $alias);
+        $useModel = $this->getUse($use);
+
+        if (null === $useModel) {
+            return null;
+        }
+
+        return $useModel->getInternalName();
+    }
+
+    protected function processInternalName(UseModelInterface $useModel): string
+    {
+        $uniqInternalName = $useModel->getInternalName();
+        if ($uniqInternalName === $this->className) {
+            $uniqInternalName .= 'Alias';
+        }
+
+        if ($this->hasInternalUse($uniqInternalName)) {
+            $uniqInternalName .= 'Alias';
+        }
+
+        $i = 1;
+        while ($this->hasInternalUse($uniqInternalName)) {
+            $uniqInternalName = $useModel->getInternalName() . ++$i;
+        }
+
+        return $uniqInternalName;
+    }
+
+    public function addUse(UseModelInterface $useModel): void
+    {
+        if (false === $this->hasUse($useModel->getUse())) {
+            $this->useModels[$useModel->getUse()] = $useModel;
         }
     }
 
     public function hasUse(string $use): bool
     {
-        return isset($this->uses[$use]);
+        return isset($this->useModels[$use]);
     }
 
-    public function setUse(string $use, string $alias = ''): void
+    public function getUse(string $use): ?UseModelInterface
     {
         $use = $this->cleanUse($use);
-        $this->processInternalUseName($use, $alias);
-        $this->uses[$use] = $alias;
-    }
-
-    public function getUseAlias(string $use): ?string
-    {
-        $use = $this->cleanUse($use);
-        if ($this->hasUse($use)) {
-            return $this->uses[$use];
-        }
-
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUses(): array
-    {
-        return $this->uses;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUses(array $uses): void
-    {
-        $this->uses = $uses;
-    }
-
-    public function hasInternalUse(string $internalUseName): bool
-    {
-        return isset($this->internalUses[$internalUseName]);
-    }
-
-    public function getInternalUse(string $internalUseName): ?string
-    {
-        $internalUseName = $this->cleanUse($internalUseName);
-        if ($this->hasInternalUse($internalUseName)) {
-            return $this->internalUses[$internalUseName];
-        }
-
-        return null;
-    }
-
-    public function getInternalUseName(string $use): ?string
-    {
-        $use = $this->cleanUse($use);
-        $internalUseName = array_search($use, $this->internalUses);
-
-        if (false === $internalUseName) {
+        if (false === $this->hasUse($use)) {
             return null;
         }
 
-        return $internalUseName;
+        return $this->useModels[$use];
     }
 
-    public function processInternalUseName(string $use, string $internalUseName = ''): void
+    /**
+     * {@inheritDoc}
+     */
+    public function getUseModels(): array
     {
-        $use = $this->cleanUse($use);
+        return $this->useModels;
+    }
 
-        if (empty($use)) {
-            throw new LogicException('Given argument $use should not be empty !');
+    /**
+     * {@inheritDoc}
+     */
+    public function setUseModels(array $useModels): void
+    {
+        $this->useModels = $useModels;
+    }
+
+    public function hasInternalUse(string $internalName): bool
+    {
+        foreach ($this->useModels as $useModel) {
+            if ($internalName === $useModel->getInternalName()) {
+                return true;
+            }
         }
 
-        $existingInternalUseName = $this->getInternalUseName($use);
-        if (null !== $existingInternalUseName) {
-            return;
-        }
-
-        if (empty($internalUseName)) {
-            $useParts = explode('\\', $use);
-            $internalUseName = (string) end($useParts);
-            // cast needed for PhpStan, the only way end() return false
-            // is when $useParts is en empty array and the only way this array
-            // could be empty is when $use is an empty string, so because of
-            // the test above, this should never append
-        }
-
-        $uniqInternalUseName = $internalUseName;
-        if ($uniqInternalUseName === $this->className) {
-            $uniqInternalUseName .= 'Alias';
-        }
-
-        if ($this->hasInternalUse($uniqInternalUseName)) {
-            $uniqInternalUseName .= 'Alias';
-        }
-
-        $i = 1;
-        while ($this->hasInternalUse($uniqInternalUseName)) {
-            $uniqInternalUseName = $internalUseName . ++$i;
-        }
-
-        if ($uniqInternalUseName !== $internalUseName) {
-            $this->uses[$use] = $uniqInternalUseName;
-        }
-
-        $this->internalUses[$uniqInternalUseName] = $use;
+        return false;
     }
 }

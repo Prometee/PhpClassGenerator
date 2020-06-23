@@ -64,7 +64,7 @@ class Method extends AbstractModel implements MethodInterface
     {
         $returnTypes = [];
         foreach ($this->returnTypes as $returnType) {
-            $returnTypes[] = $this->uses->guessUseOrReturnType($returnType);
+            $returnTypes[] = $this->uses->addRawUseOrReturnType($returnType);
         }
 
         return implode('|', $returnTypes);

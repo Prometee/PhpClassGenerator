@@ -38,6 +38,8 @@ use Prometee\PhpClassGenerator\Factory\Model\Other\PropertiesModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Other\PropertiesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\TraitsModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Other\TraitsModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Other\UseModelFactory;
+use Prometee\PhpClassGenerator\Factory\Model\Other\UseModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactory;
@@ -59,6 +61,7 @@ use Prometee\PhpClassGenerator\Model\Method\MethodParameter;
 use Prometee\PhpClassGenerator\Model\Other\Methods;
 use Prometee\PhpClassGenerator\Model\Other\Properties;
 use Prometee\PhpClassGenerator\Model\Other\Traits;
+use Prometee\PhpClassGenerator\Model\Other\UseModel;
 use Prometee\PhpClassGenerator\Model\Other\Uses;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDoc;
 
@@ -74,6 +77,8 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     private $propertiesModelFactory;
     /** @var UsesModelFactoryInterface */
     private $usesModelFactory;
+    /** @var UseModelFactoryInterface */
+    private $useModelFactory;
     /** @var TraitsModelFactoryInterface */
     private $traitsModelFactory;
     /** @var MethodsModelFactoryInterface */
@@ -114,6 +119,8 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     /** @var string */
     private $usesModelFactoryClass = UsesModelFactory::class;
     /** @var string */
+    private $useModelFactoryClass = UseModelFactory::class;
+    /** @var string */
     private $traitsModelFactoryClass = TraitsModelFactory::class;
     /** @var string */
     private $methodsModelFactoryClass = MethodsModelFactory::class;
@@ -152,6 +159,8 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     private $propertiesClass = Properties::class;
     /** @var string */
     private $usesClass = Uses::class;
+    /** @var string */
+    private $useClass = UseModel::class;
     /** @var string */
     private $traitsClass = Traits::class;
     /** @var string */
@@ -231,11 +240,23 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     {
         if (null === $this->usesModelFactory) {
             $this->usesModelFactory = new $this->usesModelFactoryClass(
-                $this->usesClass
+                $this->usesClass,
+                $this->buildUseModelFactory()
             );
         }
 
         return $this->usesModelFactory;
+    }
+
+    public function buildUseModelFactory(): UseModelFactoryInterface
+    {
+        if (null === $this->useModelFactory) {
+            $this->useModelFactory = new $this->useModelFactoryClass(
+                $this->useClass
+            );
+        }
+
+        return $this->useModelFactory;
     }
 
     public function buildTraitsModelFactory(): TraitsModelFactoryInterface
@@ -459,6 +480,16 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
         $this->usesModelFactoryClass = $usesModelFactoryClass;
     }
 
+    public function getUseModelFactoryClass(): string
+    {
+        return $this->useModelFactoryClass;
+    }
+
+    public function setUseModelFactoryClass(string $useModelFactoryClass): void
+    {
+        $this->useModelFactoryClass = $useModelFactoryClass;
+    }
+
     public function getTraitsModelFactoryClass(): string
     {
         return $this->traitsModelFactoryClass;
@@ -647,6 +678,16 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     public function setUsesClass(string $usesClass): void
     {
         $this->usesClass = $usesClass;
+    }
+
+    public function getUseClass(): string
+    {
+        return $this->useClass;
+    }
+
+    public function setUseClass(string $useClass): void
+    {
+        $this->useClass = $useClass;
     }
 
     public function getTraitsClass(): string

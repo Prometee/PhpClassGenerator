@@ -4,49 +4,59 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Other;
 
+use Prometee\PhpClassGenerator\Factory\View\Other\UseViewFactoryInterface;
+use Prometee\PhpClassGenerator\Model\Other\UseModelInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 class UsesView extends AbstractArrayView implements UsesViewInterface
 {
     /** @var UsesInterface */
     protected $uses;
+    /** @var UseViewFactoryInterface */
+    protected $useViewFactory;
 
-    public function __construct(UsesInterface $uses)
-    {
+    public function __construct(
+        UsesInterface $uses,
+        UseViewFactoryInterface $useViewFactory
+    ) {
         $this->uses = $uses;
+        $this->useViewFactory = $useViewFactory;
     }
 
     public function getArrayToBuild(): array
     {
-        return $this->uses->getUses();
+        $useModels = $this->orderUseModels();
+
+        $views = [];
+        foreach ($useModels as $useModel) {
+            $views[] = $this->useViewFactory->create($useModel);
+        }
+
+        return $views;
+    }
+
+    /**
+     * @return UseModelInterface[]
+     */
+    protected function orderUseModels(): array
+    {
+        $useModels = $this->uses->getUseModels();
+        ksort($useModels, SORT_STRING | SORT_FLAG_CASE);
+
+        return $useModels;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function render(string $indent = null, string $eol = null): ?string
+    protected function doRender(): ?string
     {
-        $content = parent::render($indent, $eol);
+        $content = parent::doRender();
 
         if (empty($content)) {
             return $content;
         }
 
         return $content . $this->eol;
-    }
-
-    public function buildArrayItemString($key, string $item): string
-    {
-        $alias = '';
-        if (!empty($item)) {
-            $alias = sprintf(' as %s', $item);
-        }
-
-        return sprintf(
-            'use %s%s;%s',
-            $key,
-            $alias,
-            $this->eol
-        );
     }
 }

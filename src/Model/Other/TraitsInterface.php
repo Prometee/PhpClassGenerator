@@ -13,9 +13,9 @@ interface TraitsInterface extends ModelInterface, UsesAwareInterface
      */
     public function configure(array $traits = []): void;
 
-    public function setTrait(string $class, string $alias = ''): void;
+    public function setTrait(string $class, ?string $desiredAlias = null): void;
 
-    public function addTrait(string $name, string $alias = ''): void;
+    public function addTrait(string $name, ?string $desiredAlias = null): void;
 
     public function hasTrait(string $class): bool;
 

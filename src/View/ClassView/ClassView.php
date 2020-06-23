@@ -38,10 +38,8 @@ class ClassView extends AbstractView implements ClassViewInterface
         $this->methodsViewFactory = $methodsViewFactory;
     }
 
-    public function render(string $indent = null, string $eol = null): ?string
+    protected function doRender(): ?string
     {
-        parent::render($indent, $eol);
-
         $format = '<?php%1$s'
             . '%1$s'
             . 'declare(strict_types=1);%1$s'
@@ -86,7 +84,7 @@ class ClassView extends AbstractView implements ClassViewInterface
             return null;
         }
 
-        $extendClassName = $this->classModel->getUses()->getInternalUseName($extendClass);
+        $extendClassName = $this->classModel->getUses()->getInternalName($extendClass);
 
         return sprintf(' extends %s', $extendClassName);
     }
@@ -95,7 +93,7 @@ class ClassView extends AbstractView implements ClassViewInterface
     {
         $implements = [];
         foreach ($this->classModel->getImplements() as $implement) {
-            $implement = $this->classModel->getUses()->getInternalUseName($implement);
+            $implement = $this->classModel->getUses()->getInternalName($implement);
             if (null !== $implement) {
                 $implements[] = $implement;
             }

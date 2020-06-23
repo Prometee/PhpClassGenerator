@@ -23,10 +23,8 @@ class PropertyView extends AbstractView implements PropertyViewInterface
         $this->phpDocViewFactory = $phpDocViewFactory;
     }
 
-    public function render(string $indent = null, string $eol = null): ?string
+    protected function doRender(): ?string
     {
-        parent::render($indent, $eol);
-
         $this->configurePhpDoc();
 
         $phpDocView = $this->phpDocViewFactory->create($this->property->getPhpDoc());

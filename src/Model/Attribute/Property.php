@@ -94,7 +94,7 @@ class Property extends AbstractModel implements PropertyInterface
 
         $types = [];
         foreach ($this->types as $type) {
-            $types[] = $this->uses->guessUseOrReturnType($type);
+            $types[] = $this->uses->addRawUseOrReturnType($type);
         }
         
         return implode('|', $types);

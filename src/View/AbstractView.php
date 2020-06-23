@@ -20,8 +20,10 @@ abstract class AbstractView implements ViewInterface
         $this->indent = $indent ?? $this->indent;
         $this->eol = $eol ?? $this->eol;
 
-        return null;
+        return $this->doRender();
     }
+
+    abstract protected function doRender(): ?string;
 
     public function getEol(): string
     {

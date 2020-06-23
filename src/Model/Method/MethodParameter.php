@@ -73,7 +73,7 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
         }
 
         $type = self::getPhpType($this->types);
-        $type = $this->uses->guessUseOrReturnType($type);
+        $type = $this->uses->addRawUseOrReturnType($type);
 
         return $type;
     }
@@ -82,7 +82,7 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
     {
         $types = [];
         foreach ($this->types as $type) {
-            $types[] = $this->uses->guessUseOrReturnType($type);
+            $types[] = $this->uses->addRawUseOrReturnType($type);
         }
 
         return implode('|', $types);

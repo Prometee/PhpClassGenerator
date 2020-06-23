@@ -18,10 +18,10 @@ class Traits extends AbstractModel implements TraitsInterface
         $this->traits = $traits;
     }
 
-    public function addTrait(string $name, string $alias = ''): void
+    public function addTrait(string $name, ?string $desiredAlias = null): void
     {
         if (!$this->hasTrait($name)) {
-            $this->setTrait($name, $alias);
+            $this->setTrait($name, $desiredAlias);
         }
     }
 
@@ -30,9 +30,9 @@ class Traits extends AbstractModel implements TraitsInterface
         return false !== array_search($class, $this->traits);
     }
 
-    public function setTrait(string $class, string $alias = ''): void
+    public function setTrait(string $class, ?string $desiredAlias = null): void
     {
-        $this->uses->guessUse($class, $alias);
+        $this->uses->addRawUse($class, $desiredAlias);
         $this->traits[] = $class;
     }
 

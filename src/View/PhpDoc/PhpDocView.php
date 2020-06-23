@@ -29,10 +29,8 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
      *
      * @throws LogicException
      */
-    public function render(string $indent = null, string $eol = null): ?string
+    protected function doRender(): ?string
     {
-        parent::render($indent, $eol);
-
         $phpdocLines = $this->buildLines();
 
         if (empty($phpdocLines)) {

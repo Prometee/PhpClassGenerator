@@ -14,10 +14,8 @@ abstract class AbstractArrayView extends AbstractView implements ArrayViewInterf
     /**
      * {@inheritDoc}
      */
-    public function render(string $indent = null, string $eol = null): ?string
+    protected function doRender(): ?string
     {
-        parent::render($indent, $eol);
-
         if (0 === count($this->getArrayToBuild())) {
             return null;
         }

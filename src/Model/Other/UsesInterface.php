@@ -11,47 +11,39 @@ interface UsesInterface extends ModelInterface
     /**
      * @param string $namespace The current namespace
      * @param string|null $className
-     * @param array<string, string> $uses
-     * @param array<string, string> $internalUses
+     * @param UseModelInterface[] $uses
      */
     public function configure(
         string $namespace,
         ?string $className = null,
-        array $uses = [],
-        array $internalUses = []
+        array $uses = []
     ): void;
 
     public function isUsable(string $str): bool;
 
-    public function guessUseOrReturnType(string $use): string;
+    public function addRawUseOrReturnType(string $use): string;
 
-    public function guessUse(string $use, string $alias = ''): void;
+    public function addRawUse(string $use, ?string $desiredAlias = null): void;
 
-    public function hasInternalUse(string $internalUseName): bool;
+    public function hasInternalUse(string $internalName): bool;
 
-    public function getInternalUse(string $internalUseName): ?string;
-
-    public function getInternalUseName(string $use): ?string;
-
-    public function processInternalUseName(string $use, string $internalUseName = ''): void;
+    public function getInternalName(string $use): ?string;
 
     public function cleanUse(string $use): string;
 
-    public function getUseAlias(string $use): ?string;
-
-    public function setUse(string $use, string $alias = ''): void;
-
-    public function addUse(string $use, string $alias = ''): void;
+    public function addUse(UseModelInterface $useModel): void;
 
     public function hasUse(string $use): bool;
 
-    /**
-     * @return array<string, string>
-     */
-    public function getUses(): array;
+    public function getUse(string $use): ?UseModelInterface;
 
     /**
-     * @param array<string, string> $uses
+     * @return UseModelInterface[]
      */
-    public function setUses(array $uses): void;
+    public function getUseModels(): array;
+
+    /**
+     * @param UseModelInterface[] $uses
+     */
+    public function setUseModels(array $uses): void;
 }

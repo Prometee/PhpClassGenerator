@@ -21,6 +21,7 @@ use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryI
 use Prometee\PhpClassGenerator\Factory\Model\Other\MethodsModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\PropertiesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\TraitsModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Other\UseModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 
@@ -35,6 +36,8 @@ interface ModelFactoryBuilderInterface
     public function getAbstractClassModelFactoryClass(): string;
 
     public function getUsesModelFactoryClass(): string;
+
+    public function getUseModelFactoryClass(): string;
 
     public function buildTraitsModelFactory(): TraitsModelFactoryInterface;
 
@@ -79,6 +82,8 @@ interface ModelFactoryBuilderInterface
     public function setPhpDocModelFactoryClass(string $phpDocModelFactoryClass): void;
 
     public function buildUsesModelFactory(): UsesModelFactoryInterface;
+
+    public function buildUseModelFactory(): UseModelFactoryInterface;
 
     public function getTraitsModelFactoryClass(): string;
 
@@ -138,6 +143,8 @@ interface ModelFactoryBuilderInterface
 
     public function getUsesClass(): string;
 
+    public function getUseClass(): string;
+
     public function setMethodsModelFactoryClass(string $methodsModelFactoryClass): void;
 
     public function setPropertiesClass(string $propertiesClass): void;
@@ -153,6 +160,8 @@ interface ModelFactoryBuilderInterface
     public function getPropertiesModelFactoryClass(): string;
 
     public function setUsesClass(string $usesClass): void;
+
+    public function setUseClass(string $useClass): void;
 
     public function getInterfaceClassModelFactoryClass(): string;
 
@@ -193,6 +202,8 @@ interface ModelFactoryBuilderInterface
     public function buildMethodModelFactory(): MethodModelFactoryInterface;
 
     public function setUsesModelFactoryClass(string $usesModelFactoryClass): void;
+
+    public function setUseModelFactoryClass(string $useModelFactoryClass): void;
 
     public function setIsserSetterClass(string $isserSetterClass): void;
 

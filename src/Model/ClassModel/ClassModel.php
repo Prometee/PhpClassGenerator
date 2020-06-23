@@ -121,7 +121,7 @@ class ClassModel extends AbstractModel implements ClassModelInterface
             return;
         }
 
-        $this->uses->guessUse($extendClass);
+        $this->uses->addRawUse($extendClass);
         $this->setExtendClassName($extendClass);
     }
 
@@ -134,7 +134,7 @@ class ClassModel extends AbstractModel implements ClassModelInterface
     {
         $internalImplements = [];
         foreach ($implements as $implement) {
-            $this->uses->guessUse($implement);
+            $this->uses->addRawUse($implement);
             $internalImplements[] = $implement;
         }
         $this->implements = $internalImplements;

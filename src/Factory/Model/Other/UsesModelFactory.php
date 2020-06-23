@@ -9,8 +9,21 @@ use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 final class UsesModelFactory extends AbstractModelFactory implements UsesModelFactoryInterface
 {
+    /** @var UseModelFactoryInterface */
+    private $useModelFactory;
+
+    public function __construct(
+        string $modelClass,
+        UseModelFactoryInterface $useModelFactory
+    ) {
+        parent::__construct($modelClass);
+        $this->useModelFactory = $useModelFactory;
+    }
+
     public function create(): UsesInterface
     {
-        return new $this->modelClass();
+        return new $this->modelClass(
+            $this->useModelFactory
+        );
     }
 }

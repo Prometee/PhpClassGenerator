@@ -31,10 +31,8 @@ class MethodView extends AbstractView implements MethodViewInterface
     /**
      * {@inheritDoc}
      */
-    public function render(string $indent = null, string $eol = null): ?string
+    protected function doRender(): ?string
     {
-        parent::render($indent, $eol);
-
         $this->configurePhpDoc();
 
         $phpDocFactory = $this->phpDocViewFactory->create($this->method->getPhpDoc());
@@ -139,7 +137,7 @@ class MethodView extends AbstractView implements MethodViewInterface
         }
 
         $phpReturnType = $this->method->getPhpTypeFromReturnTypes();
-        $phpReturnType = $this->method->getUses()->guessUseOrReturnType($phpReturnType);
+        $phpReturnType = $this->method->getUses()->addRawUseOrReturnType($phpReturnType);
         return sprintf(': %s', $phpReturnType);
     }
 }

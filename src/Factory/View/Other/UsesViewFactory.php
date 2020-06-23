@@ -11,14 +11,22 @@ final class UsesViewFactory implements UsesViewFactoryInterface
 {
     /** @var string */
     protected $usesViewClass;
+    /** @var UseViewFactoryInterface */
+    protected $useViewFactory;
 
-    public function __construct(string $usesViewClass)
-    {
+    public function __construct(
+        string $usesViewClass,
+        UseViewFactoryInterface $useViewFactory
+    ) {
         $this->usesViewClass = $usesViewClass;
+        $this->useViewFactory = $useViewFactory;
     }
 
     public function create(UsesInterface $uses): UsesViewInterface
     {
-        return new $this->usesViewClass($uses);
+        return new $this->usesViewClass(
+            $uses,
+            $this->useViewFactory
+        );
     }
 }

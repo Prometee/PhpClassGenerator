@@ -12,6 +12,7 @@ use Prometee\PhpClassGenerator\Factory\View\Other\MethodsViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\PropertiesViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\TraitsViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\UsesViewFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\View\Other\UseViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 
 interface ViewFactoryBuilderInterface
@@ -22,11 +23,15 @@ interface ViewFactoryBuilderInterface
 
     public function setUsesViewClass(string $usesViewClass): void;
 
+    public function setUseViewClass(string $useViewClass): void;
+
     public function setPropertyViewClass(string $propertyViewClass): void;
 
     public function setClassViewClass(string $classViewClass): void;
 
     public function getUsesViewClass(): string;
+
+    public function getUseViewClass(): string;
 
     public function getPropertyViewFactoryClass(): string;
 
@@ -54,6 +59,8 @@ interface ViewFactoryBuilderInterface
 
     public function buildUsesViewFactory(): UsesViewFactoryInterface;
 
+    public function buildUseViewFactory(): UseViewFactoryInterface;
+
     public function setMethodViewClass(string $methodViewClass): void;
 
     public function setPhpDocViewFactoryClass(string $phpDocViewFactoryClass): void;
@@ -63,6 +70,8 @@ interface ViewFactoryBuilderInterface
     public function getMethodsViewClass(): string;
 
     public function setUsesViewFactoryClass(string $usesViewFactoryClass): void;
+
+    public function setUseViewFactoryClass(string $useViewFactoryClass): void;
 
     public function setTraitsViewFactoryClass(string $traitsViewFactoryClass): void;
 
@@ -81,6 +90,8 @@ interface ViewFactoryBuilderInterface
     public function getTraitsViewFactoryClass(): string;
 
     public function getUsesViewFactoryClass(): string;
+
+    public function getUseViewFactoryClass(): string;
 
     public function buildMethodViewFactory(): MethodViewFactoryInterface;
 

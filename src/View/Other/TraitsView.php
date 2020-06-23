@@ -24,7 +24,7 @@ class TraitsView extends AbstractArrayView implements TraitsViewInterface
 
     public function buildArrayItemString($key, string $item): string
     {
-        $item = $this->traits->getUses()->getInternalUseName($item);
+        $item = $this->traits->getUses()->getInternalName($item);
         if (null === $item) {
             throw new LogicException('The $item could not be null !');
         }
