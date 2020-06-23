@@ -6,11 +6,11 @@ namespace Prometee\PhpClassGenerator\Builder;
 
 use Prometee\PhpClassGenerator\Factory\Model\Attribute\ConstantModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Attribute\PropertyModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\AbstractClassModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\ClassModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\FinalClassModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\InterfaceClassModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\TraitClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\AbstractClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\ClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\FinalClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\InterfaceClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\TraitClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\ArrayGetterSetterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\ConstructorModelFactoryInterface;

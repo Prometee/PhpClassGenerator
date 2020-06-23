@@ -6,16 +6,16 @@ namespace Prometee\PhpClassGenerator\Builder;
 
 use Prometee\PhpClassGenerator\Factory\Model\Attribute\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\View\ClassView\ClassViewFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
-use Prometee\PhpClassGenerator\Model\ClassModel\ClassModelInterface;
+use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 
 final class ClassBuilder implements ClassBuilderInterface
 {
     /** @var string */
     private $classType;
 
-    /** @var ClassModelInterface */
+    /** @var ClassInterface */
     private $classModel;
     /** @var PropertyInterface[] */
     private $properties = [];
@@ -167,7 +167,7 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->classModel = $classModelFactory->create();
     }
 
-    public function getClassModel(): ClassModelInterface
+    public function getClassModel(): ClassInterface
     {
         return $this->classModel;
     }

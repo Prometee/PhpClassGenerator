@@ -12,9 +12,10 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
 {
     /** @var PhpDocInterface */
     protected $phpDoc;
-
     /** @var int */
     protected $wrapOn;
+    /** @var string */
+    protected $lineStartIndent = '';
 
     public function __construct(
         PhpDocInterface $phpDoc,
@@ -25,8 +26,6 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @throws LogicException
      */
     protected function doRender(): ?string
@@ -44,10 +43,9 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         $lines = [];
         foreach ($phpdocLines as $phpdocLine) {
             $phpdocLinePrefix = empty($phpdocLine) ? '' : ' ';
-            $lines[] = sprintf('%s *%s%s', $this->indent, $phpdocLinePrefix, $phpdocLine);
+            $lines[] = sprintf('%s *%s%s', $this->lineStartIndent, $phpdocLinePrefix, $phpdocLine);
         }
-
-        return sprintf('%1$s/**%2$s%3$s%2$s%1$s */%2$s', $this->indent, "\n", implode("\n", $lines));
+        return sprintf('%1$s/**%2$s%3$s%2$s%1$s */%2$s', $this->lineStartIndent, "\n", implode("\n", $lines));
     }
 
     public function buildLines(): array
@@ -161,5 +159,15 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
     public function getWrapOn(): int
     {
         return $this->wrapOn;
+    }
+
+    public function getLineStartIndent(): string
+    {
+        return $this->lineStartIndent;
+    }
+
+    public function setLineStartIndent(string $lineStartIndent): void
+    {
+        $this->lineStartIndent = $lineStartIndent;
     }
 }

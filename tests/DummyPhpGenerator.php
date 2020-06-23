@@ -67,6 +67,8 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
             $classPath = implode('/', $path);
             $classFilePath = rtrim($this->basePath . '/' . $classPath, '/') . '/' . $className . '.php';
 
+            $this->classBuilder->getClassModel()->getPhpDoc()->addLine('Test class');
+            $this->classBuilder->getClassModel()->getPhpDoc()->addLine('', 'internal');
             $written = $this->writeClass($classContent, $classFilePath);
 
             if (false === $written) {

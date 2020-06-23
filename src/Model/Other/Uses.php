@@ -11,7 +11,7 @@ class Uses extends AbstractModel implements UsesInterface
 {
     /** @var UseModelFactoryInterface */
     protected $useModelFactory;
-    /** @var UseModelInterface[] */
+    /** @var UseInterface[] */
     protected $useModels = [];
     /** @var string */
     private $namespace = '';
@@ -116,7 +116,7 @@ class Uses extends AbstractModel implements UsesInterface
         return $useModel->getInternalName();
     }
 
-    protected function processInternalName(UseModelInterface $useModel): string
+    protected function processInternalName(UseInterface $useModel): string
     {
         $uniqInternalName = $useModel->getInternalName();
         if ($uniqInternalName === $this->className) {
@@ -135,7 +135,7 @@ class Uses extends AbstractModel implements UsesInterface
         return $uniqInternalName;
     }
 
-    public function addUse(UseModelInterface $useModel): void
+    public function addUse(UseInterface $useModel): void
     {
         if (false === $this->hasUse($useModel->getUse())) {
             $this->useModels[$useModel->getUse()] = $useModel;
@@ -147,7 +147,7 @@ class Uses extends AbstractModel implements UsesInterface
         return isset($this->useModels[$use]);
     }
 
-    public function getUse(string $use): ?UseModelInterface
+    public function getUse(string $use): ?UseInterface
     {
         $use = $this->cleanUse($use);
         if (false === $this->hasUse($use)) {

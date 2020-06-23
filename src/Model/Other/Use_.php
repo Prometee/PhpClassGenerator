@@ -7,7 +7,7 @@ namespace Prometee\PhpClassGenerator\Model\Other;
 use LogicException;
 use Prometee\PhpClassGenerator\Model\AbstractModel;
 
-class UseModel extends AbstractModel implements UseModelInterface
+class Use_ extends AbstractModel implements UseInterface
 {
     /** @var string */
     protected $use;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Model\ClassModel;
+namespace Prometee\PhpClassGenerator\Model\Class_;
 
 use Prometee\PhpClassGenerator\Model\AbstractModel;
 use Prometee\PhpClassGenerator\Model\Other\MethodsInterface;
@@ -10,11 +10,16 @@ use Prometee\PhpClassGenerator\Model\Other\PropertiesInterface;
 use Prometee\PhpClassGenerator\Model\Other\TraitsInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareTrait;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareTrait;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
-class ClassModel extends AbstractModel implements ClassModelInterface
+class Class_ extends AbstractModel implements ClassInterface
 {
     use UsesAwareTrait {
         UsesAwareTrait::__construct as private __constructUses;
+    }
+    use PhpDocAwareTrait {
+        PhpDocAwareTrait::__construct as private __constructPhpDoc;
     }
 
     /** @var PropertiesInterface */
@@ -37,11 +42,13 @@ class ClassModel extends AbstractModel implements ClassModelInterface
 
     public function __construct(
         UsesInterface $uses,
+        PhpDocInterface $phpDoc,
         PropertiesInterface $properties,
         MethodsInterface $methods,
         TraitsInterface $traits
     ) {
         $this->__constructUses($uses);
+        $this->__constructPhpDoc($phpDoc);
         $this->properties = $properties;
         $this->methods = $methods;
         $this->traits = $traits;

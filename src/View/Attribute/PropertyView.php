@@ -28,6 +28,7 @@ class PropertyView extends AbstractView implements PropertyViewInterface
         $this->configurePhpDoc();
 
         $phpDocView = $this->phpDocViewFactory->create($this->property->getPhpDoc());
+        $phpDocView->setLineStartIndent($this->indent);
 
         $value = '';
         if (null !== $this->property->getValue()) {

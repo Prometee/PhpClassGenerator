@@ -8,7 +8,7 @@ use Prometee\PhpClassGenerator\Model\ModelInterface;
 
 interface PhpDocInterface extends ModelInterface
 {
-    public const TYPE_DESCRIPTION = 'description';
+    public const TYPE_DESCRIPTION = '';
     public const TYPE_VAR = 'var';
     public const TYPE_RETURN = 'return';
     public const TYPE_PARAM = 'param';

@@ -8,16 +8,16 @@ use Prometee\PhpClassGenerator\Factory\Model\Attribute\ConstantModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Attribute\ConstantModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Attribute\PropertyModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Attribute\PropertyModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\AbstractClassModelFactory;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\AbstractClassModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\ClassModelFactory;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\ClassModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\FinalClassModelFactory;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\FinalClassModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\InterfaceClassModelFactory;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\InterfaceClassModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\TraitClassModelFactory;
-use Prometee\PhpClassGenerator\Factory\Model\ClassModel\TraitClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\AbstractClassModelFactory;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\AbstractClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\ClassModelFactory;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\ClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\FinalClassModelFactory;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\FinalClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\InterfaceClassModelFactory;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\InterfaceClassModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\TraitClassModelFactory;
+use Prometee\PhpClassGenerator\Factory\Model\Class_\TraitClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\ArrayGetterSetterModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Method\ArrayGetterSetterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactory;
@@ -46,11 +46,11 @@ use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Attribute\Constant;
 use Prometee\PhpClassGenerator\Model\Attribute\Property;
-use Prometee\PhpClassGenerator\Model\ClassModel\AbstractClass;
-use Prometee\PhpClassGenerator\Model\ClassModel\ClassModel;
-use Prometee\PhpClassGenerator\Model\ClassModel\FinalClass;
-use Prometee\PhpClassGenerator\Model\ClassModel\InterfaceClass;
-use Prometee\PhpClassGenerator\Model\ClassModel\TraitClass;
+use Prometee\PhpClassGenerator\Model\Class_\AbstractClass;
+use Prometee\PhpClassGenerator\Model\Class_\Class_;
+use Prometee\PhpClassGenerator\Model\Class_\FinalClass;
+use Prometee\PhpClassGenerator\Model\Class_\InterfaceClass;
+use Prometee\PhpClassGenerator\Model\Class_\TraitClass;
 use Prometee\PhpClassGenerator\Model\Method\ArrayGetterSetter;
 use Prometee\PhpClassGenerator\Model\Method\AutoGetterSetter;
 use Prometee\PhpClassGenerator\Model\Method\Constructor;
@@ -61,7 +61,7 @@ use Prometee\PhpClassGenerator\Model\Method\MethodParameter;
 use Prometee\PhpClassGenerator\Model\Other\Methods;
 use Prometee\PhpClassGenerator\Model\Other\Properties;
 use Prometee\PhpClassGenerator\Model\Other\Traits;
-use Prometee\PhpClassGenerator\Model\Other\UseModel;
+use Prometee\PhpClassGenerator\Model\Other\Use_;
 use Prometee\PhpClassGenerator\Model\Other\Uses;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDoc;
 
@@ -160,7 +160,7 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     /** @var string */
     private $usesClass = Uses::class;
     /** @var string */
-    private $useClass = UseModel::class;
+    private $useClass = Use_::class;
     /** @var string */
     private $traitsClass = Traits::class;
     /** @var string */
@@ -170,7 +170,7 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
     /** @var string */
     private $traitClassClass = TraitClass::class;
     /** @var string */
-    private $classModelClass = ClassModel::class;
+    private $classModelClass = Class_::class;
     /** @var string */
     private $abstractClassClass = AbstractClass::class;
     /** @var string */
@@ -310,6 +310,7 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
         if (null === $this->classModelFactory) {
             $this->classModelFactory = new $this->classModelFactoryClass(
                 $this->classModelClass,
+                $this->buildPhpDocModelFactory(),
                 $this->buildUsesModelFactory(),
                 $this->buildPropertiesModelFactory(),
                 $this->buildMethodsModelFactory(),

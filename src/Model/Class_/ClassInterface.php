@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Model\ClassModel;
+namespace Prometee\PhpClassGenerator\Model\Class_;
 
 use Prometee\PhpClassGenerator\Model\ModelInterface;
 use Prometee\PhpClassGenerator\Model\Other\MethodsInterface;
 use Prometee\PhpClassGenerator\Model\Other\PropertiesInterface;
 use Prometee\PhpClassGenerator\Model\Other\TraitsInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareInterface;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
 
-interface ClassModelInterface extends ModelInterface, UsesAwareInterface
+interface ClassInterface extends ModelInterface, UsesAwareInterface, PhpDocAwareInterface
 {
     /**
      * @param string $namespace The class namespace

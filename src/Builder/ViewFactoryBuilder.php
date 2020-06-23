@@ -6,8 +6,8 @@ namespace Prometee\PhpClassGenerator\Builder;
 
 use Prometee\PhpClassGenerator\Factory\View\Attribute\PropertyViewFactory;
 use Prometee\PhpClassGenerator\Factory\View\Attribute\PropertyViewFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\View\ClassView\ClassViewFactory;
-use Prometee\PhpClassGenerator\Factory\View\ClassView\ClassViewFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactory;
+use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactory;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodViewFactory;
@@ -25,7 +25,7 @@ use Prometee\PhpClassGenerator\Factory\View\Other\UseViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactory;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\View\Attribute\PropertyView;
-use Prometee\PhpClassGenerator\View\ClassView\ClassView;
+use Prometee\PhpClassGenerator\View\Class_\ClassView;
 use Prometee\PhpClassGenerator\View\Method\MethodParameterView;
 use Prometee\PhpClassGenerator\View\Method\MethodView;
 use Prometee\PhpClassGenerator\View\Other\MethodsView;
@@ -216,6 +216,7 @@ final class ViewFactoryBuilder implements ViewFactoryBuilderInterface
         if (null === $this->classViewFactory) {
             $this->classViewFactory = new $this->classViewFactoryClass(
                 $this->classViewClass,
+                $this->buildPhpDocViewFactory(),
                 $this->buildMethodsViewFactory(),
                 $this->buildUsesViewFactory(),
                 $this->buildTraitsViewFactory(),

@@ -11,7 +11,7 @@ interface UsesInterface extends ModelInterface
     /**
      * @param string $namespace The current namespace
      * @param string|null $className
-     * @param UseModelInterface[] $uses
+     * @param UseInterface[] $uses
      */
     public function configure(
         string $namespace,
@@ -31,19 +31,19 @@ interface UsesInterface extends ModelInterface
 
     public function cleanUse(string $use): string;
 
-    public function addUse(UseModelInterface $useModel): void;
+    public function addUse(UseInterface $useModel): void;
 
     public function hasUse(string $use): bool;
 
-    public function getUse(string $use): ?UseModelInterface;
+    public function getUse(string $use): ?UseInterface;
 
     /**
-     * @return UseModelInterface[]
+     * @return UseInterface[]
      */
     public function getUseModels(): array;
 
     /**
-     * @param UseModelInterface[] $uses
+     * @param UseInterface[] $uses
      */
     public function setUseModels(array $uses): void;
 }

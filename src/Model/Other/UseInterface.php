@@ -6,7 +6,7 @@ namespace Prometee\PhpClassGenerator\Model\Other;
 
 use Prometee\PhpClassGenerator\Model\ModelInterface;
 
-interface UseModelInterface extends ModelInterface
+interface UseInterface extends ModelInterface
 {
     public function configure(string $use, ?string $desiredAlias = null): void;
     public function configureAlias(string $desiredAlias): void;

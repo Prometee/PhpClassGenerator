@@ -6,6 +6,12 @@ namespace Prometee\PhpClassGenerator;
 
 interface PhpGeneratorInterface
 {
+    /**
+     * @param string|null $indent indentation (default will be: '    ')
+     * @param string|null $eol end of line (default will be: "\n")
+     *
+     * @return bool
+     */
     public function generate(
         ?string $indent = null,
         ?string $eol = null

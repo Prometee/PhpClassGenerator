@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\View\Other;
 
 use Prometee\PhpClassGenerator\Factory\View\Other\UseViewFactoryInterface;
-use Prometee\PhpClassGenerator\Model\Other\UseModelInterface;
+use Prometee\PhpClassGenerator\Model\Other\UseInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 class UsesView extends AbstractArrayView implements UsesViewInterface
@@ -36,7 +36,7 @@ class UsesView extends AbstractArrayView implements UsesViewInterface
     }
 
     /**
-     * @return UseModelInterface[]
+     * @return UseInterface[]
      */
     protected function orderUseModels(): array
     {

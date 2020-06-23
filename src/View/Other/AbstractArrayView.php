@@ -16,12 +16,13 @@ abstract class AbstractArrayView extends AbstractView implements ArrayViewInterf
      */
     protected function doRender(): ?string
     {
-        if (0 === count($this->getArrayToBuild())) {
+        $arrayToBuild = $this->getArrayToBuild();
+        if (0 === count($arrayToBuild)) {
             return null;
         }
 
         $content = '';
-        foreach ($this->getArrayToBuild() as $key => $item) {
+        foreach ($arrayToBuild as $key => $item) {
             $content .= $this->buildArrayItem($key, $item);
         }
 

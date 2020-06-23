@@ -77,6 +77,7 @@ class Property extends AbstractModel implements PropertyInterface
     public function addType(string $type): void
     {
         if (false === $this->hasType($type)) {
+            $this->uses->addRawUse($type);
             $this->types[] = $type;
         }
     }

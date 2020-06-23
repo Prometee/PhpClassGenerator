@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Other;
 
-use Prometee\PhpClassGenerator\Model\Other\UseModelInterface;
+use Prometee\PhpClassGenerator\Model\Other\UseInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
 
 class UseView extends AbstractView implements UseViewInterface
 {
-    /** @var UseModelInterface */
+    /** @var UseInterface */
     protected $useModel;
 
-    public function __construct(UseModelInterface $useModel)
+    public function __construct(UseInterface $useModel)
     {
         $this->useModel = $useModel;
     }

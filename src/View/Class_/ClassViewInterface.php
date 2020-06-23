@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\View\ClassView;
+namespace Prometee\PhpClassGenerator\View\Class_;
 
 use Prometee\PhpClassGenerator\View\ViewInterface;
 

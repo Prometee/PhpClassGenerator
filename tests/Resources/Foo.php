@@ -8,6 +8,11 @@ use DateTimeInterface;
 use stdClass;
 use Tests\Dummy\AFolder\Foo as FooAlias;
 
+/**
+ * Test class
+ *
+ * @internal
+ */
 class Foo extends stdClass
 {
     /**

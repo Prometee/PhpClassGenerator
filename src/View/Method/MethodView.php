@@ -36,6 +36,7 @@ class MethodView extends AbstractView implements MethodViewInterface
         $this->configurePhpDoc();
 
         $phpDocFactory = $this->phpDocViewFactory->create($this->method->getPhpDoc());
+        $phpDocFactory->setLineStartIndent($this->indent);
 
         return sprintf(
             '%1$s%3$s%4$s%1$s%2$s{%1$s%5$s%2$s}%1$s',

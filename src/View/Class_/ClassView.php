@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\View\ClassView;
+namespace Prometee\PhpClassGenerator\View\Class_;
 
 use Prometee\PhpClassGenerator\Factory\View\Other\MethodsViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\PropertiesViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\TraitsViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\UsesViewFactoryInterface;
-use Prometee\PhpClassGenerator\Model\ClassModel\ClassModelInterface;
+use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
+use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
 
 class ClassView extends AbstractView implements ClassViewInterface
 {
-    /** @var ClassModelInterface */
+    /** @var ClassInterface */
     protected $classModel;
+    /** @var PhpDocViewFactoryInterface */
+    protected $phpDocViewFactory;
     /** @var UsesViewFactoryInterface */
     protected $usesViewFactory;
     /** @var TraitsViewFactoryInterface */
@@ -25,13 +28,15 @@ class ClassView extends AbstractView implements ClassViewInterface
     protected $methodsViewFactory;
 
     public function __construct(
-        ClassModelInterface $classModel,
+        ClassInterface $classModel,
+        PhpDocViewFactoryInterface $phpDocViewFactory,
         UsesViewFactoryInterface $usesViewFactory,
         TraitsViewFactoryInterface $traitsViewFactory,
         PropertiesViewFactoryInterface $propertiesViewFactory,
         MethodsViewFactoryInterface $methodsViewFactory
     ) {
         $this->classModel = $classModel;
+        $this->phpDocViewFactory = $phpDocViewFactory;
         $this->usesViewFactory = $usesViewFactory;
         $this->traitsViewFactory = $traitsViewFactory;
         $this->propertiesViewFactory = $propertiesViewFactory;
@@ -47,21 +52,27 @@ class ClassView extends AbstractView implements ClassViewInterface
             . 'namespace %2$s;%1$s'
             . '%1$s'
             . '%3$s'
-            . '%4$s%1$s'
+            . '%4$s'
+            . '%5$s%1$s'
             . '{'
-            . '%5$s'
+            . '%6$s'
             . '}%1$s'
         ;
 
-        $usesView = $this->usesViewFactory->create($this->classModel->getUses());
+        // Build before rendering uses to allow adding late references
         $body = $this->buildBody();
+        $signature = $this->buildSignature();
+
+        $phpDocView = $this->phpDocViewFactory->create($this->classModel->getPhpDoc());
+        $usesView = $this->usesViewFactory->create($this->classModel->getUses());
 
         return sprintf(
             $format,
             $this->eol,
             $this->classModel->getNamespace(),
             $usesView->render($this->indent, $this->eol),
-            $this->buildSignature(),
+            $phpDocView->render($this->indent, $this->eol),
+            $signature,
             $body
         );
     }

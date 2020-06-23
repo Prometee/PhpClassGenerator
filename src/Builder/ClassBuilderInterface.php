@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Builder;
 
 use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
-use Prometee\PhpClassGenerator\Model\ClassModel\ClassModelInterface;
+use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 
 interface ClassBuilderInterface
 {
@@ -28,7 +28,7 @@ interface ClassBuilderInterface
 
     public function getIndent(): string;
 
-    public function getClassModel(): ClassModelInterface;
+    public function getClassModel(): ClassInterface;
 
     public function getClassType(): string;
 
