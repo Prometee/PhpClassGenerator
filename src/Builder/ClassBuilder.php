@@ -99,6 +99,11 @@ final class ClassBuilder implements ClassBuilderInterface
             $this->classModel->getProperties()->addProperty($property);
             $autoGetterSetter = $this->autoGetterSetterModelFactory->create($this->classModel->getUses());
             $getterSetter = $autoGetterSetter->configure($property);
+
+            if ($property->isInherited()) {
+                continue;
+            }
+
             $this->classModel
                 ->getMethods()
                 ->addMultipleMethod($getterSetter->getMethods($this->getIndent()));
