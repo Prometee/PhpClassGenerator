@@ -72,6 +72,18 @@ interface PhpReservedWordsHelperInterface
         'var',
         'while',
         'xor',
+
+        // PHP 7
+        'int',
+        'float',
+        'bool',
+        'string',
+        'true',
+        'false',
+        'null',
+        'void',
+        'iterable',
+        'object',
     ];
 
     public function check(string $word): bool;
