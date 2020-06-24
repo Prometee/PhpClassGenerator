@@ -62,4 +62,12 @@ interface PropertyInterface extends ModelInterface, PhpDocAwareInterface, UsesAw
     public function setWriteable(bool $writeOnly): void;
 
     public function isWriteable(): bool;
+
+    public function isRequired(): bool;
+
+    public function setRequired(bool $required): void;
+
+    public function isInherited(): bool;
+
+    public function setInherited(bool $inherited): void;
 }

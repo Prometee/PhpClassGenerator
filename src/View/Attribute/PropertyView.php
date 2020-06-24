@@ -25,6 +25,10 @@ class PropertyView extends AbstractView implements PropertyViewInterface
 
     protected function doRender(): ?string
     {
+        if ($this->property->isInherited()) {
+            return null;
+        }
+
         $this->configurePhpDoc();
 
         $phpDocView = $this->phpDocViewFactory->create($this->property->getPhpDoc());

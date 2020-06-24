@@ -33,6 +33,10 @@ class Property extends AbstractModel implements PropertyInterface
     protected $readable = true;
     /** @var bool */
     protected $writeable = true;
+    /** @var bool */
+    protected $required = false;
+    /** @var bool */
+    protected $inherited = false;
 
     public function __construct(
         UsesInterface $uses,
@@ -169,5 +173,25 @@ class Property extends AbstractModel implements PropertyInterface
     public function setWriteable(bool $writeable): void
     {
         $this->writeable = $writeable;
+    }
+
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
+    public function setRequired(bool $required): void
+    {
+        $this->required = $required;
+    }
+
+    public function isInherited(): bool
+    {
+        return $this->inherited;
+    }
+
+    public function setInherited(bool $inherited): void
+    {
+        $this->inherited = $inherited;
     }
 }
