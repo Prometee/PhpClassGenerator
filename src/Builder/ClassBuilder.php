@@ -169,10 +169,19 @@ final class ClassBuilder implements ClassBuilderInterface
         }
 
         if (false === empty($inheritedParameters)) {
+            $newLine = '';
+            $afterParameters = '';
+            if (count($inheritedParameters) > 3) {
+                $newLine = $this->eol . $this->indent;
+                $afterParameters = $this->eol;
+            }
+
             $constructor->addLine(sprintf(
-                'parent::%s(%s);',
+                'parent::%s(%s%s%s);',
                 $constructor->getName(),
-                implode(', ', $inheritedParameters)
+                $newLine,
+                implode(', ' . $newLine, $inheritedParameters),
+                $afterParameters
             ));
         }
 
