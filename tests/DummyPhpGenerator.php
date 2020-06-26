@@ -56,8 +56,8 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
             $classPath = implode('/', $path);
             $classFilePath = rtrim($this->basePath . '/' . $classPath, '/') . '/' . $className . '.php';
 
-            $this->classBuilder->setClassType($config['type']);
-            $this->classBuilder->setExtendClass($config['extends']);
+            $this->classBuilder->setClassType($config['type'] ?? '');
+            $this->classBuilder->setExtendClass($config['extends'] ?? null);
             $this->classBuilder->getClassModel()->getPhpDoc()->setLines(
                 [PhpDocInterface::TYPE_DESCRIPTION => $config['description'] ?? []]
             );
@@ -70,7 +70,7 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
                     $propertyConfig['description'] ?? ''
                 );
 
-                if ($config['type'] !== ClassBuilderInterface::CLASS_TYPE_FINAL) {
+                if ($this->classBuilder->getClassType() !== ClassBuilderInterface::CLASS_TYPE_FINAL) {
                     $property->setScope('protected');
                 }
 

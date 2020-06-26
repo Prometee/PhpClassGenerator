@@ -185,7 +185,7 @@ final class ClassBuilder implements ClassBuilderInterface
 
     public function setClassType(string $classType): void
     {
-        $this->classType = ucfirst($classType);
+        $this->classType = strtolower($classType);
         switch ($classType) {
             case self::CLASS_TYPE_FINAL:
                 $classModelFactory = $this->modelFactoryBuilder->buildFinalClassModelFactory();

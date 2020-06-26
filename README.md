@@ -33,9 +33,33 @@ use Prometee\PhpClassGenerator\Builder\ViewFactoryBuilder;
 
 $basePath = __DIR__ . '/etc/build/Dummy';
 $baseNamespace = 'Tests\\Prometee\\PhpClassGenerator\\Resources';
+$classConfig = [
+    [
+        'class' => 'MyClass',
+        'type' => 'final',
+        'extends' => stdClass::class,
+        'description' => [
+            'My own class description',
+            'with multiple lines',
+        ],
+        'properties' => [
+            [
+                'name' => 'myProperty',
+                'types' => [
+                    'null',
+                    $baseNamespace . '\\MyClass[]',
+                ],
+                'default' => null,
+                'description' => null,
+            ],
+        ],
+    ],
+];
+
 $dummyPhpGenerator = new DummyPhpGenerator(
     $basePath,
     $baseNamespace,
+    $classConfig,
     new ClassBuilder(
         new ModelFactoryBuilder(),
         new ViewFactoryBuilder()
