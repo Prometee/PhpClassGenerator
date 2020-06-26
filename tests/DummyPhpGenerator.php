@@ -6,6 +6,7 @@ namespace Tests\Prometee\PhpClassGenerator;
 
 use Exception;
 use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\PhpGeneratorInterface;
 
 final class DummyPhpGenerator implements PhpGeneratorInterface
@@ -25,8 +26,8 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
         array $classesConfig,
         ClassBuilderInterface $classBuilder
     ) {
-        $this->basePath = $basePath;
-        $this->baseNamespace = $baseNamespace;
+        $this->basePath = rtrim($basePath, '/') . '/';
+        $this->baseNamespace = trim($baseNamespace, '\\');
         $this->classesConfig = $classesConfig;
         $this->classBuilder = $classBuilder;
     }
@@ -44,31 +45,44 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
         $eol = $eol ?? $this->classBuilder->getEol();
         $this->classBuilder->setIndent($indent);
         $this->classBuilder->setEol($eol);
-        $this->classBuilder->setClassType(ClassBuilderInterface::CLASS_TYPE_FINAL);
 
-        foreach ($this->classesConfig as $className => $properties) {
-            foreach ($properties as $propertyName => $property) {
-                $this->classBuilder->addClassicProperty(
-                    $propertyName,
-                    $property['types'],
-                    $property['defaultValue'],
-                    $property['description']
-                );
-            }
-
-            $path = explode('\\', $className);
+        foreach ($this->classesConfig as $config) {
+            $path = explode('\\', $config['class']);
             $className = array_pop($path);
             $classNamespace = implode('\\', $path);
-            $classContent = $this->classBuilder->build(
-                rtrim($this->baseNamespace . '\\' . $classNamespace, '\\'),
-                $className
-            );
+            $classNamespace = $this->baseNamespace . '\\' . $classNamespace;
+            $classNamespace = rtrim($classNamespace, '\\');
 
             $classPath = implode('/', $path);
             $classFilePath = rtrim($this->basePath . '/' . $classPath, '/') . '/' . $className . '.php';
 
-            $this->classBuilder->getClassModel()->getPhpDoc()->addLine('Test class');
-            $this->classBuilder->getClassModel()->getPhpDoc()->addLine('', 'internal');
+            $this->classBuilder->setClassType($config['type']);
+            $this->classBuilder->setExtendClass($config['extends']);
+            $this->classBuilder->getClassModel()->getPhpDoc()->setLines(
+                [PhpDocInterface::TYPE_DESCRIPTION => $config['description'] ?? []]
+            );
+
+            foreach ($config['properties'] as $propertyConfig) {
+                $property = $this->classBuilder->createProperty(
+                    $propertyConfig['name'],
+                    $propertyConfig['types'] ?? [],
+                    $propertyConfig['default'] ?? null,
+                    $propertyConfig['description'] ?? ''
+                );
+
+                if ($config['type'] !== ClassBuilderInterface::CLASS_TYPE_FINAL) {
+                    $property->setScope('protected');
+                }
+
+                $property->setReadable($propertyConfig['readable'] ?? true);
+                $property->setWriteable($propertyConfig['writable'] ?? true);
+                $property->setInherited($propertyConfig['inherited'] ?? false);
+
+                $this->classBuilder->addProperty($property);
+            }
+
+            $classContent = $this->classBuilder->build($classNamespace, $className);
+
             $written = $this->writeClass($classContent, $classFilePath);
 
             if (false === $written) {
@@ -91,5 +105,15 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
         }
 
         return file_put_contents($classFilePath, $classContent) !== false;
+    }
+
+    public function setClassesConfig(array $classesConfig): void
+    {
+        $this->classesConfig = $classesConfig;
+    }
+
+    public function getClassesConfig(): array
+    {
+        return $this->classesConfig;
     }
 }

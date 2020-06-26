@@ -102,6 +102,10 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         $blankSubLinePrefix = str_repeat(' ', $linePrefixLength);
         $explodedLines = explode($this->eol, $line);
 
+        if (false === $explodedLines) {
+            return $lines;
+        }
+
         foreach ($explodedLines as $i => $explodedLine) {
             $wrapOn = $this->getWrapOn();
             if ($i === 0) {

@@ -46,7 +46,7 @@ interface MethodInterface extends ModelInterface, PhpDocAwareInterface, UsesAwar
 
     public function addLine(string $line): void;
 
-    public function addMultipleLines(string $lines): void;
+    public function addMultipleLines(string $lines, string $eol = "\n"): void;
 
     public function hasParameter(MethodParameterInterface $methodParameter): bool;
 

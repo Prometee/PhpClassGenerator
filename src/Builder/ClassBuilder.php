@@ -6,9 +6,12 @@ namespace Prometee\PhpClassGenerator\Builder;
 
 use Prometee\PhpClassGenerator\Factory\Model\Attribute\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Method\ConstructorModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
+use Prometee\PhpClassGenerator\Model\Method\ConstructorInterface;
 
 final class ClassBuilder implements ClassBuilderInterface
 {
@@ -28,6 +31,10 @@ final class ClassBuilder implements ClassBuilderInterface
     private $extendClass;
     /** @var string[] */
     private $implements = [];
+    /** @var MethodParameterModelFactoryInterface */
+    private $methodParameterModelFactory;
+    /** @var ConstructorModelFactoryInterface */
+    private $constructorModelFactory;
     /** @var PropertyModelFactoryInterface */
     private $propertyModelFactory;
     /** @var AutoGetterSetterModelFactoryInterface */
@@ -49,6 +56,8 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->viewFactoryBuilder = $viewFactoryBuilder;
         $this->setClassType($classType);
 
+        $this->constructorModelFactory = $this->modelFactoryBuilder->buildConstructorModelFactory();
+        $this->methodParameterModelFactory = $this->modelFactoryBuilder->buildMethodParameterModelFactory();
         $this->propertyModelFactory = $this->modelFactoryBuilder->buildPropertyModelFactory();
         $this->autoGetterSetterModelFactory = $this->modelFactoryBuilder->buildAutoGetterSetterModelFactory();
 
@@ -95,6 +104,11 @@ final class ClassBuilder implements ClassBuilderInterface
             $this->implements
         );
 
+        $constructor = $this->buildConstructor();
+        if (null !== $constructor) {
+            $this->classModel->getMethods()->addMethod($constructor);
+        }
+
         foreach ($this->properties as $property) {
             $this->classModel->getProperties()->addProperty($property);
             $autoGetterSetter = $this->autoGetterSetterModelFactory->create($this->classModel->getUses());
@@ -106,7 +120,7 @@ final class ClassBuilder implements ClassBuilderInterface
 
             $this->classModel
                 ->getMethods()
-                ->addMultipleMethod($getterSetter->getMethods($this->getIndent()));
+                ->addMultipleMethod($getterSetter->getMethods($this->indent));
         }
 
         $classView = $this->classViewFactory->create($this->classModel);
@@ -115,6 +129,64 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->reset();
 
         return $classContent;
+    }
+
+    private function buildConstructor(): ?ConstructorInterface
+    {
+        $constructor = $this->constructorModelFactory->create($this->classModel->getUses());
+        foreach ($this->properties as $property) {
+            if (in_array('null', $property->getTypes())) {
+                continue;
+            }
+
+            if (null !== $property->getValue()) {
+                continue;
+            }
+
+            $methodParameter = $this->methodParameterModelFactory->create($constructor->getUses());
+            $methodParameter->configure(
+                $property->getTypes(),
+                $property->getName()
+            );
+            $methodParameter->setDescription($property->getDescription());
+            $constructor->addParameter($methodParameter);
+
+            $constructor->addLine(sprintf(
+                '$this->%s = %s;',
+                $property->getName(),
+                $methodParameter->getPhpName()
+            ));
+        }
+
+        if (0 === count($constructor->getLines())) {
+            return null;
+        }
+
+        return $constructor;
+    }
+
+    public function setClassType(string $classType): void
+    {
+        $this->classType = ucfirst($classType);
+        switch ($classType) {
+            case self::CLASS_TYPE_FINAL:
+                $classModelFactory = $this->modelFactoryBuilder->buildFinalClassModelFactory();
+                break;
+            case self::CLASS_TYPE_ABSTRACT:
+                $classModelFactory = $this->modelFactoryBuilder->buildAbstractClassModelFactory();
+                break;
+            case self::CLASS_TYPE_INTERFACE:
+                $classModelFactory = $this->modelFactoryBuilder->buildInterfaceClassModelFactory();
+                break;
+            case self::CLASS_TYPE_TRAIT:
+                $classModelFactory = $this->modelFactoryBuilder->buildTraitClassModelFactory();
+                break;
+            default:
+                $classModelFactory = $this->modelFactoryBuilder->buildClassModelFactory();
+                break;
+        }
+
+        $this->classModel = $classModelFactory->create();
     }
 
     public function getClassType(): string
@@ -146,30 +218,6 @@ final class ClassBuilder implements ClassBuilderInterface
     public function setImplements(array $implements): void
     {
         $this->implements = $implements;
-    }
-
-    public function setClassType(string $classType): void
-    {
-        $this->classType = ucfirst($classType);
-        switch ($classType) {
-            case self::CLASS_TYPE_FINAL:
-                $classModelFactory = $this->modelFactoryBuilder->buildFinalClassModelFactory();
-                break;
-            case self::CLASS_TYPE_ABSTRACT:
-                $classModelFactory = $this->modelFactoryBuilder->buildAbstractClassModelFactory();
-                break;
-            case self::CLASS_TYPE_INTERFACE:
-                $classModelFactory = $this->modelFactoryBuilder->buildInterfaceClassModelFactory();
-                break;
-            case self::CLASS_TYPE_TRAIT:
-                $classModelFactory = $this->modelFactoryBuilder->buildTraitClassModelFactory();
-                break;
-            default:
-                $classModelFactory = $this->modelFactoryBuilder->buildClassModelFactory();
-                break;
-        }
-
-        $this->classModel = $classModelFactory->create();
     }
 
     public function getClassModel(): ClassInterface

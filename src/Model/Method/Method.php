@@ -122,9 +122,15 @@ class Method extends AbstractModel implements MethodInterface
         $this->lines[] = $line;
     }
 
-    public function addMultipleLines(string $lines): void
+    public function addMultipleLines(string $lines, string $eol = "\n"): void
     {
-        foreach (explode("\n", $lines) as $line) {
+        $explodedLines = explode($eol, $lines);
+
+        if (false === $explodedLines) {
+            return;
+        }
+
+        foreach ($explodedLines as $line) {
             $this->addLine($line);
         }
     }
