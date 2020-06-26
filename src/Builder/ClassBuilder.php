@@ -79,8 +79,12 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->addProperty($property);
     }
 
-    public function createProperty(string $name, array $types, ?string $value, string $description): PropertyInterface
-    {
+    public function createProperty(
+        string $name,
+        array $types,
+        ?string $value,
+        string $description
+    ): PropertyInterface {
         $property = $this->propertyModelFactory->create($this->classModel->getUses());
 
         $property->configure(
@@ -134,6 +138,7 @@ final class ClassBuilder implements ClassBuilderInterface
     private function buildConstructor(): ?ConstructorInterface
     {
         $constructor = $this->constructorModelFactory->create($this->classModel->getUses());
+        $inheritedParameters = [];
         foreach ($this->properties as $property) {
             if (in_array('null', $property->getTypes())) {
                 continue;
@@ -151,10 +156,23 @@ final class ClassBuilder implements ClassBuilderInterface
             $methodParameter->setDescription($property->getDescription());
             $constructor->addParameter($methodParameter);
 
+            if ($property->isInherited()) {
+                $inheritedParameters[] = $property->getPhpName();
+                continue;
+            }
+
             $constructor->addLine(sprintf(
                 '$this->%s = %s;',
                 $property->getName(),
                 $methodParameter->getPhpName()
+            ));
+        }
+
+        if (false === empty($inheritedParameters)) {
+            $constructor->addLine(sprintf(
+                'parent::%s(%s);',
+                $constructor->getName(),
+                implode(', ', $inheritedParameters)
             ));
         }
 

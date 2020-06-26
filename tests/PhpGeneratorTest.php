@@ -354,4 +354,55 @@ class PhpGeneratorTest extends TestCase
         $this->assertFileEquals($this->basePath . '/ConfigWithSubPathTest.php', __DIR__ . '/Resources/ConfigWithSubPathTest.php');
         $this->assertFileEquals($this->basePath . '/SubPath/SubClassTest.php', __DIR__ . '/Resources/SubPath/SubClassTest.php');
     }
+
+    public function testGenerateWithExtends(): void
+    {
+        $classesConfig = [
+            [
+                'class' => 'SubPath\\ExtendedClassTest',
+                'type' => ClassBuilderInterface::CLASS_TYPE_ABSTRACT,
+                'extends' => null,
+                'description' => [
+                    'Sub path extended test class',
+                    '@internal',
+                ],
+                'properties' => [
+                    [
+                        'name' => 'id',
+                        'types' => [
+                            'int',
+                        ],
+                        'default' => null,
+                        'description' => null
+                    ]
+                ],
+            ],
+            [
+                'class' => 'WithExtendsTest',
+                'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
+                'extends' => $this->baseNamespace . '\\SubPath\\ExtendedClassTest',
+                'description' => [
+                    'With extends test class',
+                    '@internal',
+                ],
+                'properties' => [
+                    [
+                        'name' => 'id',
+                        'types' => [
+                            'int',
+                        ],
+                        'default' => null,
+                        'description' => null,
+                        'inherited' => true,
+                    ],
+                ],
+            ],
+        ];
+
+        $this->dummyPhpGenerator->setClassesConfig($classesConfig);
+
+        $this->assertTrue($this->dummyPhpGenerator->generate());
+        $this->assertFileEquals($this->basePath . '/WithExtendsTest.php', __DIR__ . '/Resources/WithExtendsTest.php');
+        $this->assertFileEquals($this->basePath . '/SubPath/ExtendedClassTest.php', __DIR__ . '/Resources/SubPath/ExtendedClassTest.php');
+    }
 }
