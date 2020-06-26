@@ -42,6 +42,10 @@ final class ArrayTest
      */
     public function hasAnArrayOfItems(ArrayTestAlias $item, bool $strict = true): bool
     {
+        if (null === $this->anArrayOfItems) {
+            return false;
+        }
+
         return in_array($item, $this->anArrayOfItems, $strict);
     }
 
@@ -92,6 +96,10 @@ final class ArrayTest
      */
     public function hasASimpleArrayField($item, bool $strict = true): bool
     {
+        if (null === $this->aSimpleArrayField) {
+            return false;
+        }
+
         return in_array($item, $this->aSimpleArrayField, $strict);
     }
 

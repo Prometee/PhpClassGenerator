@@ -107,7 +107,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         $this->hasGetterMethod->addParameter($methodParameter2);
 
         $format = '';
-        if (preg_match('#^\?#', $methodParameter->getPhpTypeFromTypes())) {
+        if (in_array('null', $this->property->getTypes())) {
             $format .= 'if (null === $this->%2$s) {' . "\n";
             $format .= '%4$sreturn false;' . "\n";
             $format .= '}' . "\n\n";
