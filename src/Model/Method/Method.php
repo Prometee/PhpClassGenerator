@@ -122,6 +122,13 @@ class Method extends AbstractModel implements MethodInterface
         $this->lines[] = $line;
     }
 
+    public function addMultipleLines(string $lines): void
+    {
+        foreach (explode("\n", $lines) as $line) {
+            $this->addLine($line);
+        }
+    }
+
     public function getScope(): string
     {
         return $this->scope;

@@ -114,7 +114,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         }
         $format .= 'return in_array($%1$s, $this->%2$s, %3$s);';
 
-        $this->hasGetterMethod->addLine(
+        $this->hasGetterMethod->addMultipleLines(
             sprintf(
                 $format,
                 $this->getSingleName(),
@@ -154,7 +154,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         }
         $format .= '$this->%4$s[] = %2$s;';
 
-        $this->addSetterMethod->addLine(
+        $this->addSetterMethod->addMultipleLines(
             sprintf(
                 $format,
                 $this->getSingleMethodName(static::HAS_GETTER_PREFIX),
@@ -189,7 +189,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         $format .= '%3$sunset($this->%4$s[$index]);' . "\n";
         $format .= '}';
 
-        $this->removeSetterMethod->addLine(
+        $this->removeSetterMethod->addMultipleLines(
             sprintf(
                 $format,
                 $this->getSingleMethodName(static::HAS_GETTER_PREFIX),

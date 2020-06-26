@@ -68,9 +68,9 @@ class MethodView extends AbstractView implements MethodViewInterface
     {
         $content = '';
         foreach ($this->method->getLines() as $line) {
-            foreach (explode("\n", $line) as $innerLine) {
+            foreach (explode($this->eol, $line) as $innerLine) {
                 $suffix = empty($innerLine) ? '' : $this->indent . $this->indent;
-                $content .= sprintf('%s%s%s', $suffix, $innerLine, "\n");
+                $content .= sprintf('%s%s%s', $suffix, $innerLine, $this->eol);
             }
         }
         return $content;
@@ -104,7 +104,7 @@ class MethodView extends AbstractView implements MethodViewInterface
             // Make parameters go into multiline formation
             $additionalIndentation = $this->eol . $this->indent . $this->indent;
             $parametersStart = $additionalIndentation;
-            $parametersEnd = "\n" . $this->indent;
+            $parametersEnd = $this->eol . $this->indent;
         }
 
         return sprintf(
