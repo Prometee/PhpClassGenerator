@@ -39,7 +39,7 @@ class MethodView extends AbstractView implements MethodViewInterface
         $phpDocFactory->setLineStartIndent($this->indent);
 
         return sprintf(
-            '%1$s%3$s%4$s%1$s%2$s{%1$s%5$s%2$s}%1$s',
+            '%1$s%3$s%4$s{%1$s%5$s%2$s}%1$s',
             $this->eol,
             $this->indent,
             $phpDocFactory->render($this->indent, $this->eol),
@@ -91,31 +91,36 @@ class MethodView extends AbstractView implements MethodViewInterface
         $methodParametersLength = strlen($methodParameters) - 3 * (count($this->method->getParameters()) - 1);
         $parametersFutureFormat = '%s%s%s';
         $content = sprintf(
-            '%s%s%s function %s(%s)%s',
+            '%s%s%s function %s(%s)%s%s',
             $this->indent,
             $this->method->getScope(),
             $static,
             $this->method->getName(),
             $parametersFutureFormat,
-            $this->buildReturnType()
+            $this->buildReturnType(),
+            '%s' // after signature eol or space
         );
 
         $parametersStart = '';
         $additionalIndentation = ' ';
         $parametersEnd = '';
+        $afterSignature = $this->eol . $this->indent;
+
         $contentLength = strlen($content) - strlen($parametersFutureFormat) + $methodParametersLength;
         if ($contentLength > $wrapOn) {
             // Make parameters go into multiline formation
             $additionalIndentation = $this->eol . $this->indent . $this->indent;
             $parametersStart = $additionalIndentation;
             $parametersEnd = $this->eol . $this->indent;
+            $afterSignature = ' ';
         }
 
         return sprintf(
             $content,
             $parametersStart,
             sprintf($methodParameters, $additionalIndentation),
-            $parametersEnd
+            $parametersEnd,
+            $afterSignature
         );
     }
 
