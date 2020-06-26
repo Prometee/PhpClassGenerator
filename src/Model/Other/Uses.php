@@ -74,8 +74,8 @@ class Uses extends AbstractModel implements UsesInterface
         ;
 
         $nullPrefix =
-            1 === preg_match('#^\?$#', $use)
-                ? '?]'
+            1 === preg_match('#^\?#', $use)
+                ? '?'
                 : ''
         ;
 
