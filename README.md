@@ -32,9 +32,10 @@ use Prometee\PhpClassGenerator\Builder\ModelFactoryBuilder;
 use Prometee\PhpClassGenerator\Builder\ViewFactoryBuilder;
 
 $basePath = __DIR__ . '/etc/build/Dummy';
+$baseNamespace = 'Tests\\Prometee\\PhpClassGenerator\\Resources';
 $dummyPhpGenerator = new DummyPhpGenerator(
     $basePath,
-    'Tests\\Dummy',
+    $baseNamespace,
     new ClassBuilder(
         new ModelFactoryBuilder(),
         new ViewFactoryBuilder()
@@ -46,9 +47,9 @@ $dummyPhpGenerator->generate();
 
 ```
 
-## Result example
+## Results example
 
-[Foo.php](tests/Resources/Foo.php)
+[tests/Resources](tests/Resources)
 
 
 [ico-version]: https://img.shields.io/packagist/v/Prometee/php-class-generator.svg?style=flat-square
