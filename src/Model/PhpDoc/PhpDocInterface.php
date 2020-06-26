@@ -38,11 +38,6 @@ interface PhpDocInterface extends ModelInterface
 
     public function addDescriptionLine(string $line): void;
 
-    /**
-     * Add an empty description line
-     */
-    public function addEmptyLine(): void;
-
     public function addParamLine(string $name, string $type = '', string $description = ''): void;
 
     /**

@@ -37,7 +37,7 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         }
 
         if ($this->phpDoc->hasSingleVarLine()) {
-            return sprintf('%1$s/** %3$s */%2$s', $this->indent, "\n", $phpdocLines[0]);
+            return sprintf('%1$s/** %3$s */%2$s', $this->indent, $this->eol, $phpdocLines[0]);
         }
 
         $lines = [];
@@ -45,7 +45,7 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
             $phpdocLinePrefix = empty($phpdocLine) ? '' : ' ';
             $lines[] = sprintf('%s *%s%s', $this->lineStartIndent, $phpdocLinePrefix, $phpdocLine);
         }
-        return sprintf('%1$s/**%2$s%3$s%2$s%1$s */%2$s', $this->lineStartIndent, "\n", implode("\n", $lines));
+        return sprintf('%1$s/**%2$s%3$s%2$s%1$s */%2$s', $this->lineStartIndent, $this->eol, implode($this->eol, $lines));
     }
 
     public function buildLines(): array
@@ -100,7 +100,7 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         $lines = [];
         $linePrefixLength = strlen($linePrefix);
         $blankSubLinePrefix = str_repeat(' ', $linePrefixLength);
-        $explodedLines = explode("\n", $line);
+        $explodedLines = explode($this->eol, $line);
 
         foreach ($explodedLines as $i => $explodedLine) {
             $wrapOn = $this->getWrapOn();
@@ -116,7 +116,7 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
 
         foreach ($lines as $i => $line) {
             $subLinePrefix = $i === 0 ? $linePrefix : $blankSubLinePrefix;
-            $lines[$i] = $subLinePrefix . $line;
+            $lines[$i] = trim($subLinePrefix . $line);
         }
 
         return $lines;
