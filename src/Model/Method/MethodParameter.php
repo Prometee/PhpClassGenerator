@@ -57,6 +57,7 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
     public function addType(string $type): void
     {
         if (false === $this->hasType($type)) {
+            $this->uses->addRawUse($type);
             $this->types[] = $type;
         }
     }
@@ -68,11 +69,8 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
 
     public function getPhpTypeFromTypes(): string
     {
-        if (in_array('mixed', $this->types)) {
-            return '';
-        }
-
         $type = self::getPhpType($this->types);
+
         $type = $this->uses->addRawUseOrReturnType($type);
 
         return $type;

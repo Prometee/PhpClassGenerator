@@ -46,6 +46,10 @@ abstract class AbstractModel implements ModelInterface
      */
     public static function getPhpType(array $types): string
     {
+        if (in_array('mixed', $types)) {
+            return '';
+        }
+
         $phpType = '';
         if (in_array('null', $types)) {
             $phpType = '?';

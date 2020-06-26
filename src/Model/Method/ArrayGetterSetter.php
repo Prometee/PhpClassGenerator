@@ -112,6 +112,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
             $format .= '%4$sreturn false;' . "\n";
             $format .= '}' . "\n\n";
         }
+
         $format .= 'return in_array($%1$s, $this->%2$s, %3$s);';
 
         $this->hasGetterMethod->addMultipleLines(
@@ -147,11 +148,13 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         $format = 'if ($this->%1$s(%2$s)) {' . "\n";
         $format .= '%3$sreturn;' . "\n";
         $format .= '}' . "\n\n";
-        if (preg_match('#^\?#', $methodParameter->getPhpTypeFromTypes())) {
+
+        if (in_array('null', $this->property->getTypes())) {
             $format .= 'if (null === $this->%4$s) {' . "\n";
             $format .= '%3$s$this->%4$s = [];' . "\n";
             $format .= '}' . "\n\n";
         }
+
         $format .= '$this->%4$s[] = %2$s;';
 
         $this->addSetterMethod->addMultipleLines(
@@ -184,7 +187,14 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
 
         $this->removeSetterMethod->addParameter($methodParameter);
 
-        $format = 'if ($this->%1$s(%2$s)) {' . "\n";
+        $format = '';
+        if (in_array('null', $this->property->getTypes())) {
+            $format .= 'if (null === $this->%4$s) {' . "\n";
+            $format .= '%3$s$this->%4$s = [];' . "\n";
+            $format .= '}' . "\n\n";
+        }
+
+        $format .= 'if ($this->%1$s(%2$s)) {' . "\n";
         $format .= '%3$s$index = array_search(%2$s, $this->%4$s);' . "\n";
         $format .= '%3$sunset($this->%4$s[$index]);' . "\n";
         $format .= '}';

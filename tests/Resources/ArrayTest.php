@@ -58,6 +58,10 @@ final class ArrayTest
             return;
         }
 
+        if (null === $this->anArrayOfItems) {
+            $this->anArrayOfItems = [];
+        }
+
         $this->anArrayOfItems[] = $item;
     }
 
@@ -66,6 +70,10 @@ final class ArrayTest
      */
     public function removeAnArrayOfItems(ArrayTestAlias $item): void
     {
+        if (null === $this->anArrayOfItems) {
+            $this->anArrayOfItems = [];
+        }
+
         if ($this->hasAnArrayOfItems($item)) {
             $index = array_search($item, $this->anArrayOfItems);
             unset($this->anArrayOfItems[$index]);
@@ -112,6 +120,10 @@ final class ArrayTest
             return;
         }
 
+        if (null === $this->aSimpleArrayField) {
+            $this->aSimpleArrayField = [];
+        }
+
         $this->aSimpleArrayField[] = $item;
     }
 
@@ -120,6 +132,10 @@ final class ArrayTest
      */
     public function removeASimpleArrayField($item): void
     {
+        if (null === $this->aSimpleArrayField) {
+            $this->aSimpleArrayField = [];
+        }
+
         if ($this->hasASimpleArrayField($item)) {
             $index = array_search($item, $this->aSimpleArrayField);
             unset($this->aSimpleArrayField[$index]);

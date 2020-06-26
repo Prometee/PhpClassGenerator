@@ -73,9 +73,15 @@ class Uses extends AbstractModel implements UsesInterface
                 : ''
         ;
 
+        $nullPrefix =
+            1 === preg_match('#^\?$#', $use)
+                ? '?]'
+                : ''
+        ;
+
         $this->addRawUse($use);
 
-        return $this->getInternalName($use) . $arraySuffix;
+        return $nullPrefix . $this->getInternalName($use) . $arraySuffix;
     }
 
     public function addRawUse(string $use, ?string $desiredAlias = null): void
