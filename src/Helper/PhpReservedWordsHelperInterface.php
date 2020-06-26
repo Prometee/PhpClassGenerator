@@ -84,6 +84,10 @@ interface PhpReservedWordsHelperInterface
         'void',
         'iterable',
         'object',
+        // Soft reserved words
+        'resource',
+        'mixed',
+        'numeric',
     ];
 
     public function check(string $word): bool;
