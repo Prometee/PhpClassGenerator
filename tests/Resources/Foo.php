@@ -24,6 +24,13 @@ class Foo extends stdClass
     private $anArrayOfItems;
 
     /**
+     * My array field description
+     *
+     * @var array|null
+     */
+    private $aSimpleArrayField;
+
+    /**
      * My bool field description
      *
      * @var bool
@@ -74,11 +81,11 @@ class Foo extends stdClass
     }
 
     /**
-     * @return float
+     * @return string
      */
-    public function getAFloatField(): float
+    public function getAStringField(): string
     {
-        return $this->aFloatField;
+        return $this->aStringField;
     }
 
     /**
@@ -130,27 +137,19 @@ class Foo extends stdClass
     }
 
     /**
+     * @return float
+     */
+    public function getAFloatField(): float
+    {
+        return $this->aFloatField;
+    }
+
+    /**
      * @param string $aStringField
      */
     public function setAStringField(string $aStringField): void
     {
         $this->aStringField = $aStringField;
-    }
-
-    /**
-     * @param FooAlias[]|null $anArrayOfItems
-     */
-    public function setAnArrayOfItems(?array $anArrayOfItems): void
-    {
-        $this->anArrayOfItems = $anArrayOfItems;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAStringField(): string
-    {
-        return $this->aStringField;
     }
 
     /**
@@ -162,6 +161,14 @@ class Foo extends stdClass
     }
 
     /**
+     * @param FooAlias[]|null $anArrayOfItems
+     */
+    public function setAnArrayOfItems(?array $anArrayOfItems): void
+    {
+        $this->anArrayOfItems = $anArrayOfItems;
+    }
+
+    /**
      * @return bool
      */
     public function isABoolField(): bool
@@ -170,37 +177,87 @@ class Foo extends stdClass
     }
 
     /**
-     * @param FooAlias $anArrayOfItems
+     * @param mixed $item
      */
-    public function removeAnArrayOfItems(FooAlias $anArrayOfItems): void
+    public function removeASimpleArrayField($item): void
     {
-        if ($this->hasAnArrayOfItems($anArrayOfItems)) {
-            $index = array_search($anArrayOfItems, $this->anArrayOfItems);
+        if ($this->hasASimpleArrayField($item)) {
+            $index = array_search($item, $this->aSimpleArrayField);
+            unset($this->aSimpleArrayField[$index]);
+        }
+    }
+
+    /**
+     * @param mixed $item
+     */
+    public function addASimpleArrayField($item): void
+    {
+        if ($this->hasASimpleArrayField($item)) {
+            return;
+        }
+
+        $this->aSimpleArrayField[] = $item;
+    }
+
+    /**
+     * @param mixed $item
+     * @param bool $strict
+     *
+     * @return bool
+     */
+    public function hasASimpleArrayField($item, bool $strict = true): bool
+    {
+        return in_array($item, $this->aSimpleArrayField, $strict);
+    }
+
+    /**
+     * @param array|null $aSimpleArrayField
+     */
+    public function setASimpleArrayField(?array $aSimpleArrayField): void
+    {
+        $this->aSimpleArrayField = $aSimpleArrayField;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getASimpleArrayField(): ?array
+    {
+        return $this->aSimpleArrayField;
+    }
+
+    /**
+     * @param FooAlias $item
+     */
+    public function removeAnArrayOfItems(FooAlias $item): void
+    {
+        if ($this->hasAnArrayOfItems($item)) {
+            $index = array_search($item, $this->anArrayOfItems);
             unset($this->anArrayOfItems[$index]);
         }
     }
 
     /**
-     * @param FooAlias $anArrayOfItems
+     * @param FooAlias $item
      */
-    public function addAnArrayOfItems(FooAlias $anArrayOfItems): void
+    public function addAnArrayOfItems(FooAlias $item): void
     {
-        if ($this->hasAnArrayOfItems($anArrayOfItems)) {
+        if ($this->hasAnArrayOfItems($item)) {
             return;
         }
 
-        $this->anArrayOfItems[] = $anArrayOfItems;
+        $this->anArrayOfItems[] = $item;
     }
 
     /**
-     * @param FooAlias $anArrayOfItems
+     * @param FooAlias $item
      * @param bool $strict
      *
      * @return bool
      */
-    public function hasAnArrayOfItems(FooAlias $anArrayOfItems, bool $strict = true): bool
+    public function hasAnArrayOfItems(FooAlias $item, bool $strict = true): bool
     {
-        return in_array($anArrayOfItems, $this->anArrayOfItems, $strict);
+        return in_array($item, $this->anArrayOfItems, $strict);
     }
 
     /**

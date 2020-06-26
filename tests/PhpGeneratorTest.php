@@ -30,6 +30,14 @@ class PhpGeneratorTest extends TestCase
                     'defaultValue' => null,
                     'description' => 'My array field description' . "\n" . 'with line break'
                 ],
+                'aSimpleArrayField' => [
+                    'types' => [
+                        'array',
+                        'null'
+                    ],
+                    'defaultValue' => null,
+                    'description' => 'My array field description'
+                ],
                 'aBoolField' => [
                     'types' => [
                         'bool'

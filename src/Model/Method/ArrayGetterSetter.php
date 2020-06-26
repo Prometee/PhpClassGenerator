@@ -93,7 +93,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
 
         $methodParameter = $this->methodParameterFactory->create($this->uses);
         $methodParameter->configure(
-            (array) $this->getSingleTypeName(),
+            $this->getSingleTypes(),
             $this->getSingleName()
         );
         $this->hasGetterMethod->addParameter($methodParameter);
@@ -139,7 +139,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
 
         $methodParameter = $this->methodParameterFactory->create($this->uses);
         $methodParameter->configure(
-            (array) $this->getSingleTypeName(),
+            $this->getSingleTypes(),
             $this->getSingleName()
         );
         $this->addSetterMethod->addParameter($methodParameter);
@@ -178,7 +178,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         );
         $methodParameter = $this->methodParameterFactory->create($this->uses);
         $methodParameter->configure(
-            (array) $this->getSingleTypeName(),
+            $this->getSingleTypes(),
             $this->getSingleName()
         );
 
@@ -205,34 +205,25 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         return $this->getMethodName($prefix, $suffix);
     }
 
-    public function getSingleTypeName(): ?string
+    public function getSingleTypes(): array
     {
-        if (empty($this->property->getTypes())) {
-            return null;
-        }
+        $phpSingleTypes = [];
 
-        $phpType = '';
-        if (in_array('null', $this->property->getTypes())) {
-            $phpType = '?';
-        }
         foreach ($this->property->getTypes() as $type) {
             if (preg_match('#\[]$#', $type)) {
-                $phpType .= rtrim($type, '[]');
-
-                break;
+                $phpSingleTypes[] = rtrim($type, '[]');
             }
-            if ($type !== 'null') {
-                $phpType .= $type;
 
-                break;
+            if ($type === 'array') {
+                $phpSingleTypes[] = 'mixed';
             }
         }
 
-        return $phpType;
+        return $phpSingleTypes;
     }
 
     public function getSingleName(): string
     {
-        return $this->property->getName();
+        return 'item';
     }
 }

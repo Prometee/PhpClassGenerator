@@ -12,7 +12,10 @@ interface ArrayGetterSetterInterface extends GetterSetterInterface
 
     public function configureAddSetter(string $indent = null): void;
 
-    public function getSingleTypeName(): ?string;
+    /**
+     * @return array<int, string>
+     */
+    public function getSingleTypes(): array;
 
     public function configureRemoveSetter(string $indent = null): void;
 
