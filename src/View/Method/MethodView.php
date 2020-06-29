@@ -138,15 +138,11 @@ class MethodView extends AbstractView implements MethodViewInterface
 
     public function buildReturnType(): string
     {
-        if (empty($this->method->getReturnTypes())) {
-            return '';
-        }
-
-        if (in_array('mixed', $this->method->getReturnTypes())) {
-            return '';
-        }
-
         $phpReturnType = $this->method->getPhpTypeFromReturnTypes();
+        if ('' === $phpReturnType) {
+            return '';
+        }
+
         $phpReturnType = $this->method->getUses()->addRawUseOrReturnType($phpReturnType);
         return sprintf(': %s', $phpReturnType);
     }

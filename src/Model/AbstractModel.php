@@ -50,22 +50,33 @@ abstract class AbstractModel implements ModelInterface
             return '';
         }
 
-        $phpType = '';
-        if (in_array('null', $types)) {
-            $phpType = '?';
-        }
+        $phpTypes = [];
+        $isNullable = false;
         foreach ($types as $type) {
             if (preg_match('#\[]$#', $type)) {
-                $phpType .= 'array';
-                break;
+                $phpTypes[] = 'array';
+                continue;
             }
-            if ($type !== 'null') {
-                $phpType .= $type;
-                break;
+            if ($type === 'null') {
+                $isNullable = true;
+                continue;
             }
+
+            $phpTypes[] = $type;
         }
 
-        return $phpType;
+        $phpTypes = array_unique($phpTypes);
+
+        // Means mixed types
+        if (count($phpTypes) > 1) {
+            return '';
+        }
+
+        return sprintf(
+            '%s%s',
+            $isNullable ? '?' : '',
+            implode('', $phpTypes)
+        );
     }
 
     public static function getPhpDefaultValue(array $types): ?string

@@ -261,6 +261,34 @@ class PhpGeneratorTest extends TestCase
                         'default' => null,
                         'description' => null
                     ],
+                    [
+                        'name' => 'anOtherMixedField',
+                        'types' => [
+                            'int',
+                            'string',
+                        ],
+                        'default' => null,
+                        'description' => null
+                    ],
+                    [
+                        'name' => 'anOtherMixedFieldWithNull',
+                        'types' => [
+                            'int',
+                            'string',
+                            'null',
+                        ],
+                        'default' => null,
+                        'description' => null
+                    ],
+                    [
+                        'name' => 'anOtherMixedFieldWithArray',
+                        'types' => [
+                            'self[]',
+                            'array',
+                        ],
+                        'default' => null,
+                        'description' => null
+                    ],
                 ],
             ],
         ];
