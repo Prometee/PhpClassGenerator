@@ -48,8 +48,8 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
 
         foreach ($this->classesConfig as $config) {
             $path = explode('\\', $config['class']);
-            $className = array_pop($path);
-            $classNamespace = implode('\\', $path);
+            $className = (string) array_pop($path);
+            $classNamespace = (string) implode('\\', $path);
             $classNamespace = $this->baseNamespace . '\\' . $classNamespace;
             $classNamespace = rtrim($classNamespace, '\\');
 
