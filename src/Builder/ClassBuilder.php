@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder;
 
+use Prometee\PhpClassGenerator\Factory\Model\Attribute\ConstantModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Attribute\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\ConstructorModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
+use Prometee\PhpClassGenerator\Model\Attribute\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Method\ConstructorInterface;
@@ -37,6 +39,8 @@ final class ClassBuilder implements ClassBuilderInterface
     private $constructorModelFactory;
     /** @var PropertyModelFactoryInterface */
     private $propertyModelFactory;
+    /** @var ConstantModelFactoryInterface */
+    private $constantModelFactory;
     /** @var AutoGetterSetterModelFactoryInterface */
     private $autoGetterSetterModelFactory;
     /** @var ClassViewFactoryInterface */
@@ -59,9 +63,38 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->constructorModelFactory = $this->modelFactoryBuilder->buildConstructorModelFactory();
         $this->methodParameterModelFactory = $this->modelFactoryBuilder->buildMethodParameterModelFactory();
         $this->propertyModelFactory = $this->modelFactoryBuilder->buildPropertyModelFactory();
+        $this->constantModelFactory = $this->modelFactoryBuilder->buildConstantModelFactory();
         $this->autoGetterSetterModelFactory = $this->modelFactoryBuilder->buildAutoGetterSetterModelFactory();
 
         $this->classViewFactory = $this->viewFactoryBuilder->buildClassViewFactory();
+    }
+
+    public function addClassicConstant(
+        string $name,
+        array $types = [],
+        ?string $value = null,
+        string $description = ''
+    ): void {
+        $constant = $this->createConstant($name, $types, $value, $description);
+        $this->addProperty($constant);
+    }
+
+    public function createConstant(
+        string $name,
+        array $types,
+        ?string $value,
+        string $description
+    ): ConstantInterface {
+        $constant = $this->constantModelFactory->create($this->classModel->getUses());
+
+        $constant->configure(
+            $name,
+            $types,
+            $value,
+            $description
+        );
+
+        return $constant;
     }
 
     public function addProperty(PropertyInterface $property): void

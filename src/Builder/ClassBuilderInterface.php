@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder;
 
+use Prometee\PhpClassGenerator\Model\Attribute\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 
@@ -63,6 +64,20 @@ interface ClassBuilderInterface
         ?string $value,
         string $description
     ): PropertyInterface;
+
+    public function addClassicConstant(
+        string $name,
+        array $types = [],
+        ?string $value = null,
+        string $description = ''
+    ): void;
+
+    public function createConstant(
+        string $name,
+        array $types,
+        ?string $value,
+        string $description
+    ): ConstantInterface;
 
     public function getEol(): string;
 

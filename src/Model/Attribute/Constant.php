@@ -12,4 +12,15 @@ class Constant extends Property implements ConstantInterface
     {
         return strtoupper($this->name);
     }
+
+    public function getValue(): ?string
+    {
+        $value = parent::getValue();
+        // Always assign to something
+        if (null === $value) {
+            return 'null';
+        }
+
+        return $value;
+    }
 }

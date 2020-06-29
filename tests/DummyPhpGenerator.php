@@ -62,7 +62,26 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
                 [PhpDocInterface::TYPE_DESCRIPTION => $config['description'] ?? []]
             );
 
-            foreach ($config['properties'] as $propertyConfig) {
+            $constants = $config['constants'] ?? [];
+            foreach ($constants as $constantConfig) {
+                $description = $constantConfig['description'] ?? [];
+                $description = implode($eol, $description);
+                $constant = $this->classBuilder->createConstant(
+                    $constantConfig['name'],
+                    $constantConfig['types'] ?? [],
+                    $constantConfig['default'] ?? null,
+                    $description
+                );
+
+                $constant->setReadable($constantConfig['readable'] ?? false);
+                $constant->setWriteable($constantConfig['writable'] ?? false);
+                $constant->setInherited($constantConfig['inherited'] ?? false);
+
+                $this->classBuilder->addProperty($constant);
+            }
+
+            $properties = $config['properties'] ?? [];
+            foreach ($properties as $propertyConfig) {
                 $description = $propertyConfig['description'] ?? [];
                 $description = implode($eol, $description);
                 $property = $this->classBuilder->createProperty(

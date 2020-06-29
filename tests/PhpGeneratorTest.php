@@ -80,6 +80,46 @@ class PhpGeneratorTest extends TestCase
         $this->assertFileEquals($this->basePath . '/ArrayTest.php', __DIR__ . '/Resources/ArrayTest.php');
     }
 
+    public function testGenerateConstant(): void
+    {
+        $classesConfig = [
+            [
+                'class' => 'ConstantTest',
+                'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
+                'extends' => null,
+                'description' => [
+                    'Constant test class',
+                    '@internal',
+                ],
+                'constants' => [
+                    [
+                        'name' => 'A_CONSTANT',
+                        'types' => [
+                            'string'
+                        ],
+                        'default' => '\'test_constant_value\'',
+                        'description' => null,
+                        'readable' => false,
+                        'writable' => false,
+                    ],
+                    [
+                        'name' => 'A_CONSTANT_WITH_NULL_VALUE',
+                        'types' => [],
+                        'default' => null,
+                        'description' => null,
+                        'readable' => false,
+                        'writable' => false,
+                    ],
+                ],
+            ],
+        ];
+
+        $this->dummyPhpGenerator->setClassesConfig($classesConfig);
+
+        $this->assertTrue($this->dummyPhpGenerator->generate());
+        $this->assertFileEquals($this->basePath . '/ConstantTest.php', __DIR__ . '/Resources/ConstantTest.php');
+    }
+
     public function testGenerateBooleanType(): void
     {
         $classesConfig = [
