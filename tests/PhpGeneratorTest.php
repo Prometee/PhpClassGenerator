@@ -373,7 +373,10 @@ class PhpGeneratorTest extends TestCase
                             'int',
                         ],
                         'default' => null,
-                        'description' => null
+                        'description' => [
+                            'ID of this model',
+                            'A second line'
+                        ]
                     ]
                 ],
             ],

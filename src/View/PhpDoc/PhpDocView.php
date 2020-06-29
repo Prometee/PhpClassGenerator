@@ -92,7 +92,7 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
             return '';
         }
 
-        return sprintf('@%s ', $type);
+        return sprintf('@%s', $type);
     }
 
     public function buildLinesFromSingleLine(string $linePrefix, string $line): array
@@ -120,7 +120,8 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
 
         foreach ($lines as $i => $line) {
             $subLinePrefix = $i === 0 ? $linePrefix : $blankSubLinePrefix;
-            $lines[$i] = trim($subLinePrefix . $line);
+            $space = false === empty($linePrefix) && false === empty($line) ? ' ' : '';
+            $lines[$i] = sprintf('%s%s%s', $subLinePrefix, $space, $line);
         }
 
         return $lines;

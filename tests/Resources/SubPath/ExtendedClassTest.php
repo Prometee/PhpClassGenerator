@@ -10,11 +10,17 @@ namespace Tests\Prometee\PhpClassGenerator\Resources\SubPath;
  */
 abstract class ExtendedClassTest
 {
-    /** @var int */
+    /**
+     * ID of this model
+     * A second line
+     *
+     * @var int
+     */
     protected $id;
 
     /**
-     * @param int $id
+     * @param int $id ID of this model
+     *        A second line
      */
     public function __construct(int $id)
     {
