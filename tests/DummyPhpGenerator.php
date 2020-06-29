@@ -63,11 +63,13 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
             );
 
             foreach ($config['properties'] as $propertyConfig) {
+                $description = $propertyConfig['description'] ?? [];
+                $description = implode($eol, $description);
                 $property = $this->classBuilder->createProperty(
                     $propertyConfig['name'],
                     $propertyConfig['types'] ?? [],
                     $propertyConfig['default'] ?? null,
-                    $propertyConfig['description'] ?? ''
+                    $description
                 );
 
                 if ($this->classBuilder->getClassType() !== ClassBuilderInterface::CLASS_TYPE_FINAL) {
@@ -83,6 +85,10 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
 
             $classContent = $this->classBuilder->build($classNamespace, $className);
 
+            if (null === $classContent) {
+                continue;
+            }
+
             $written = $this->writeClass($classContent, $classFilePath);
 
             if (false === $written) {
@@ -95,10 +101,6 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
 
     public function writeClass(string $classContent, string $classFilePath): bool
     {
-        if (null === $classContent) {
-            return false;
-        }
-
         $classPath = dirname($classFilePath);
         if (false === is_dir($classPath)) {
             mkdir($classPath, 0777, true);
