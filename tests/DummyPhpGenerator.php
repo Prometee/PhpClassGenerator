@@ -62,8 +62,8 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
                 [PhpDocInterface::TYPE_DESCRIPTION => $config['description'] ?? []]
             );
 
-            $constants = $config['constants'] ?? [];
-            foreach ($constants as $constantConfig) {
+            $constantsConfig = $config['constants'] ?? [];
+            foreach ($constantsConfig as $constantConfig) {
                 $description = $constantConfig['description'] ?? [];
                 $description = implode($eol, $description);
                 $constant = $this->classBuilder->createConstant(
@@ -80,8 +80,8 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
                 $this->classBuilder->addProperty($constant);
             }
 
-            $properties = $config['properties'] ?? [];
-            foreach ($properties as $propertyConfig) {
+            $propertiesConfig = $config['properties'] ?? [];
+            foreach ($propertiesConfig as $propertyConfig) {
                 $description = $propertyConfig['description'] ?? [];
                 $description = implode($eol, $description);
                 $property = $this->classBuilder->createProperty(
