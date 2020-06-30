@@ -98,13 +98,12 @@ final class MixedTest
 
     /**
      * @param self|mixed $item
-     * @param bool $strict
      *
      * @return bool
      */
-    public function hasAnOtherMixedFieldWithArray($item, bool $strict = true): bool
+    public function hasAnOtherMixedFieldWithArray($item): bool
     {
-        return in_array($item, $this->anOtherMixedFieldWithArray, $strict);
+        return in_array($item, $this->anOtherMixedFieldWithArray);
     }
 
     /**

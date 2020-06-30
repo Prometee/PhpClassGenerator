@@ -8,6 +8,7 @@ use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryI
 use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareTrait;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
+use function Symfony\Component\String\u;
 
 class GetterSetter implements GetterSetterInterface
 {
@@ -68,13 +69,9 @@ class GetterSetter implements GetterSetterInterface
 
     public function getMethodName(?string $prefix = null, ?string $suffix = null): string
     {
-        $name = trim($this->property->getName(), '_');
-        $words = explode('_', $name);
-        $words = array_map('ucfirst', $words);
-        $name = '';
-        foreach ($words as $word) {
-            $name .= empty($word) ? '_' : $word;
-        }
+        $name = u($this->property->getName())
+            ->camel()->title()
+            ->toString();
 
         return $prefix . $name . $suffix;
     }

@@ -36,17 +36,16 @@ final class ArrayTest
 
     /**
      * @param ArrayTestAlias $item
-     * @param bool $strict
      *
      * @return bool
      */
-    public function hasAnArrayOfItems(ArrayTestAlias $item, bool $strict = true): bool
+    public function hasAnArrayOfItems(ArrayTestAlias $item): bool
     {
         if (null === $this->anArrayOfItems) {
             return false;
         }
 
-        return in_array($item, $this->anArrayOfItems, $strict);
+        return in_array($item, $this->anArrayOfItems);
     }
 
     /**
@@ -98,17 +97,16 @@ final class ArrayTest
 
     /**
      * @param mixed $item
-     * @param bool $strict
      *
      * @return bool
      */
-    public function hasASimpleArrayField($item, bool $strict = true): bool
+    public function hasASimpleArrayField($item): bool
     {
         if (null === $this->aSimpleArrayField) {
             return false;
         }
 
-        return in_array($item, $this->aSimpleArrayField, $strict);
+        return in_array($item, $this->aSimpleArrayField);
     }
 
     /**

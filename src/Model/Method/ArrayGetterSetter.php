@@ -98,29 +98,20 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         );
         $this->hasGetterMethod->addParameter($methodParameter);
 
-        $methodParameter2 = $this->methodParameterFactory->create($this->uses);
-        $methodParameter2->configure(
-            (array) 'bool',
-            'strict',
-            'true'
-        );
-        $this->hasGetterMethod->addParameter($methodParameter2);
-
         $format = '';
         if (in_array('null', $this->property->getTypes())) {
             $format .= 'if (null === $this->%2$s) {' . "\n";
-            $format .= '%4$sreturn false;' . "\n";
+            $format .= '%3$sreturn false;' . "\n";
             $format .= '}' . "\n\n";
         }
 
-        $format .= 'return in_array($%1$s, $this->%2$s, %3$s);';
+        $format .= 'return in_array($%1$s, $this->%2$s);';
 
         $this->hasGetterMethod->addMultipleLines(
             sprintf(
                 $format,
                 $this->getSingleName(),
                 $this->property->getName(),
-                $methodParameter2->getPhpName(),
                 $indent
             )
         );
