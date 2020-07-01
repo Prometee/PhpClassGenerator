@@ -133,7 +133,15 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         $lines = [];
         $currentLine = '';
 
-        foreach (explode(' ', $line) as $word) {
+        $startSpaces = '';
+        if (preg_match('#^( +)#', $line, $matches)) {
+            $startSpaces = $matches[1];
+        }
+
+        foreach (explode(' ', $line) as $i=>$word) {
+            if ($i === 0) {
+                $word = $startSpaces . $word;
+            }
             if (iconv_strlen($currentLine . ' ' . $word) > $wrapOn) {
                 $lines[] = $currentLine;
                 $currentLine = $word;
