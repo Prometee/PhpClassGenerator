@@ -27,7 +27,7 @@ class PhpDoc extends AbstractModel implements PhpDocInterface
             $this->lines[$type] = [];
         }
 
-        $this->lines[$type][] = trim($line);
+        $this->lines[$type][] = $line;
     }
 
     public function addDescriptionLine(string $line): void
@@ -42,7 +42,15 @@ class PhpDoc extends AbstractModel implements PhpDocInterface
 
     public function addParamLine(string $name, string $type = '', string $description = ''): void
     {
-        $line = sprintf('%s %s %s', $type, $name, $description);
+        if (false === empty($type)) {
+            $type .= ' ';
+        }
+
+        if (false === empty($description)) {
+            $description = ' '.$description;
+        }
+
+        $line = sprintf('%s%s%s', $type, $name, $description);
         $this->addLine(
             $line,
             static::TYPE_PARAM
