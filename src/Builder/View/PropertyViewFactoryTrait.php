@@ -44,7 +44,6 @@ trait PropertyViewFactoryTrait
         $this->propertyViewFactoryClass = $propertyViewFactoryClass;
     }
 
-
     public function getPropertyViewClass(): string
     {
         return $this->propertyViewClass;

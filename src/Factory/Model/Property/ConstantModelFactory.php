@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Factory\Model\Property;
 
-use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
+use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 
 final class ConstantModelFactory extends AbstractDecoratedPropertyModelFactory implements ConstantModelFactoryInterface
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Model\Other;
 
-use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\ModelInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 interface PropertiesInterface extends ModelInterface, UsesAwareInterface
 {

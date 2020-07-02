@@ -138,7 +138,7 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
             $startSpaces = $matches[1];
         }
 
-        foreach (explode(' ', $line) as $i=>$word) {
+        foreach (explode(' ', $line) as $i => $word) {
             if ($i === 0) {
                 $word = $startSpaces . $word;
             }

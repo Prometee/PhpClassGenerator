@@ -47,7 +47,7 @@ class PhpDoc extends AbstractModel implements PhpDocInterface
         }
 
         if (false === empty($description)) {
-            $description = ' '.$description;
+            $description = ' ' . $description;
         }
 
         $line = sprintf('%s%s%s', $type, $name, $description);

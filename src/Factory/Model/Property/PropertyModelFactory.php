@@ -6,8 +6,8 @@ namespace Prometee\PhpClassGenerator\Factory\Model\Property;
 
 use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
-use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 final class PropertyModelFactory extends AbstractModelFactory implements PropertyModelFactoryInterface
 {

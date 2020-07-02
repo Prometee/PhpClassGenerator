@@ -6,9 +6,9 @@ namespace Prometee\PhpClassGenerator\Builder;
 
 use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilderInterface;
+use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
-use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 
 interface ClassBuilderInterface
 {

@@ -134,5 +134,4 @@ trait MethodsModelFactoryTrait
     {
         $this->constructorClass = $constructorClass;
     }
-
 }

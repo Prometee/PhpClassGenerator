@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Model\Method;
 
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
-use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterface
 {

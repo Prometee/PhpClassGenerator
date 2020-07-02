@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Model\Method;
 
-use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 interface GetterSetterInterface extends UsesAwareInterface
 {

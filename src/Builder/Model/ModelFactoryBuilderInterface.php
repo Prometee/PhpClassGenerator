@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder\Model;
 
-use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\AbstractClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\ClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\FinalClassModelFactoryInterface;
@@ -24,6 +22,8 @@ use Prometee\PhpClassGenerator\Factory\Model\Other\TraitsModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UseModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
 
 interface ModelFactoryBuilderInterface
 {

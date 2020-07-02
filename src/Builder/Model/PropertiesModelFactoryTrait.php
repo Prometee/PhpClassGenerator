@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder\Model;
 
+use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Property\Constant;
 use Prometee\PhpClassGenerator\Model\Property\Property;
 
@@ -23,7 +23,6 @@ trait PropertiesModelFactoryTrait
     private $propertyModelFactoryClass = PropertyModelFactory::class;
     /** @var string */
     private $constantModelFactoryClass = ConstantModelFactory::class;
-
 
     /** @var string */
     private $propertyClass = Property::class;

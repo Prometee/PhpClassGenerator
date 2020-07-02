@@ -64,7 +64,6 @@ trait GetterSettersModelFactoryTrait
         return $this->getterSetterModelFactory;
     }
 
-
     public function buildArrayGetterSetterModelFactory(): ArrayGetterSetterModelFactoryInterface
     {
         if (null === $this->arrayGetterSetterModelFactory) {
@@ -103,7 +102,6 @@ trait GetterSettersModelFactoryTrait
         return $this->autoGetterSetterModelFactory;
     }
 
-
     public function getGetterSetterModelFactoryClass(): string
     {
         return $this->getterSetterModelFactoryClass;
@@ -113,7 +111,6 @@ trait GetterSettersModelFactoryTrait
     {
         $this->getterSetterModelFactoryClass = $getterSetterModelFactoryClass;
     }
-
 
     public function getArrayGetterSetterModelFactoryClass(): string
     {
@@ -145,7 +142,6 @@ trait GetterSettersModelFactoryTrait
         $this->autoGetterSetterModelFactoryClass = $autoGetterSetterModelFactoryClass;
     }
 
-
     public function getGetterSetterClass(): string
     {
         return $this->getterSetterClass;
@@ -155,7 +151,6 @@ trait GetterSettersModelFactoryTrait
     {
         $this->getterSetterClass = $getterSetterClass;
     }
-
 
     public function getArrayGetterSetterClass(): string
     {
