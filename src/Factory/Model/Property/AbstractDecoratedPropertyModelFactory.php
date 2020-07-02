@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Factory\Model\Attribute;
+namespace Prometee\PhpClassGenerator\Factory\Model\Property;
 
 use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\ModelFactoryInterface;

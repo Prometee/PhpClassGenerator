@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Model\Other;
 
 use Prometee\PhpClassGenerator\Model\AbstractModel;
-use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 class Properties extends AbstractModel implements PropertiesInterface
 {

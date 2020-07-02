@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Builder;
+namespace Prometee\PhpClassGenerator\Builder\View;
 
-use Prometee\PhpClassGenerator\Factory\View\Attribute\PropertyViewFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\View\Property\PropertyViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodViewFactoryInterface;

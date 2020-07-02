@@ -28,8 +28,8 @@ $loader = require_once( __DIR__.'/vendor/autoload.php');
 
 use Tests\Prometee\PhpClassGenerator\DummyPhpGenerator;
 use Prometee\PhpClassGenerator\Builder\ClassBuilder;
-use Prometee\PhpClassGenerator\Builder\ModelFactoryBuilder;
-use Prometee\PhpClassGenerator\Builder\ViewFactoryBuilder;
+use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilder;
+use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilder;
 
 $basePath = __DIR__ . '/etc/build/Dummy';
 $baseNamespace = 'Tests\\Prometee\\PhpClassGenerator\\Resources';

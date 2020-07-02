@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Builder;
+namespace Prometee\PhpClassGenerator\Builder\Model;
 
-use Prometee\PhpClassGenerator\Factory\Model\Attribute\ConstantModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\Attribute\PropertyModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\AbstractClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\ClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\FinalClassModelFactoryInterface;

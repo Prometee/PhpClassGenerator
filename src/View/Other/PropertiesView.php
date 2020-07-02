@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Other;
 
-use Prometee\PhpClassGenerator\Factory\View\Attribute\PropertyViewFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\View\Property\PropertyViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Other\PropertiesInterface;
 
 class PropertiesView extends AbstractArrayView implements PropertiesViewInterface

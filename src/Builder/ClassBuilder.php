@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder;
 
-use Prometee\PhpClassGenerator\Factory\Model\Attribute\ConstantModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\Attribute\PropertyModelFactoryInterface;
+use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilderInterface;
+use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilderInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\ConstructorModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
-use Prometee\PhpClassGenerator\Model\Attribute\ConstantInterface;
-use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
+use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Method\ConstructorInterface;
 

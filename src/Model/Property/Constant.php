@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Model\Attribute;
+namespace Prometee\PhpClassGenerator\Model\Property;
 
 class Constant extends Property implements ConstantInterface
 {

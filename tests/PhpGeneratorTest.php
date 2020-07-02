@@ -6,8 +6,8 @@ use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
 use Prometee\PhpClassGenerator\Builder\ClassBuilder;
 use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
-use Prometee\PhpClassGenerator\Builder\ModelFactoryBuilder;
-use Prometee\PhpClassGenerator\Builder\ViewFactoryBuilder;
+use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilder;
+use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilder;
 use Prometee\PhpClassGenerator\PhpGeneratorInterface;
 use stdClass;
 

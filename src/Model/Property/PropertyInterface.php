@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Model\Attribute;
+namespace Prometee\PhpClassGenerator\Model\Property;
 
 use Prometee\PhpClassGenerator\Model\ModelInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareInterface;

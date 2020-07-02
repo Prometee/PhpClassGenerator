@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder;
 
-use Prometee\PhpClassGenerator\Model\Attribute\ConstantInterface;
-use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
+use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilderInterface;
+use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilderInterface;
+use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 
 interface ClassBuilderInterface

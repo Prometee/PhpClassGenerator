@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\View\Attribute;
+namespace Prometee\PhpClassGenerator\View\Property;
 
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
-use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
 
 class PropertyView extends AbstractView implements PropertyViewInterface

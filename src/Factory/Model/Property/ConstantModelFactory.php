@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Factory\Model\Attribute;
+namespace Prometee\PhpClassGenerator\Factory\Model\Property;
 
-use Prometee\PhpClassGenerator\Model\Attribute\ConstantInterface;
+use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 final class ConstantModelFactory extends AbstractDecoratedPropertyModelFactory implements ConstantModelFactoryInterface

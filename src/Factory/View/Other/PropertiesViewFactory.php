@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Factory\View\Other;
 
-use Prometee\PhpClassGenerator\Factory\View\Attribute\PropertyViewFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\View\Property\PropertyViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Other\PropertiesInterface;
 use Prometee\PhpClassGenerator\View\Other\PropertiesViewInterface;
 

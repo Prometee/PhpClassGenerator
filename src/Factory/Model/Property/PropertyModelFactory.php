@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Factory\Model\Attribute;
+namespace Prometee\PhpClassGenerator\Factory\Model\Property;
 
 use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
-use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 final class PropertyModelFactory extends AbstractModelFactory implements PropertyModelFactoryInterface

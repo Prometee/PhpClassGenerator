@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Prometee\PhpClassGenerator\Factory\View\Attribute;
+namespace Prometee\PhpClassGenerator\Factory\View\Property;
 
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
-use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
-use Prometee\PhpClassGenerator\View\Attribute\PropertyViewInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
+use Prometee\PhpClassGenerator\View\Property\PropertyViewInterface;
 
 final class PropertyViewFactory implements PropertyViewFactoryInterface
 {

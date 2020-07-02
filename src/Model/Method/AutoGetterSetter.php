@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Model\Method;
 
 use LogicException;
-use Prometee\PhpClassGenerator\Model\Attribute\PropertyInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 class AutoGetterSetter implements AutoGetterSetterInterface
 {
