@@ -58,6 +58,7 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
 
             $this->classBuilder->setClassType($config['type'] ?? '');
             $this->classBuilder->setExtendClass($config['extends'] ?? null);
+            $this->classBuilder->setImplements($config['implements'] ?? []);
             $this->classBuilder->getClassModel()->getPhpDoc()->setLines(
                 [PhpDocInterface::TYPE_DESCRIPTION => $config['description'] ?? []]
             );
