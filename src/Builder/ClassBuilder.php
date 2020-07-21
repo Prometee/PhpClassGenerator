@@ -139,9 +139,23 @@ final class ClassBuilder implements ClassBuilderInterface
         return $property;
     }
 
-    public function createMethod(): MethodInterface
+    public function createMethod(
+        string $scope,
+        string $name,
+        array $returnTypes = [],
+        bool $static = false,
+        string $description = ''
+    ): MethodInterface
     {
-        return $this->methodModelFactory->create($this->classModel->getUses());
+        $method = $this->methodModelFactory->create($this->classModel->getUses());
+        $method->configure(
+            $scope,
+            $name,
+            $returnTypes,
+            $static,
+            $description
+        );
+        return $method;
     }
 
     public function addMethod(MethodInterface $method): void

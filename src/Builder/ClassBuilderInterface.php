@@ -100,7 +100,13 @@ interface ClassBuilderInterface
      */
     public function getImplements(): array;
 
-    public function createMethod(): MethodInterface;
+    public function createMethod(
+        string $scope,
+        string $name,
+        array $returnTypes = [],
+        bool $static = false,
+        string $description = ''
+    ): MethodInterface;
 
     public function addMethod(MethodInterface $method): void;
 }
