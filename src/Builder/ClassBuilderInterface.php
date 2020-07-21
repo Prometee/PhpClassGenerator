@@ -7,6 +7,7 @@ namespace Prometee\PhpClassGenerator\Builder;
 use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
+use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
@@ -98,4 +99,8 @@ interface ClassBuilderInterface
      * @return string[]
      */
     public function getImplements(): array;
+
+    public function createMethod(): MethodInterface;
+
+    public function addMethod(MethodInterface $method): void;
 }

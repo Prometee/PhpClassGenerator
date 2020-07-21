@@ -8,12 +8,14 @@ use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\ConstructorModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Method\ConstructorInterface;
+use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
@@ -26,6 +28,8 @@ final class ClassBuilder implements ClassBuilderInterface
     private $classModel;
     /** @var PropertyInterface[] */
     private $properties = [];
+    /** @var MethodInterface[] */
+    private $methods = [];
 
     /** @var ModelFactoryBuilderInterface */
     private $modelFactoryBuilder;
@@ -52,6 +56,8 @@ final class ClassBuilder implements ClassBuilderInterface
     private $indent = '    ';
     /** @var string */
     private $eol = "\n";
+    /** @var MethodModelFactoryInterface */
+    private $methodModelFactory;
 
     public function __construct(
         ModelFactoryBuilderInterface $modelFactoryBuilder,
@@ -67,6 +73,7 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->propertyModelFactory = $this->modelFactoryBuilder->buildPropertyModelFactory();
         $this->constantModelFactory = $this->modelFactoryBuilder->buildConstantModelFactory();
         $this->autoGetterSetterModelFactory = $this->modelFactoryBuilder->buildAutoGetterSetterModelFactory();
+        $this->methodModelFactory = $this->modelFactoryBuilder->buildMethodModelFactory();
 
         $this->classViewFactory = $this->viewFactoryBuilder->buildClassViewFactory();
     }
@@ -132,6 +139,16 @@ final class ClassBuilder implements ClassBuilderInterface
         return $property;
     }
 
+    public function createMethod(): MethodInterface
+    {
+        return $this->methodModelFactory->create($this->classModel->getUses());
+    }
+
+    public function addMethod(MethodInterface $method): void
+    {
+        $this->methods[$method->getName()] = $method;
+    }
+
     public function build(
         string $namespace,
         string $className
@@ -160,6 +177,11 @@ final class ClassBuilder implements ClassBuilderInterface
             $this->classModel
                 ->getMethods()
                 ->addMultipleMethod($getterSetter->getMethods($this->indent));
+        }
+
+        foreach ($this->methods as $method) {
+            $method->setUses($this->classModel->getUses());
+            $this->classModel->getMethods()->addMethod($method);
         }
 
         $classView = $this->classViewFactory->create($this->classModel);
