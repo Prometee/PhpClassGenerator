@@ -82,7 +82,7 @@ class MethodView extends AbstractView implements MethodViewInterface
 
     public function buildMethodSignature(int $wrapOn): string
     {
-        $static = ($this->method->isStatic()) ? ' static ' : '';
+        $static = ($this->method->isStatic()) ? ' static' : '';
 
         // result example : "string $first,%1$sstring $second,%1$sstring $third"
         $methodParameters = $this->buildMethodParameters('%1$s');
