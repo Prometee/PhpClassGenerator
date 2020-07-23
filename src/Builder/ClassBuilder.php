@@ -145,8 +145,7 @@ final class ClassBuilder implements ClassBuilderInterface
         array $returnTypes = [],
         bool $static = false,
         string $description = ''
-    ): MethodInterface
-    {
+    ): MethodInterface {
         $method = $this->methodModelFactory->create($this->classModel->getUses());
         $method->configure(
             $scope,
@@ -227,7 +226,7 @@ final class ClassBuilder implements ClassBuilderInterface
             $methodParameter->setDescription($property->getDescription());
             $constructor->addParameter($methodParameter);
 
-            if ($property->isInherited()) {
+            if ($property->isInheritedAndInheritedRequired()) {
                 $inheritedParameters[] = $property->getPhpName();
                 continue;
             }

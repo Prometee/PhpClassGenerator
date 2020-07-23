@@ -70,4 +70,10 @@ interface PropertyInterface extends ModelInterface, PhpDocAwareInterface, UsesAw
     public function isInherited(): bool;
 
     public function setInherited(bool $inherited): void;
+
+    public function isInheritedRequired(): bool;
+
+    public function setInheritedRequired(bool $inherited_required): void;
+
+    public function isInheritedAndInheritedRequired(): bool;
 }

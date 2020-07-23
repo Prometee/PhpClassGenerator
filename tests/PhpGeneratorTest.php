@@ -465,6 +465,7 @@ class PhpGeneratorTest extends TestCase
                         'default' => null,
                         'description' => null,
                         'inherited' => true,
+                        'inherited_required' => true,
                     ],
                 ],
             ],
