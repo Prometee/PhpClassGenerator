@@ -158,7 +158,9 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
     {
         $this->phpDoc->orderLines(function ($k1, $k2) {
             $o1 = array_search($k1, PhpDocInterface::LINE_TYPE_ORDER);
+            $o1 = $o1 === false ? count(PhpDocInterface::LINE_TYPE_ORDER) + 1 : $o1;
             $o2 = array_search($k2, PhpDocInterface::LINE_TYPE_ORDER);
+            $o2 = $o2 === false ? count(PhpDocInterface::LINE_TYPE_ORDER) + 1 : $o2;
 
             return $o1 - $o2;
         });

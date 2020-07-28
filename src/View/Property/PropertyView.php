@@ -64,5 +64,28 @@ class PropertyView extends AbstractView implements PropertyViewInterface
         if (null !== $type) {
             $phpDoc->addVarLine($type);
         }
+
+        $typedLines = $phpDoc->getLines();
+        $phpDoc->setLines([]);
+        foreach ($typedLines as $type => $lines) {
+            foreach ($lines as $line) {
+                $newLine = $this->detectUses($line);
+                $newType = $this->detectUses('@' . $type);
+                $phpDoc->addLine($newLine, ltrim($newType, '@'));
+            }
+        }
+    }
+
+    protected function detectUses(string $line): string
+    {
+        $pattern = '#@(\\\[\\\a-z0-9_]+)#i';
+        if (preg_match_all($pattern, $line, $matches)) {
+            foreach ($matches[1] as $class) {
+                $className = $this->property->getUses()->addRawUseOrReturnType($class);
+                $line = (string) preg_replace($pattern, sprintf('@%s', $className), $line);
+            }
+        }
+
+        return $line;
     }
 }
