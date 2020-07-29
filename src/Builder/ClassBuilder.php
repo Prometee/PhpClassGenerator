@@ -17,6 +17,7 @@ use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterf
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Method\ConstructorInterface;
+use Prometee\PhpClassGenerator\Model\Method\GetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
@@ -200,13 +201,12 @@ final class ClassBuilder implements ClassBuilderInterface
 
         foreach ($this->properties as $property) {
             $classModel->getProperties()->addProperty($property);
-            $autoGetterSetter = $this->autoGetterSetterModelFactory->create($classModel->getUses());
-            $getterSetter = $autoGetterSetter->configure($property);
 
             if ($property->isInherited()) {
                 continue;
             }
 
+            $getterSetter = $this->buildGetterSetter($property);
             $classModel
                 ->getMethods()
                 ->addMultipleMethod($getterSetter->getMethods($this->indent));
@@ -281,6 +281,12 @@ final class ClassBuilder implements ClassBuilderInterface
         }
 
         return $constructor;
+    }
+
+    public function buildGetterSetter(PropertyInterface $property): GetterSetterInterface
+    {
+        $autoGetterSetter = $this->autoGetterSetterModelFactory->create($property->getUses());
+        return $autoGetterSetter->configure($property);
     }
 
     public function reset(): void

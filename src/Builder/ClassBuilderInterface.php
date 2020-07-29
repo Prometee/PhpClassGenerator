@@ -7,6 +7,7 @@ namespace Prometee\PhpClassGenerator\Builder;
 use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
+use Prometee\PhpClassGenerator\Model\Method\GetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
@@ -28,6 +29,8 @@ interface ClassBuilderInterface
     public function buildClass(string $namespace, string $className): ClassInterface;
 
     public function renderClass(ClassInterface $classModel): ?string;
+
+    public function buildGetterSetter(PropertyInterface $property): GetterSetterInterface;
 
     public function reset(): void;
 
