@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Factory\Model\Class_;
 
 use Prometee\PhpClassGenerator\Model\Class_\TraitClassInterface;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 final class TraitClassModelFactory extends AbstractDecoratedClassModelFactory implements TraitClassModelFactoryInterface
 {
-    public function create(): TraitClassInterface
+    public function create(?UsesInterface $uses = null): TraitClassInterface
     {
-        $uses = $this->decoratedClassModelFactory->getUsesModelFactory()->create();
+        $uses = $uses ?? $this->decoratedClassModelFactory->getUsesModelFactory()->create();
 
         return new $this->modelClass(
             $uses,

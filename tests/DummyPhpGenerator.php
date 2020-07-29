@@ -59,9 +59,6 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
             $this->classBuilder->setClassType($config['type'] ?? '');
             $this->classBuilder->setExtendClass($config['extends'] ?? null);
             $this->classBuilder->setImplements($config['implements'] ?? []);
-            $this->classBuilder->getClassModel()->getPhpDoc()->setLines(
-                [PhpDocInterface::TYPE_DESCRIPTION => $config['description'] ?? []]
-            );
 
             $constantsConfig = $config['constants'] ?? [];
             foreach ($constantsConfig as $constantConfig) {
@@ -104,7 +101,13 @@ final class DummyPhpGenerator implements PhpGeneratorInterface
                 $this->classBuilder->addProperty($property);
             }
 
-            $classContent = $this->classBuilder->build($classNamespace, $className);
+            $classModel = $this->classBuilder->buildClass($classNamespace, $className);
+            $classModel->getPhpDoc()->setLines(
+                [PhpDocInterface::TYPE_DESCRIPTION => $config['description'] ?? []]
+            );
+
+            $classContent = $this->classBuilder->renderClass($classModel);
+            $this->classBuilder->reset();
 
             if (null === $classContent) {
                 continue;

@@ -11,6 +11,7 @@ use Prometee\PhpClassGenerator\Factory\Model\Other\TraitsModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 final class ClassModelFactory extends AbstractModelFactory implements ClassModelFactoryInterface
 {
@@ -41,9 +42,9 @@ final class ClassModelFactory extends AbstractModelFactory implements ClassModel
         $this->traitsModelFactory = $traitsModelFactory;
     }
 
-    public function create(): ClassInterface
+    public function create(?UsesInterface $uses = null): ClassInterface
     {
-        $uses = $this->usesModelFactory->create();
+        $uses = $uses ?? $this->usesModelFactory->create();
 
         return new $this->modelClass(
             $uses,

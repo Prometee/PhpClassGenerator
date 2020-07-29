@@ -10,35 +10,46 @@ use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactory
 use Prometee\PhpClassGenerator\Factory\Model\Method\ConstructorModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\ModelFactoryInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Method\ConstructorInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 final class ClassBuilder implements ClassBuilderInterface
 {
     /** @var string */
-    private $classType;
+    private $indent = '    ';
+    /** @var string */
+    private $eol = "\n";
 
-    /** @var ClassInterface */
-    private $classModel;
+    /** @var UsesInterface */
+    private $uses;
+
+    /** @var string */
+    private $classType;
     /** @var PropertyInterface[] */
     private $properties = [];
     /** @var MethodInterface[] */
     private $methods = [];
+    /** @var string|null */
+    private $extendClass;
+    /** @var string[] */
+    private $implements = [];
 
     /** @var ModelFactoryBuilderInterface */
     private $modelFactoryBuilder;
     /** @var ViewFactoryBuilderInterface */
     private $viewFactoryBuilder;
-    /** @var string|null */
-    private $extendClass;
-    /** @var string[] */
-    private $implements = [];
+
+    /** @var UsesModelFactoryInterface */
+    private $usesModelFactory;
     /** @var MethodParameterModelFactoryInterface */
     private $methodParameterModelFactory;
     /** @var ConstructorModelFactoryInterface */
@@ -51,11 +62,6 @@ final class ClassBuilder implements ClassBuilderInterface
     private $autoGetterSetterModelFactory;
     /** @var ClassViewFactoryInterface */
     private $classViewFactory;
-
-    /** @var string */
-    private $indent = '    ';
-    /** @var string */
-    private $eol = "\n";
     /** @var MethodModelFactoryInterface */
     private $methodModelFactory;
 
@@ -66,16 +72,18 @@ final class ClassBuilder implements ClassBuilderInterface
     ) {
         $this->modelFactoryBuilder = $modelFactoryBuilder;
         $this->viewFactoryBuilder = $viewFactoryBuilder;
-        $this->setClassType($classType);
 
+        $this->usesModelFactory = $this->modelFactoryBuilder->buildUsesModelFactory();
         $this->constructorModelFactory = $this->modelFactoryBuilder->buildConstructorModelFactory();
         $this->methodParameterModelFactory = $this->modelFactoryBuilder->buildMethodParameterModelFactory();
         $this->propertyModelFactory = $this->modelFactoryBuilder->buildPropertyModelFactory();
         $this->constantModelFactory = $this->modelFactoryBuilder->buildConstantModelFactory();
         $this->autoGetterSetterModelFactory = $this->modelFactoryBuilder->buildAutoGetterSetterModelFactory();
         $this->methodModelFactory = $this->modelFactoryBuilder->buildMethodModelFactory();
-
         $this->classViewFactory = $this->viewFactoryBuilder->buildClassViewFactory();
+
+        $this->uses = $this->usesModelFactory->create();
+        $this->setClassType($classType);
     }
 
     public function addClassicConstant(
@@ -94,7 +102,7 @@ final class ClassBuilder implements ClassBuilderInterface
         ?string $value,
         string $description
     ): ConstantInterface {
-        $constant = $this->constantModelFactory->create($this->classModel->getUses());
+        $constant = $this->constantModelFactory->create($this->getUses());
 
         $constant->configure(
             $name,
@@ -127,7 +135,7 @@ final class ClassBuilder implements ClassBuilderInterface
         ?string $value,
         string $description
     ): PropertyInterface {
-        $property = $this->propertyModelFactory->create($this->classModel->getUses());
+        $property = $this->propertyModelFactory->create($this->getUses());
 
         $property->configure(
             $name,
@@ -146,7 +154,7 @@ final class ClassBuilder implements ClassBuilderInterface
         bool $static = false,
         string $description = ''
     ): MethodInterface {
-        $method = $this->methodModelFactory->create($this->classModel->getUses());
+        $method = $this->methodModelFactory->create($this->getUses());
         $method->configure(
             $scope,
             $name,
@@ -166,7 +174,19 @@ final class ClassBuilder implements ClassBuilderInterface
         string $namespace,
         string $className
     ): ?string {
-        $this->classModel->configure(
+        $classModel = $this->buildClass($namespace, $className);
+
+        $classContent = $this->renderClass($classModel);
+
+        $this->reset();
+
+        return $classContent;
+    }
+
+    public function buildClass(string $namespace, string $className): ClassInterface
+    {
+        $classModel = $this->buildClassModel($this->classType);
+        $classModel->configure(
             $namespace,
             $className,
             $this->extendClass,
@@ -175,39 +195,40 @@ final class ClassBuilder implements ClassBuilderInterface
 
         $constructor = $this->buildConstructor();
         if (null !== $constructor) {
-            $this->classModel->getMethods()->addMethod($constructor);
+            $classModel->getMethods()->addMethod($constructor);
         }
 
         foreach ($this->properties as $property) {
-            $this->classModel->getProperties()->addProperty($property);
-            $autoGetterSetter = $this->autoGetterSetterModelFactory->create($this->classModel->getUses());
+            $classModel->getProperties()->addProperty($property);
+            $autoGetterSetter = $this->autoGetterSetterModelFactory->create($classModel->getUses());
             $getterSetter = $autoGetterSetter->configure($property);
 
             if ($property->isInherited()) {
                 continue;
             }
 
-            $this->classModel
+            $classModel
                 ->getMethods()
                 ->addMultipleMethod($getterSetter->getMethods($this->indent));
         }
 
         foreach ($this->methods as $method) {
-            $method->setUses($this->classModel->getUses());
-            $this->classModel->getMethods()->addMethod($method);
+            $method->setUses($classModel->getUses());
+            $classModel->getMethods()->addMethod($method);
         }
 
-        $classView = $this->classViewFactory->create($this->classModel);
-        $classContent = $classView->render($this->indent, $this->eol);
+        return $classModel;
+    }
 
-        $this->reset();
-
-        return $classContent;
+    public function renderClass(ClassInterface $classModel): ?string
+    {
+        $classView = $this->classViewFactory->create($classModel);
+        return $classView->render($this->indent, $this->eol);
     }
 
     private function buildConstructor(): ?ConstructorInterface
     {
-        $constructor = $this->constructorModelFactory->create($this->classModel->getUses());
+        $constructor = $this->constructorModelFactory->create($this->getUses());
         $inheritedParameters = [];
         foreach ($this->properties as $property) {
             if (in_array('null', $property->getTypes())) {
@@ -262,28 +283,37 @@ final class ClassBuilder implements ClassBuilderInterface
         return $constructor;
     }
 
-    public function setClassType(string $classType): void
+    public function reset(): void
     {
-        $this->classType = strtolower($classType);
+        $this->setClassType(self::CLASS_TYPE_CLASS);
+        $this->uses = $this->usesModelFactory->create();
+        $this->properties = [];
+    }
+
+    public function buildClassModel(string $classType): ClassInterface
+    {
         switch ($classType) {
             case self::CLASS_TYPE_FINAL:
                 $classModelFactory = $this->modelFactoryBuilder->buildFinalClassModelFactory();
-                break;
+                return $classModelFactory->create($this->getUses());
             case self::CLASS_TYPE_ABSTRACT:
                 $classModelFactory = $this->modelFactoryBuilder->buildAbstractClassModelFactory();
-                break;
+                return $classModelFactory->create($this->getUses());
             case self::CLASS_TYPE_INTERFACE:
                 $classModelFactory = $this->modelFactoryBuilder->buildInterfaceClassModelFactory();
-                break;
+                return $classModelFactory->create($this->getUses());
             case self::CLASS_TYPE_TRAIT:
                 $classModelFactory = $this->modelFactoryBuilder->buildTraitClassModelFactory();
-                break;
+                return $classModelFactory->create($this->getUses());
             default:
                 $classModelFactory = $this->modelFactoryBuilder->buildClassModelFactory();
-                break;
+                return $classModelFactory->create($this->getUses());
         }
+    }
 
-        $this->classModel = $classModelFactory->create();
+    public function setClassType(string $classType): void
+    {
+        $this->classType = strtolower($classType);
     }
 
     public function getClassType(): string
@@ -301,30 +331,16 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->extendClass = $extendClass;
     }
 
-    /**
-     * @return string[]
-     */
     public function getImplements(): array
     {
         return $this->implements;
     }
 
-    /**
-     * @param string[] $implements
-     */
     public function setImplements(array $implements): void
     {
         $this->implements = $implements;
     }
 
-    public function getClassModel(): ClassInterface
-    {
-        return $this->classModel;
-    }
-
-    /**
-     * @return PropertyInterface[]
-     */
     public function getProperties(): array
     {
         return $this->properties;
@@ -360,9 +376,13 @@ final class ClassBuilder implements ClassBuilderInterface
         $this->eol = $eol;
     }
 
-    private function reset(): void
+    public function getUses(): UsesInterface
     {
-        $this->setClassType(self::CLASS_TYPE_CLASS);
-        $this->properties = [];
+        return $this->uses;
+    }
+
+    public function setUses(UsesInterface $uses): void
+    {
+        $this->uses = $uses;
     }
 }

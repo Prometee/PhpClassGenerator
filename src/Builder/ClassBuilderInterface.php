@@ -8,6 +8,7 @@ use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilderInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
@@ -19,26 +20,21 @@ interface ClassBuilderInterface
     public const CLASS_TYPE_INTERFACE = 'interface';
     public const CLASS_TYPE_TRAIT = 'trait';
 
-    /**
-     * @param string $namespace
-     * @param string $className
-     *
-     * @return string|null
-     */
     public function build(
         string $namespace,
         string $className
     ): ?string;
 
-    public function getIndent(): string;
+    public function buildClass(string $namespace, string $className): ClassInterface;
 
-    public function getClassModel(): ClassInterface;
+    public function renderClass(ClassInterface $classModel): ?string;
+
+    public function reset(): void;
+
+    public function getIndent(): string;
 
     public function getClassType(): string;
 
-    /**
-     * @param string $classType
-     */
     public function setClassType(string $classType): void;
 
     public function getViewFactoryBuilder(): ViewFactoryBuilderInterface;
@@ -109,4 +105,8 @@ interface ClassBuilderInterface
     ): MethodInterface;
 
     public function addMethod(MethodInterface $method): void;
+
+    public function getUses(): UsesInterface;
+
+    public function setUses(UsesInterface $uses): void;
 }

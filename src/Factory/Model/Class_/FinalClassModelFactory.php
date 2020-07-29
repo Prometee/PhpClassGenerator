@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Factory\Model\Class_;
 
 use Prometee\PhpClassGenerator\Model\Class_\FinalClassInterface;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 final class FinalClassModelFactory extends AbstractDecoratedClassModelFactory implements FinalClassModelFactoryInterface
 {
-    public function create(): FinalClassInterface
+    public function create(?UsesInterface $uses = null): FinalClassInterface
     {
-        $uses = $this->decoratedClassModelFactory->getUsesModelFactory()->create();
+        $uses = $uses ?? $this->decoratedClassModelFactory->getUsesModelFactory()->create();
 
         return new $this->modelClass(
             $uses,
