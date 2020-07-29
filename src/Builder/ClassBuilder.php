@@ -10,7 +10,6 @@ use Prometee\PhpClassGenerator\Factory\Model\Method\AutoGetterSetterModelFactory
 use Prometee\PhpClassGenerator\Factory\Model\Method\ConstructorModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
-use Prometee\PhpClassGenerator\Factory\Model\ModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
@@ -23,48 +22,48 @@ use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
-final class ClassBuilder implements ClassBuilderInterface
+class ClassBuilder implements ClassBuilderInterface
 {
     /** @var string */
-    private $indent = '    ';
+    protected $indent = '    ';
     /** @var string */
-    private $eol = "\n";
+    protected $eol = "\n";
 
     /** @var UsesInterface */
-    private $uses;
+    protected $uses;
 
     /** @var string */
-    private $classType;
+    protected $classType;
     /** @var PropertyInterface[] */
-    private $properties = [];
+    protected $properties = [];
     /** @var MethodInterface[] */
-    private $methods = [];
+    protected $methods = [];
     /** @var string|null */
-    private $extendClass;
+    protected $extendClass;
     /** @var string[] */
-    private $implements = [];
+    protected $implements = [];
 
     /** @var ModelFactoryBuilderInterface */
-    private $modelFactoryBuilder;
+    protected $modelFactoryBuilder;
     /** @var ViewFactoryBuilderInterface */
-    private $viewFactoryBuilder;
+    protected $viewFactoryBuilder;
 
     /** @var UsesModelFactoryInterface */
-    private $usesModelFactory;
+    protected $usesModelFactory;
     /** @var MethodParameterModelFactoryInterface */
-    private $methodParameterModelFactory;
+    protected $methodParameterModelFactory;
     /** @var ConstructorModelFactoryInterface */
-    private $constructorModelFactory;
+    protected $constructorModelFactory;
     /** @var PropertyModelFactoryInterface */
-    private $propertyModelFactory;
+    protected $propertyModelFactory;
     /** @var ConstantModelFactoryInterface */
-    private $constantModelFactory;
+    protected $constantModelFactory;
     /** @var AutoGetterSetterModelFactoryInterface */
-    private $autoGetterSetterModelFactory;
+    protected $autoGetterSetterModelFactory;
     /** @var ClassViewFactoryInterface */
-    private $classViewFactory;
+    protected $classViewFactory;
     /** @var MethodModelFactoryInterface */
-    private $methodModelFactory;
+    protected $methodModelFactory;
 
     public function __construct(
         ModelFactoryBuilderInterface $modelFactoryBuilder,
@@ -226,7 +225,7 @@ final class ClassBuilder implements ClassBuilderInterface
         return $classView->render($this->indent, $this->eol);
     }
 
-    private function buildConstructor(): ?ConstructorInterface
+    protected function buildConstructor(): ?ConstructorInterface
     {
         $constructor = $this->constructorModelFactory->create($this->getUses());
         $inheritedParameters = [];
