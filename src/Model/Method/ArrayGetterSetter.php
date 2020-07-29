@@ -227,4 +227,34 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
     {
         return 'item';
     }
+
+    public function getHasGetterMethod(): MethodInterface
+    {
+        return $this->hasGetterMethod;
+    }
+
+    public function setHasGetterMethod(MethodInterface $hasGetterMethod): void
+    {
+        $this->hasGetterMethod = $hasGetterMethod;
+    }
+
+    public function getAddSetterMethod(): MethodInterface
+    {
+        return $this->addSetterMethod;
+    }
+
+    public function setAddSetterMethod(MethodInterface $addSetterMethod): void
+    {
+        $this->addSetterMethod = $addSetterMethod;
+    }
+
+    public function getRemoveSetterMethod(): MethodInterface
+    {
+        return $this->removeSetterMethod;
+    }
+
+    public function setRemoveSetterMethod(MethodInterface $removeSetterMethod): void
+    {
+        $this->removeSetterMethod = $removeSetterMethod;
+    }
 }

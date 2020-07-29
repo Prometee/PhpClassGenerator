@@ -24,4 +24,16 @@ interface ArrayGetterSetterInterface extends GetterSetterInterface
     public function getSingleName(): string;
 
     public function getSingleMethodName(?string $prefix = null, ?string $suffix = null): string;
+
+    public function getHasGetterMethod(): MethodInterface;
+
+    public function setHasGetterMethod(MethodInterface $hasGetterMethod): void;
+
+    public function getAddSetterMethod(): MethodInterface;
+
+    public function setAddSetterMethod(MethodInterface $addSetterMethod): void;
+
+    public function getRemoveSetterMethod(): MethodInterface;
+
+    public function setRemoveSetterMethod(MethodInterface $removeSetterMethod): void;
 }

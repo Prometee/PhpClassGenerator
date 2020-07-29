@@ -116,4 +116,24 @@ class GetterSetter implements GetterSetterInterface
             sprintf('$this->%s = %s;', $this->property->getName(), $methodParameter->getPhpName())
         );
     }
+
+    public function getGetterMethod(): MethodInterface
+    {
+        return $this->getterMethod;
+    }
+
+    public function setGetterMethod(MethodInterface $getterMethod): void
+    {
+        $this->getterMethod = $getterMethod;
+    }
+
+    public function getSetterMethod(): MethodInterface
+    {
+        return $this->setterMethod;
+    }
+
+    public function setSetterMethod(MethodInterface $setterMethod): void
+    {
+        $this->setterMethod = $setterMethod;
+    }
 }

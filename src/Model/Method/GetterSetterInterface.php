@@ -29,4 +29,12 @@ interface GetterSetterInterface extends UsesAwareInterface
      * @return MethodInterface[]
      */
     public function getMethods(string $indent = null): array;
+
+    public function getGetterMethod(): MethodInterface;
+
+    public function setGetterMethod(MethodInterface $getterMethod): void;
+
+    public function getSetterMethod(): MethodInterface;
+
+    public function setSetterMethod(MethodInterface $setterMethod): void;
 }
