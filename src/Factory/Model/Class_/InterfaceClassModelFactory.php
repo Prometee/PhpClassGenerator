@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Factory\Model\Class_;
 
-use LogicException;
 use Prometee\PhpClassGenerator\Model\Class_\InterfaceClassInterface;
 
 final class InterfaceClassModelFactory extends AbstractDecoratedClassModelFactory implements InterfaceClassModelFactoryInterface

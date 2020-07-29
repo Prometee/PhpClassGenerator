@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Method;
 
+use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareInterface;
 use Prometee\PhpClassGenerator\View\ViewInterface;
 
-interface MethodViewInterface extends ViewInterface
+interface MethodViewInterface extends ViewInterface, PhpDocViewAwareInterface
 {
-    public function configurePhpDoc(): void;
-
     public function buildMethodBody(): string;
 
     public function buildMethodSignature(int $wrapOn): string;

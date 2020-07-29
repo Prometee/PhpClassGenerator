@@ -5,22 +5,28 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\View\Property;
 
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
+use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 
 class PropertyView extends AbstractView implements PropertyViewInterface
 {
+    use PhpDocViewAwareTrait {
+        PhpDocViewAwareTrait::__construct as private __constructPhpDocViewFactory;
+        PhpDocViewAwareTrait::configurePhpDoc as private _configurePhpDoc;
+    }
+
     /** @var PropertyInterface */
     protected $property;
-    /** @var PhpDocViewFactoryInterface */
-    protected $phpDocViewFactory;
 
     public function __construct(
         PropertyInterface $property,
         PhpDocViewFactoryInterface $phpDocViewFactory
     ) {
         $this->property = $property;
-        $this->phpDocViewFactory = $phpDocViewFactory;
+        $this->__constructPhpDocViewFactory($phpDocViewFactory);
     }
 
     protected function doRender(): ?string
@@ -29,7 +35,10 @@ class PropertyView extends AbstractView implements PropertyViewInterface
             return null;
         }
 
-        $this->configurePhpDoc();
+        $this->configurePhpDoc(
+            $this->property->getPhpDoc(),
+            $this->property->getUses()
+        );
 
         $phpDocView = $this->phpDocViewFactory->create($this->property->getPhpDoc());
         $phpDocView->setLineStartIndent($this->indent);
@@ -52,9 +61,8 @@ class PropertyView extends AbstractView implements PropertyViewInterface
         );
     }
 
-    public function configurePhpDoc(): void
+    public function configurePhpDoc(PhpDocInterface $phpDoc, UsesInterface $uses): void
     {
-        $phpDoc = $this->property->getPhpDoc();
         $description = $this->property->getDescription();
         if (false === empty($description)) {
             $phpDoc->addDescriptionLine($description);
@@ -65,27 +73,6 @@ class PropertyView extends AbstractView implements PropertyViewInterface
             $phpDoc->addVarLine($type);
         }
 
-        $typedLines = $phpDoc->getLines();
-        $phpDoc->setLines([]);
-        foreach ($typedLines as $type => $lines) {
-            foreach ($lines as $line) {
-                $newLine = $this->detectUses($line);
-                $newType = $this->detectUses('@' . $type);
-                $phpDoc->addLine($newLine, ltrim($newType, '@'));
-            }
-        }
-    }
-
-    protected function detectUses(string $line): string
-    {
-        $pattern = '#@(\\\[\\\a-z0-9_]+)#i';
-        if (preg_match_all($pattern, $line, $matches)) {
-            foreach ($matches[1] as $class) {
-                $className = $this->property->getUses()->addRawUseOrReturnType($class);
-                $line = (string) preg_replace($pattern, sprintf('@%s', $className), $line);
-            }
-        }
-
-        return $line;
+        $this->_configurePhpDoc($phpDoc, $uses);
     }
 }

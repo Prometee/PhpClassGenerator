@@ -7,14 +7,20 @@ namespace Prometee\PhpClassGenerator\View\Method;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
+use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 
 class MethodView extends AbstractView implements MethodViewInterface
 {
+    use PhpDocViewAwareTrait {
+        PhpDocViewAwareTrait::__construct as private __constructPhpDocViewFactory;
+        PhpDocViewAwareTrait::configurePhpDoc as private _configurePhpDoc;
+    }
+
     /** @var MethodInterface */
     protected $method;
-    /** @var PhpDocViewFactoryInterface */
-    protected $phpDocViewFactory;
     /** @var MethodParameterViewFactoryInterface */
     protected $methodParameterView;
 
@@ -24,7 +30,7 @@ class MethodView extends AbstractView implements MethodViewInterface
         MethodParameterViewFactoryInterface $methodParameterView
     ) {
         $this->method = $method;
-        $this->phpDocViewFactory = $phpDocViewFactory;
+        $this->__constructPhpDocViewFactory($phpDocViewFactory);
         $this->methodParameterView = $methodParameterView;
     }
 
@@ -33,7 +39,10 @@ class MethodView extends AbstractView implements MethodViewInterface
      */
     protected function doRender(): ?string
     {
-        $this->configurePhpDoc();
+        $this->configurePhpDoc(
+            $this->method->getPhpDoc(),
+            $this->method->getUses()
+        );
 
         $phpDocFactory = $this->phpDocViewFactory->create($this->method->getPhpDoc());
         $phpDocFactory->setLineStartIndent($this->indent);
@@ -48,9 +57,8 @@ class MethodView extends AbstractView implements MethodViewInterface
         );
     }
 
-    public function configurePhpDoc(): void
+    public function configurePhpDoc(PhpDocInterface $phpDoc, UsesInterface $uses): void
     {
-        $phpDoc = $this->method->getPhpDoc();
         $description = $this->method->getDescription();
         if (false === empty($description)) {
             $phpDoc->addDescriptionLine($description);
@@ -62,6 +70,8 @@ class MethodView extends AbstractView implements MethodViewInterface
         if (false === empty($returnTypes) && false === in_array('void', $returnTypes)) {
             $phpDoc->addReturnLine($this->method->getPhpDocReturnType());
         }
+
+        $this->_configurePhpDoc($phpDoc, $uses);
     }
 
     public function buildMethodBody(): string

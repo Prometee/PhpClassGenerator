@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Class_;
 
+use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareInterface;
 use Prometee\PhpClassGenerator\View\ViewInterface;
 
-interface ClassViewInterface extends ViewInterface
+interface ClassViewInterface extends ViewInterface, PhpDocViewAwareInterface
 {
     public function buildBody(): string;
 

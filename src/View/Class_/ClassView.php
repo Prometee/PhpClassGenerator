@@ -11,13 +11,16 @@ use Prometee\PhpClassGenerator\Factory\View\Other\UsesViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
+use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 
 class ClassView extends AbstractView implements ClassViewInterface
 {
+    use PhpDocViewAwareTrait {
+        PhpDocViewAwareTrait::__construct as private __constructPhpDocViewFactory;
+    }
+
     /** @var ClassInterface */
     protected $classModel;
-    /** @var PhpDocViewFactoryInterface */
-    protected $phpDocViewFactory;
     /** @var UsesViewFactoryInterface */
     protected $usesViewFactory;
     /** @var TraitsViewFactoryInterface */
@@ -36,7 +39,7 @@ class ClassView extends AbstractView implements ClassViewInterface
         MethodsViewFactoryInterface $methodsViewFactory
     ) {
         $this->classModel = $classModel;
-        $this->phpDocViewFactory = $phpDocViewFactory;
+        $this->__constructPhpDocViewFactory($phpDocViewFactory);
         $this->usesViewFactory = $usesViewFactory;
         $this->traitsViewFactory = $traitsViewFactory;
         $this->propertiesViewFactory = $propertiesViewFactory;
@@ -45,6 +48,11 @@ class ClassView extends AbstractView implements ClassViewInterface
 
     protected function doRender(): ?string
     {
+        $this->configurePhpDoc(
+            $this->classModel->getPhpDoc(),
+            $this->classModel->getUses()
+        );
+
         $format = '<?php%1$s'
             . '%1$s'
             . 'declare(strict_types=1);%1$s'
