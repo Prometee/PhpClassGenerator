@@ -18,17 +18,14 @@ interface GetterSetterInterface extends UsesAwareInterface
 
     public function getMethodName(?string $prefix = null, ?string $suffix = null): string;
 
-    public function configureSetter(string $indent = null): void;
+    public function configureSetter(): void;
 
-    public function configureGetter(string $indent = null): void;
+    public function configureGetter(): void;
 
     /**
-     *
-     * @param string|null $indent
-     *
      * @return MethodInterface[]
      */
-    public function getMethods(string $indent = null): array;
+    public function getMethods(): array;
 
     public function getGetterMethod(): MethodInterface;
 

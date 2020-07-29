@@ -83,4 +83,8 @@ interface MethodInterface extends ModelInterface, PhpDocAwareInterface, UsesAwar
     public function getScope(): string;
 
     public function getLines(): array;
+
+    public function getLineIndentation(): string;
+
+    public function setLineIndentation(string $lineIndentation): void;
 }

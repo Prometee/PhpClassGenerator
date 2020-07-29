@@ -208,7 +208,7 @@ class ClassBuilder implements ClassBuilderInterface
             $getterSetter = $this->buildGetterSetter($property);
             $classModel
                 ->getMethods()
-                ->addMultipleMethod($getterSetter->getMethods($this->indent));
+                ->addMultipleMethod($getterSetter->getMethods());
         }
 
         foreach ($this->methods as $method) {

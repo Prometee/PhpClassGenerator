@@ -49,13 +49,13 @@ class GetterSetter implements GetterSetterInterface
     public function configure(PropertyInterface $propertyGenerator): void
     {
         $this->property = $propertyGenerator;
+
+        $this->configureGetter();
+        $this->configureSetter();
     }
 
-    public function getMethods(string $indent = null): array
+    public function getMethods(): array
     {
-        $this->configureGetter($indent);
-        $this->configureSetter($indent);
-
         $methods = [];
         if ($this->property->isReadable()) {
             $methods[] = $this->getterMethod;
@@ -76,7 +76,7 @@ class GetterSetter implements GetterSetterInterface
         return $prefix . $name . $suffix;
     }
 
-    public function configureGetter(string $indent = null): void
+    public function configureGetter(): void
     {
         if (false === $this->property->isReadable()) {
             return;
@@ -93,7 +93,7 @@ class GetterSetter implements GetterSetterInterface
         );
     }
 
-    public function configureSetter(string $indent = null): void
+    public function configureSetter(): void
     {
         if (false === $this->property->isWriteable()) {
             return;

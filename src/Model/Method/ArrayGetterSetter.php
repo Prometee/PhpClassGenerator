@@ -53,9 +53,9 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         return false;
     }
 
-    public function getMethods(string $indent = null): array
+    public function getMethods(): array
     {
-        $methods = parent::getMethods($indent);
+        $methods = parent::getMethods();
         if (false === $this->property->isWriteable()) {
             return $methods;
         }
@@ -70,16 +70,16 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         );
     }
 
-    public function configureSetter(string $indent = null): void
+    public function configureSetter(): void
     {
-        parent::configureSetter($indent);
+        parent::configureSetter();
 
-        $this->configureHasGetter($indent);
-        $this->configureAddSetter($indent);
-        $this->configureRemoveSetter($indent);
+        $this->configureHasGetter();
+        $this->configureAddSetter();
+        $this->configureRemoveSetter();
     }
 
-    public function configureHasGetter(string $indent = null): void
+    public function configureHasGetter(): void
     {
         if (false === $this->property->isWriteable()) {
             return;
@@ -112,12 +112,12 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
                 $format,
                 $this->getSingleName(),
                 $this->property->getName(),
-                $indent
+                $this->hasGetterMethod->getLineIndentation()
             )
         );
     }
 
-    public function configureAddSetter(string $indent = null): void
+    public function configureAddSetter(): void
     {
         if (false === $this->property->isWriteable()) {
             return;
@@ -153,13 +153,13 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
                 $format,
                 $this->getSingleMethodName(static::HAS_GETTER_PREFIX),
                 $methodParameter->getPhpName(),
-                $indent,
+                $this->addSetterMethod->getLineIndentation(),
                 $this->property->getName()
             )
         );
     }
 
-    public function configureRemoveSetter(string $indent = null): void
+    public function configureRemoveSetter(): void
     {
         if (false === $this->property->isWriteable()) {
             return;
@@ -195,7 +195,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
                 $format,
                 $this->getSingleMethodName(static::HAS_GETTER_PREFIX),
                 $methodParameter->getPhpName(),
-                $indent,
+                $this->removeSetterMethod->getLineIndentation(),
                 $this->property->getName()
             )
         );

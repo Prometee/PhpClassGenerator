@@ -33,6 +33,8 @@ class Method extends AbstractModel implements MethodInterface
     protected $parameters = [];
     /** @var string[] */
     protected $lines = [];
+    /** @var string */
+    protected $lineIndentation = '    ';
 
     public function __construct(
         UsesInterface $uses,
@@ -203,5 +205,15 @@ class Method extends AbstractModel implements MethodInterface
     public function setPhpDoc(PhpDocInterface $phpDoc): void
     {
         $this->phpDoc = $phpDoc;
+    }
+
+    public function getLineIndentation(): string
+    {
+        return $this->lineIndentation;
+    }
+
+    public function setLineIndentation(string $lineIndentation): void
+    {
+        $this->lineIndentation = $lineIndentation;
     }
 }
