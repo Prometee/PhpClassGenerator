@@ -230,11 +230,13 @@ class ClassBuilder implements ClassBuilderInterface
         $constructor = $this->constructorModelFactory->create($this->getUses());
         $inheritedParameters = [];
         foreach ($this->properties as $property) {
-            if (in_array('null', $property->getTypes())) {
+            $isInheritedAndInheritedRequired = $property->isInheritedAndInheritedRequired();
+
+            if (!$isInheritedAndInheritedRequired && in_array('null', $property->getTypes())) {
                 continue;
             }
 
-            if (null !== $property->getValue()) {
+            if (!$isInheritedAndInheritedRequired && null !== $property->getValue()) {
                 continue;
             }
 
@@ -246,8 +248,8 @@ class ClassBuilder implements ClassBuilderInterface
             $methodParameter->setDescription($property->getDescription());
             $constructor->addParameter($methodParameter);
 
-            if ($property->isInheritedAndInheritedRequired()) {
-                $inheritedParameters[] = $property->getPhpName();
+            if ($isInheritedAndInheritedRequired) {
+                $inheritedParameters[$property->getInheritedPosition()] = $property->getPhpName();
                 continue;
             }
 
@@ -259,6 +261,7 @@ class ClassBuilder implements ClassBuilderInterface
         }
 
         if (false === empty($inheritedParameters)) {
+            sort($inheritedParameters);
             $newLine = '';
             $afterParameters = '';
             if (count($inheritedParameters) > 3) {

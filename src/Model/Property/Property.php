@@ -39,6 +39,8 @@ class Property extends AbstractModel implements PropertyInterface
     protected $inherited = false;
     /** @var bool */
     protected $inherited_required = false;
+    /** @var int|null */
+    private $inherited_position;
 
     public function __construct(
         UsesInterface $uses,
@@ -210,5 +212,15 @@ class Property extends AbstractModel implements PropertyInterface
     public function isInheritedAndInheritedRequired(): bool
     {
         return $this->isInherited() && $this->isInheritedRequired();
+    }
+
+    public function setInheritedPosition(?int $inherited_position): void
+    {
+        $this->inherited_position = $inherited_position;
+    }
+
+    public function getInheritedPosition(): ?int
+    {
+        return $this->inherited_position;
     }
 }
