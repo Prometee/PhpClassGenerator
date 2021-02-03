@@ -277,7 +277,7 @@ class ClassBuilder implements ClassBuilderInterface
             $newLine = '';
             $afterParameters = '';
             if (count($inheritedParameters) > 3) {
-                $newLine = $this->eol . $this->indent;
+                $newLine = ' '.$this->eol . $this->indent;
                 $afterParameters = $this->eol;
             }
 
@@ -285,7 +285,7 @@ class ClassBuilder implements ClassBuilderInterface
                 'parent::%s(%s%s%s);',
                 $constructor->getName(),
                 $newLine,
-                implode(', ' . $newLine, array_keys($inheritedParameters)),
+                implode(',' . $newLine, array_keys($inheritedParameters)),
                 $afterParameters
             ));
         }
