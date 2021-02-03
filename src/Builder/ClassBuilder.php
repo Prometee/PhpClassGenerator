@@ -249,7 +249,7 @@ class ClassBuilder implements ClassBuilderInterface
             $constructor->addParameter($methodParameter);
 
             if ($isInheritedAndInheritedRequired) {
-                $inheritedParameters[$property->getInheritedPosition()] = $property->getPhpName();
+                $inheritedParameters[$property->getPhpName()] = $property->getInheritedPosition();
                 continue;
             }
 
@@ -261,7 +261,19 @@ class ClassBuilder implements ClassBuilderInterface
         }
 
         if (false === empty($inheritedParameters)) {
-            sort($inheritedParameters);
+
+            uasort($inheritedParameters, function ($pos1, $pos2) {
+                if ($pos1 === $pos2) {
+                    return 0;
+                }
+
+                if (null === $pos1) {
+                    return 1;
+                }
+
+                return ($pos1 < $pos2) ? -1 : 1;
+            });
+
             $newLine = '';
             $afterParameters = '';
             if (count($inheritedParameters) > 3) {
@@ -273,7 +285,7 @@ class ClassBuilder implements ClassBuilderInterface
                 'parent::%s(%s%s%s);',
                 $constructor->getName(),
                 $newLine,
-                implode(', ' . $newLine, $inheritedParameters),
+                implode(', ' . $newLine, array_keys($inheritedParameters)),
                 $afterParameters
             ));
         }
