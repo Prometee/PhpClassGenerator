@@ -274,18 +274,19 @@ class ClassBuilder implements ClassBuilderInterface
                 return ($pos1 < $pos2) ? -1 : 1;
             });
 
-            $newLine = '';
+            $beforeParameters = '';
+            $separator = ' ';
             $afterParameters = '';
             if (count($inheritedParameters) > 3) {
-                $newLine = ' '.$this->eol . $this->indent;
+                $separator = $this->eol . $this->indent;
                 $afterParameters = $this->eol;
             }
 
             $constructor->addLine(sprintf(
                 'parent::%s(%s%s%s);',
                 $constructor->getName(),
-                $newLine,
-                implode(',' . $newLine, array_keys($inheritedParameters)),
+                $beforeParameters,
+                implode(','.$separator, array_keys($inheritedParameters)),
                 $afterParameters
             ));
         }
