@@ -261,7 +261,6 @@ class ClassBuilder implements ClassBuilderInterface
         }
 
         if (false === empty($inheritedParameters)) {
-
             uasort($inheritedParameters, function ($pos1, $pos2) {
                 if ($pos1 === $pos2) {
                     return 0;
@@ -274,11 +273,12 @@ class ClassBuilder implements ClassBuilderInterface
                 return ($pos1 < $pos2) ? -1 : 1;
             });
 
-            $beforeParameters = '';
             $separator = ' ';
+            $beforeParameters = '';
             $afterParameters = '';
             if (count($inheritedParameters) > 3) {
                 $separator = $this->eol . $this->indent;
+                $beforeParameters = $separator;
                 $afterParameters = $this->eol;
             }
 
@@ -286,7 +286,7 @@ class ClassBuilder implements ClassBuilderInterface
                 'parent::%s(%s%s%s);',
                 $constructor->getName(),
                 $beforeParameters,
-                implode(','.$separator, array_keys($inheritedParameters)),
+                implode(',' . $separator, array_keys($inheritedParameters)),
                 $afterParameters
             ));
         }
