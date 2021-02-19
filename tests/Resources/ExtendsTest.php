@@ -8,6 +8,7 @@ use stdClass;
 
 /**
  * Extends test class
+ *
  * @internal
  */
 final class ExtendsTest extends stdClass

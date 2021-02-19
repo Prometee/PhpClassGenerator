@@ -6,6 +6,7 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
 
 /**
  * Integer type test class
+ *
  * @internal
  */
 final class IntegerTest

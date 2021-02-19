@@ -6,6 +6,7 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
 
 /**
  * Boolean type test class
+ *
  * @internal
  */
 final class BooleanTest

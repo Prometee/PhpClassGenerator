@@ -8,6 +8,7 @@ use Tests\Prometee\PhpClassGenerator\Resources\ArrayTest as ArrayTestAlias;
 
 /**
  * Array type test class
+ *
  * @internal
  */
 final class ArrayTest

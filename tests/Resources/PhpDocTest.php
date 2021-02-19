@@ -2,26 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Tests\Prometee\PhpClassGenerator\Resources\SubPath;
+namespace Tests\Prometee\PhpClassGenerator\Resources;
+
+use Doctrine\Common\Annotations\Annotation\Required;
 
 /**
- * Sub path extended test class
+ * PhpDoc test class
  *
  * @internal
  */
-abstract class ExtendedClassTest
+final class PhpDocTest
 {
     /**
      * ID of this model
      * A second line
      *
      * @var int
+     *
+     * @Required()
      */
-    protected $id;
+    private $id;
 
     /**
-     * @param int $id ID of this model
-     *        A second line
+     * @param int $id
      */
     public function __construct(int $id)
     {

@@ -8,6 +8,7 @@ use stdClass;
 
 /**
  * Php base class type test class
+ *
  * @internal
  */
 final class PhpBaseClassTest

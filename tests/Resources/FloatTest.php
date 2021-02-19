@@ -6,6 +6,7 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
 
 /**
  * Float type test class
+ *
  * @internal
  */
 final class FloatTest

@@ -8,6 +8,7 @@ use DateTimeInterface;
 
 /**
  * Php base Interface type test class
+ *
  * @internal
  */
 final class PhpBaseInterfaceTest

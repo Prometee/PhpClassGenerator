@@ -8,6 +8,7 @@ use Tests\Prometee\PhpClassGenerator\Resources\SubPath\SubClassTest;
 
 /**
  * Config with sub class type test class
+ *
  * @internal
  */
 final class ConfigWithSubPathTest

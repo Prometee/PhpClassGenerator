@@ -11,7 +11,8 @@
     ],
     "require": {
         "php": "^7.3",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "webmozart/assert": "^1.9"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",

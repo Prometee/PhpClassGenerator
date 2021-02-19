@@ -6,6 +6,7 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
 
 /**
  * Constant test class
+ *
  * @internal
  */
 final class ConstantTest

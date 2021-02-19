@@ -3,11 +3,13 @@
 namespace Tests\Prometee\PhpClassGenerator;
 
 use DateTimeInterface;
+use Doctrine\Common\Annotations\Annotation\Required;
 use PHPUnit\Framework\TestCase;
 use Prometee\PhpClassGenerator\Builder\ClassBuilder;
 use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
 use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilder;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilder;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\PhpGeneratorInterface;
 use stdClass;
 
@@ -46,10 +48,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'ArrayTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Array type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Array type test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -57,18 +60,14 @@ class PhpGeneratorTest extends TestCase
                         'types' => [
                             $this->baseNamespace . '\\ArrayTest[]',
                             'null'
-                        ],
-                        'default' => null,
-                        'description' => null
+                        ]
                     ],
                     [
                         'name' => 'aSimpleArrayField',
                         'types' => [
                             'array',
                             'null'
-                        ],
-                        'default' => null,
-                        'description' => null
+                        ]
                     ],
                 ],
             ],
@@ -86,10 +85,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'ConstantTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Constant test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Constant test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'constants' => [
                     [
@@ -98,15 +98,12 @@ class PhpGeneratorTest extends TestCase
                             'string'
                         ],
                         'default' => '\'test_constant_value\'',
-                        'description' => null,
                         'readable' => false,
                         'writable' => false,
                     ],
                     [
                         'name' => 'A_CONSTANT_WITH_NULL_VALUE',
                         'types' => [],
-                        'default' => null,
-                        'description' => null,
                         'readable' => false,
                         'writable' => false,
                     ],
@@ -126,19 +123,19 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'BooleanTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Boolean type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Boolean type test class',
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
                         'name' => 'aBoolField',
                         'types' => [
-                        'bool'
+                            'bool'
                         ],
                         'default' => 'false',
-                        'description' => null,
                     ],
                 ],
             ],
@@ -156,10 +153,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'StringTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'String type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'String type test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -168,7 +166,6 @@ class PhpGeneratorTest extends TestCase
                             'string'
                         ],
                         'default' => '\'\'',
-                        'description' => null,
                     ],
                 ],
             ],
@@ -186,10 +183,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'FloatTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Float type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Float type test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -197,8 +195,7 @@ class PhpGeneratorTest extends TestCase
                         'types' => [
                             'float'
                         ],
-                        'default' => '.0',
-                        'description' => null
+                        'default' => '.0'
                     ],
                 ],
             ],
@@ -216,10 +213,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'IntegerTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Integer type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Integer type test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -227,8 +225,7 @@ class PhpGeneratorTest extends TestCase
                         'types' => [
                             'int'
                         ],
-                        'default' => '0',
-                        'description' => null
+                        'default' => '0'
                     ],
                 ],
             ],
@@ -246,10 +243,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'MixedTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Mixed type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Mixed type test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -258,8 +256,6 @@ class PhpGeneratorTest extends TestCase
                             'mixed',
                             'null',
                         ],
-                        'default' => null,
-                        'description' => null
                     ],
                     [
                         'name' => 'anOtherMixedField',
@@ -267,8 +263,6 @@ class PhpGeneratorTest extends TestCase
                             'int',
                             'string',
                         ],
-                        'default' => null,
-                        'description' => null
                     ],
                     [
                         'name' => 'anOtherMixedFieldWithNull',
@@ -277,8 +271,6 @@ class PhpGeneratorTest extends TestCase
                             'string',
                             'null',
                         ],
-                        'default' => null,
-                        'description' => null
                     ],
                     [
                         'name' => 'anOtherMixedFieldWithArray',
@@ -286,8 +278,6 @@ class PhpGeneratorTest extends TestCase
                             'self[]',
                             'array',
                         ],
-                        'default' => null,
-                        'description' => null
                     ],
                 ],
             ],
@@ -305,10 +295,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'PhpBaseClassTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Php base class type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Php base class type test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -317,8 +308,6 @@ class PhpGeneratorTest extends TestCase
                             stdClass::class,
                             'null',
                         ],
-                        'default' => null,
-                        'description' => null
                     ],
                 ],
             ],
@@ -336,10 +325,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'PhpBaseInterfaceTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Php base Interface type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Php base Interface type test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -348,8 +338,6 @@ class PhpGeneratorTest extends TestCase
                             DateTimeInterface::class,
                             'null',
                         ],
-                        'default' => null,
-                        'description' => null
                     ],
                 ],
             ],
@@ -368,11 +356,12 @@ class PhpGeneratorTest extends TestCase
                 'class' => 'ExtendsTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
                 'extends' => stdClass::class,
-                'description' => [
-                    'Extends test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Extends test class'
+                    ],
+                    'internal' => [''],
                 ],
-                'properties' => [],
             ],
         ];
 
@@ -388,20 +377,21 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'SubPath\\SubClassTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Sub path test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Sub path test class'
+                    ],
+                    'internal' => [''],
                 ],
-                'properties' => [],
             ],
             [
                 'class' => 'ConfigWithSubPathTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => null,
-                'description' => [
-                    'Config with sub class type test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Config with sub class type test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -409,8 +399,6 @@ class PhpGeneratorTest extends TestCase
                         'types' => [
                             $this->baseNamespace . '\\SubPath\\SubClassTest',
                         ],
-                        'default' => null,
-                        'description' => null
                     ],
                 ],
             ],
@@ -429,10 +417,11 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'SubPath\\ExtendedClassTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_ABSTRACT,
-                'extends' => null,
-                'description' => [
-                    'Sub path extended test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Sub path extended test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -440,7 +429,6 @@ class PhpGeneratorTest extends TestCase
                         'types' => [
                             'int',
                         ],
-                        'default' => null,
                         'description' => [
                             'ID of this model',
                             'A second line'
@@ -452,9 +440,11 @@ class PhpGeneratorTest extends TestCase
                 'class' => 'WithExtendsTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
                 'extends' => $this->baseNamespace . '\\SubPath\\ExtendedClassTest',
-                'description' => [
-                    'With extends test class',
-                    '@internal',
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'With extends test class'
+                    ],
+                    'internal' => [''],
                 ],
                 'properties' => [
                     [
@@ -462,8 +452,6 @@ class PhpGeneratorTest extends TestCase
                         'types' => [
                             'int',
                         ],
-                        'default' => null,
-                        'description' => null,
                         'inherited' => true,
                         'inherited_required' => true,
                     ],
@@ -476,5 +464,41 @@ class PhpGeneratorTest extends TestCase
         $this->assertTrue($this->dummyPhpGenerator->generate());
         $this->assertFileEquals($this->basePath . '/WithExtendsTest.php', __DIR__ . '/Resources/WithExtendsTest.php');
         $this->assertFileEquals($this->basePath . '/SubPath/ExtendedClassTest.php', __DIR__ . '/Resources/SubPath/ExtendedClassTest.php');
+    }
+
+    public function testGeneratePhpDoc(): void
+    {
+        $classesConfig = [
+            [
+                'class' => 'PhpDocTest',
+                'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'PhpDoc test class'
+                    ],
+                    'internal' => [''],
+                ],
+                'properties' => [
+                    [
+                        'name' => 'id',
+                        'types' => [
+                            'int',
+                        ],
+                        'phpdoc' => [
+                            PhpDocInterface::TYPE_DESCRIPTION => [
+                                'ID of this model',
+                                'A second line'
+                            ],
+                            sprintf('\\%s()', Required::class) => ['']
+                        ]
+                    ]
+                ],
+            ],
+        ];
+
+        $this->dummyPhpGenerator->setClassesConfig($classesConfig);
+
+        $this->assertTrue($this->dummyPhpGenerator->generate());
+        $this->assertFileEquals($this->basePath . '/PhpDocTest.php', __DIR__ . '/Resources/PhpDocTest.php');
     }
 }

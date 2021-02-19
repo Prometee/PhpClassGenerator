@@ -6,6 +6,7 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
 
 /**
  * Mixed type test class
+ *
  * @internal
  */
 final class MixedTest

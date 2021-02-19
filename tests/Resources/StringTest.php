@@ -6,6 +6,7 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
 
 /**
  * String type test class
+ *
  * @internal
  */
 final class StringTest

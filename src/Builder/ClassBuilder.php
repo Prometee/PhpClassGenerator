@@ -100,7 +100,7 @@ class ClassBuilder implements ClassBuilderInterface
         string $name,
         array $types,
         ?string $value,
-        string $description
+        string $description = ''
     ): ConstantInterface {
         $constant = $this->constantModelFactory->create($this->getUses());
 
@@ -133,7 +133,7 @@ class ClassBuilder implements ClassBuilderInterface
         string $name,
         array $types,
         ?string $value,
-        string $description
+        string $description = ''
     ): PropertyInterface {
         $property = $this->propertyModelFactory->create($this->getUses());
 

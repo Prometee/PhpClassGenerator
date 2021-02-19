@@ -64,7 +64,7 @@ interface ClassBuilderInterface
         string $name,
         array $types,
         ?string $value,
-        string $description
+        string $description = ''
     ): PropertyInterface;
 
     public function addClassicConstant(
@@ -78,7 +78,7 @@ interface ClassBuilderInterface
         string $name,
         array $types,
         ?string $value,
-        string $description
+        string $description = ''
     ): ConstantInterface;
 
     public function getEol(): string;
