@@ -26,13 +26,19 @@ Then instantiate :
 ```php
 $loader = require_once( __DIR__.'/vendor/autoload.php');
 
-use Tests\Prometee\PhpClassGenerator\DummyPhpGenerator;
+use Doctrine\Common\Annotations\Annotation\Required;
 use Prometee\PhpClassGenerator\Builder\ClassBuilder;
 use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilder;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilder;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
-$basePath = __DIR__ . '/etc/build/Dummy';
-$baseNamespace = 'Tests\\Prometee\\PhpClassGenerator\\Resources';
+// Create your own Php Generator
+final class MyPhpGenerator implements PhpGeneratorInterface {
+    use PhpGeneratorTrait;
+}
+
+$path = __DIR__ . '/etc/build/Dummy';
+$namespace = 'Tests\\Prometee\\PhpClassGenerator\\Resources';
 $classConfig = [
     [
         'class' => 'MyClass',
@@ -47,23 +53,34 @@ $classConfig = [
                 'name' => 'myProperty',
                 'types' => [
                     'null',
-                    $baseNamespace . '\\MyClass[]',
+                    $namespace . '\\MyClass[]',
                 ],
                 'default' => null,
                 'description' => null,
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'My description',
+                        'My description line 2',
+                    ],
+                    sprintf('\\%s()', Required::class) => [''] // An annotation
+                ],
             ],
         ],
     ],
 ];
 
-$dummyPhpGenerator = new DummyPhpGenerator(
-    $basePath,
-    $baseNamespace,
-    $classConfig,
+$dummyPhpGenerator = new MyPhpGenerator(
     new ClassBuilder(
         new ModelFactoryBuilder(),
         new ViewFactoryBuilder()
-    ),
+    )
+);
+
+// Configure the generator first
+$dummyPhpGenerator->configure(
+    $path,
+    $namespace,
+    $classConfig
 );
 
 // Then generate

@@ -6,6 +6,12 @@ namespace Prometee\PhpClassGenerator;
 
 interface PhpGeneratorInterface
 {
+    public function configure(
+        string $path,
+        string $namespace,
+        array $classesConfig = []
+    ): void;
+
     /**
      * @param string|null $indent indentation (default will be: '    ')
      * @param string|null $eol end of line (default will be: "\n")

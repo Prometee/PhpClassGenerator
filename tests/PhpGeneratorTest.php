@@ -16,9 +16,9 @@ use stdClass;
 class PhpGeneratorTest extends TestCase
 {
     /** @var string */
-    private $basePath = __DIR__ . '/../etc/build/Dummy';
+    private $path = __DIR__ . '/../etc/build/Dummy';
     /** @var string */
-    private $baseNamespace = __NAMESPACE__ . '\\Resources';
+    private $namespace = __NAMESPACE__ . '\\Resources';
     /** @var DummyPhpGenerator */
     private $dummyPhpGenerator;
 
@@ -29,11 +29,10 @@ class PhpGeneratorTest extends TestCase
             new ViewFactoryBuilder()
         );
 
-        $this->dummyPhpGenerator = new DummyPhpGenerator(
-            $this->basePath,
-            $this->baseNamespace,
-            [],
-            $classBuilder,
+        $this->dummyPhpGenerator = new DummyPhpGenerator($classBuilder);
+        $this->dummyPhpGenerator->configure(
+            $this->path,
+            $this->namespace
         );
     }
 
@@ -58,7 +57,7 @@ class PhpGeneratorTest extends TestCase
                     [
                         'name' => 'anArrayOfItems',
                         'types' => [
-                            $this->baseNamespace . '\\ArrayTest[]',
+                            $this->namespace . '\\ArrayTest[]',
                             'null'
                         ]
                     ],
@@ -76,7 +75,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/ArrayTest.php', __DIR__ . '/Resources/ArrayTest.php');
+        $this->assertFileEquals($this->path . '/ArrayTest.php', __DIR__ . '/Resources/ArrayTest.php');
     }
 
     public function testGenerateConstant(): void
@@ -114,7 +113,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/ConstantTest.php', __DIR__ . '/Resources/ConstantTest.php');
+        $this->assertFileEquals($this->path . '/ConstantTest.php', __DIR__ . '/Resources/ConstantTest.php');
     }
 
     public function testGenerateBooleanType(): void
@@ -144,7 +143,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/BooleanTest.php', __DIR__ . '/Resources/BooleanTest.php');
+        $this->assertFileEquals($this->path . '/BooleanTest.php', __DIR__ . '/Resources/BooleanTest.php');
     }
 
     public function testGenerateStringType(): void
@@ -174,7 +173,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/StringTest.php', __DIR__ . '/Resources/StringTest.php');
+        $this->assertFileEquals($this->path . '/StringTest.php', __DIR__ . '/Resources/StringTest.php');
     }
 
     public function testGenerateFloatType(): void
@@ -204,7 +203,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/FloatTest.php', __DIR__ . '/Resources/FloatTest.php');
+        $this->assertFileEquals($this->path . '/FloatTest.php', __DIR__ . '/Resources/FloatTest.php');
     }
 
     public function testGenerateIntegerType(): void
@@ -234,7 +233,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/IntegerTest.php', __DIR__ . '/Resources/IntegerTest.php');
+        $this->assertFileEquals($this->path . '/IntegerTest.php', __DIR__ . '/Resources/IntegerTest.php');
     }
 
     public function testGenerateMixedType(): void
@@ -286,7 +285,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/MixedTest.php', __DIR__ . '/Resources/MixedTest.php');
+        $this->assertFileEquals($this->path . '/MixedTest.php', __DIR__ . '/Resources/MixedTest.php');
     }
 
     public function testGeneratePhpBaseClassType(): void
@@ -316,7 +315,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/PhpBaseClassTest.php', __DIR__ . '/Resources/PhpBaseClassTest.php');
+        $this->assertFileEquals($this->path . '/PhpBaseClassTest.php', __DIR__ . '/Resources/PhpBaseClassTest.php');
     }
 
     public function testGeneratePhpBaseInterfaceType(): void
@@ -346,7 +345,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/PhpBaseInterfaceTest.php', __DIR__ . '/Resources/PhpBaseInterfaceTest.php');
+        $this->assertFileEquals($this->path . '/PhpBaseInterfaceTest.php', __DIR__ . '/Resources/PhpBaseInterfaceTest.php');
     }
 
     public function testGenerateExtends(): void
@@ -368,7 +367,7 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/ExtendsTest.php', __DIR__ . '/Resources/ExtendsTest.php');
+        $this->assertFileEquals($this->path . '/ExtendsTest.php', __DIR__ . '/Resources/ExtendsTest.php');
     }
 
     public function testGenerateComplexWithSubPathType(): void
@@ -397,7 +396,7 @@ class PhpGeneratorTest extends TestCase
                     [
                         'name' => 'aSubClassField',
                         'types' => [
-                            $this->baseNamespace . '\\SubPath\\SubClassTest',
+                            $this->namespace . '\\SubPath\\SubClassTest',
                         ],
                     ],
                 ],
@@ -407,8 +406,8 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/ConfigWithSubPathTest.php', __DIR__ . '/Resources/ConfigWithSubPathTest.php');
-        $this->assertFileEquals($this->basePath . '/SubPath/SubClassTest.php', __DIR__ . '/Resources/SubPath/SubClassTest.php');
+        $this->assertFileEquals($this->path . '/ConfigWithSubPathTest.php', __DIR__ . '/Resources/ConfigWithSubPathTest.php');
+        $this->assertFileEquals($this->path . '/SubPath/SubClassTest.php', __DIR__ . '/Resources/SubPath/SubClassTest.php');
     }
 
     public function testGenerateWithExtends(): void
@@ -439,7 +438,7 @@ class PhpGeneratorTest extends TestCase
             [
                 'class' => 'WithExtendsTest',
                 'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
-                'extends' => $this->baseNamespace . '\\SubPath\\ExtendedClassTest',
+                'extends' => $this->namespace . '\\SubPath\\ExtendedClassTest',
                 'phpdoc' => [
                     PhpDocInterface::TYPE_DESCRIPTION => [
                         'With extends test class'
@@ -462,8 +461,8 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/WithExtendsTest.php', __DIR__ . '/Resources/WithExtendsTest.php');
-        $this->assertFileEquals($this->basePath . '/SubPath/ExtendedClassTest.php', __DIR__ . '/Resources/SubPath/ExtendedClassTest.php');
+        $this->assertFileEquals($this->path . '/WithExtendsTest.php', __DIR__ . '/Resources/WithExtendsTest.php');
+        $this->assertFileEquals($this->path . '/SubPath/ExtendedClassTest.php', __DIR__ . '/Resources/SubPath/ExtendedClassTest.php');
     }
 
     public function testGeneratePhpDoc(): void
@@ -499,6 +498,6 @@ class PhpGeneratorTest extends TestCase
         $this->dummyPhpGenerator->setClassesConfig($classesConfig);
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
-        $this->assertFileEquals($this->basePath . '/PhpDocTest.php', __DIR__ . '/Resources/PhpDocTest.php');
+        $this->assertFileEquals($this->path . '/PhpDocTest.php', __DIR__ . '/Resources/PhpDocTest.php');
     }
 }

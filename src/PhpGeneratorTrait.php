@@ -11,29 +11,57 @@ use Webmozart\Assert\Assert;
 
 trait PhpGeneratorTrait
 {
-    /** @var string */
-    protected $basePath;
-    /** @var array */
-    protected $classesConfig;
-    /** @var string */
-    protected $baseNamespace;
     /** @var ClassBuilderInterface */
     protected $classBuilder;
 
+    /** @var string|null */
+    protected $path;
+
+    /** @var array|null */
+    protected $classesConfig;
+
+    /** @var string|null */
+    protected $namespace;
+
     public function __construct(
-        string $basePath,
-        string $baseNamespace,
-        array $classesConfig,
         ClassBuilderInterface $classBuilder
     ) {
-        $this->basePath = rtrim($basePath, '/') . '/';
-        $this->baseNamespace = trim($baseNamespace, '\\');
-        $this->classesConfig = $classesConfig;
         $this->classBuilder = $classBuilder;
+    }
+
+    public function configure(
+        string $path,
+        string $namespace,
+        array $classesConfig = []
+    ): void {
+        $this->path = rtrim($path, '/') . '/';
+        $this->namespace = trim($namespace, '\\');
+        $this->classesConfig = $classesConfig;
+    }
+
+    protected function isConfigured(): bool
+    {
+        if (null === $this->path) {
+            return false;
+        }
+
+        if (null === $this->namespace) {
+            return false;
+        }
+
+        if (null === $this->classesConfig) {
+            return false;
+        }
+
+        return true;
     }
 
     public function generate(?string $indent = null, ?string $eol = null): bool
     {
+        if (false === $this->isConfigured()) {
+            return false;
+        }
+
         $indent = $indent ?? $this->classBuilder->getIndent();
         $eol = $eol ?? $this->classBuilder->getEol();
         $this->classBuilder->setIndent($indent);
@@ -46,11 +74,11 @@ trait PhpGeneratorTrait
             $path = explode('\\', $class);
             $className = (string) array_pop($path);
             $classNamespace = (string) implode('\\', $path);
-            $classNamespace = $this->baseNamespace . '\\' . $classNamespace;
+            $classNamespace = $this->namespace . '\\' . $classNamespace;
             $classNamespace = rtrim($classNamespace, '\\');
 
             $classPath = implode('/', $path);
-            $classFilePath = rtrim($this->basePath . '/' . $classPath, '/') . '/' . $className . '.php';
+            $classFilePath = rtrim($this->path . '/' . $classPath, '/') . '/' . $className . '.php';
 
             $this->classBuilder->setClassType($config['type'] ?? '');
             $this->classBuilder->setExtendClass($config['extends'] ?? null);
@@ -189,24 +217,24 @@ trait PhpGeneratorTrait
         return $this->classesConfig;
     }
 
-    public function getBasePath(): string
+    public function getPath(): string
     {
-        return $this->basePath;
+        return $this->path;
     }
 
-    public function setBasePath(string $basePath): void
+    public function setPath(string $path): void
     {
-        $this->basePath = $basePath;
+        $this->path = $path;
     }
 
-    public function getBaseNamespace(): string
+    public function getNamespace(): string
     {
-        return $this->baseNamespace;
+        return $this->namespace;
     }
 
-    public function setBaseNamespace(string $baseNamespace): void
+    public function setNamespace(string $namespace): void
     {
-        $this->baseNamespace = $baseNamespace;
+        $this->namespace = $namespace;
     }
 
     public function getClassBuilder(): ClassBuilderInterface
