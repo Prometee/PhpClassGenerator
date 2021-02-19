@@ -119,12 +119,12 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         }
 
         foreach ($lines as $i => $line) {
-            if (empty($line)) {
-                continue;
-            }
             $subLinePrefix = $i === 0 ? $linePrefix : $blankSubLinePrefix;
-            $space = false === empty($linePrefix) ? ' ' : '';
+            $space = false === empty($linePrefix) && false === empty($line) ? ' ' : '';
             $lines[$i] = sprintf('%s%s%s', $subLinePrefix, $space, $line);
+            if (trim($lines[$i]) === '') {
+                $lines[$i] = '';
+            }
         }
 
         return $lines;
