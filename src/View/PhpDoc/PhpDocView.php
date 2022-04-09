@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\PhpDoc;
 
+use a;
 use LogicException;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
@@ -104,8 +105,9 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         $lines = [];
         $linePrefixLength = strlen($linePrefix);
         $blankSubLinePrefix = str_repeat(' ', $linePrefixLength);
-        $explodedLines = explode($this->eol, $line);
 
+        /** @var array $explodedLines */
+        $explodedLines = explode($this->eol, $line);
         foreach ($explodedLines as $i => $explodedLine) {
             $wrapOn = $this->getWrapOn();
             if (0 === $i) {
@@ -118,10 +120,10 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
             );
         }
 
-        foreach ($lines as $i => $line) {
+        foreach ($lines as $i => $l) {
             $subLinePrefix = $i === 0 ? $linePrefix : $blankSubLinePrefix;
-            $space = false === empty($linePrefix) && false === empty($line) ? ' ' : '';
-            $lines[$i] = sprintf('%s%s%s', $subLinePrefix, $space, $line);
+            $space = false === empty($linePrefix) && false === empty($l) ? ' ' : '';
+            $lines[$i] = sprintf('%s%s%s', $subLinePrefix, $space, $l);
             if (trim($lines[$i]) === '') {
                 $lines[$i] = '';
             }

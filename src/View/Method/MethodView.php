@@ -83,6 +83,7 @@ class MethodView extends AbstractView implements MethodViewInterface
     {
         $content = '';
         foreach ($this->method->getLines() as $line) {
+            /** @var array $explodedInnerLines */
             $explodedInnerLines = explode($this->eol, $line);
             foreach ($explodedInnerLines as $innerLine) {
                 $suffix = empty($innerLine) ? '' : $this->indent . $this->indent;
