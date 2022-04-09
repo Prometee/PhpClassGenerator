@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.3|^8.0",
         "ext-iconv": "*",
-        "webmozart/assert": "^1.9"
+        "webmozart/assert": "^1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
-        "symplify/easy-coding-standard": "^9",
+        "symplify/easy-coding-standard": "^10",
         "phpstan/phpstan": "^0.12.75"
     },
     "autoload": {
@@ -28,6 +28,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
         }
     }
 }
