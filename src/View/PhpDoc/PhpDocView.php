@@ -30,6 +30,10 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
      */
     protected function doRender(): ?string
     {
+        if ('' === $this->eol) {
+            throw new LogicException('EOL cannot be empty !');
+        }
+
         $phpdocLines = $this->buildLines();
 
         if (empty($phpdocLines)) {
@@ -102,13 +106,9 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         $blankSubLinePrefix = str_repeat(' ', $linePrefixLength);
         $explodedLines = explode($this->eol, $line);
 
-        if (false === $explodedLines) {
-            return $lines;
-        }
-
         foreach ($explodedLines as $i => $explodedLine) {
             $wrapOn = $this->getWrapOn();
-            if ($i === 0) {
+            if (0 === $i) {
                 $wrapOn -= $linePrefixLength;
             }
 

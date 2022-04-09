@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Method;
 
+use LogicException;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
@@ -39,6 +40,10 @@ class MethodView extends AbstractView implements MethodViewInterface
      */
     protected function doRender(): ?string
     {
+        if ('' === $this->eol) {
+            throw new LogicException('EOL cannot be empty !');
+        }
+
         $this->configurePhpDoc(
             $this->method->getPhpDoc(),
             $this->method->getUses()
@@ -79,9 +84,6 @@ class MethodView extends AbstractView implements MethodViewInterface
         $content = '';
         foreach ($this->method->getLines() as $line) {
             $explodedInnerLines = explode($this->eol, $line);
-            if (false === $explodedInnerLines) {
-                continue;
-            }
             foreach ($explodedInnerLines as $innerLine) {
                 $suffix = empty($innerLine) ? '' : $this->indent . $this->indent;
                 $content .= sprintf('%s%s%s', $suffix, $innerLine, $this->eol);

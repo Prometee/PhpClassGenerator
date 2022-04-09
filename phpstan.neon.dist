@@ -1,0 +1,12 @@
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
+    ignoreErrors:
+        -
+            message: '/Parameter #1 \$separator of function explode expects non-empty-string, string given\./'
+            path: src/View/Method/MethodView.php
+        -
+            message: '/Parameter #1 \$separator of function explode expects non-empty-string, string given\./'
+            path: src/View/PhpDoc/PhpDocView.php

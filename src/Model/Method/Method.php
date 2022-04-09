@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Model\Method;
 
+use LogicException;
 use Prometee\PhpClassGenerator\Model\AbstractModel;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareTrait;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
@@ -99,7 +100,7 @@ class Method extends AbstractModel implements MethodInterface
 
     public function hasReturnType(string $returnType): bool
     {
-        return false !== array_search($returnType, $this->returnTypes);
+        return in_array($returnType, $this->returnTypes);
     }
 
     public function addParameter(MethodParameterInterface $methodParameter): void
@@ -126,11 +127,10 @@ class Method extends AbstractModel implements MethodInterface
 
     public function addMultipleLines(string $lines, string $eol = "\n"): void
     {
-        $explodedLines = explode($eol, $lines);
-
-        if (false === $explodedLines) {
-            return;
+        if ('' === $eol) {
+            throw new LogicException('EOL cannot be empty !');
         }
+        $explodedLines = explode($eol, $lines);
 
         foreach ($explodedLines as $line) {
             $this->addLine($line);
