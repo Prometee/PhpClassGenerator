@@ -13,33 +13,21 @@ use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property class-string<ClassInterface> $modelClass */
 final class ClassModelFactory extends AbstractModelFactory implements ClassModelFactoryInterface
 {
-    /** @var UsesModelFactoryInterface */
-    protected $usesModelFactory;
-    /** @var PhpDocModelFactoryInterface */
-    protected $phpDocModelFactory;
-    /** @var PropertiesModelFactoryInterface */
-    protected $propertiesModelFactory;
-    /** @var MethodsModelFactoryInterface */
-    protected $methodsModelFactory;
-    /** @var TraitsModelFactoryInterface */
-    protected $traitsModelFactory;
-
+    /**
+     * @param class-string<ClassInterface> $modelClass
+     */
     public function __construct(
         string $modelClass,
-        PhpDocModelFactoryInterface $phpDocModelFactory,
-        UsesModelFactoryInterface $usesModelFactory,
-        PropertiesModelFactoryInterface $propertiesModelFactory,
-        MethodsModelFactoryInterface $methodsModelFactory,
-        TraitsModelFactoryInterface $traitsModelFactory
+        protected PhpDocModelFactoryInterface $phpDocModelFactory,
+        protected UsesModelFactoryInterface $usesModelFactory,
+        protected PropertiesModelFactoryInterface $propertiesModelFactory,
+        protected MethodsModelFactoryInterface $methodsModelFactory,
+        protected TraitsModelFactoryInterface $traitsModelFactory
     ) {
         parent::__construct($modelClass);
-        $this->phpDocModelFactory = $phpDocModelFactory;
-        $this->usesModelFactory = $usesModelFactory;
-        $this->propertiesModelFactory = $propertiesModelFactory;
-        $this->methodsModelFactory = $methodsModelFactory;
-        $this->traitsModelFactory = $traitsModelFactory;
     }
 
     public function create(?UsesInterface $uses = null): ClassInterface

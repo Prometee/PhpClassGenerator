@@ -12,7 +12,7 @@ class Properties extends AbstractModel implements PropertiesInterface
     use UsesAwareTrait;
 
     /** @var PropertyInterface[] */
-    protected $properties = [];
+    protected array $properties = [];
 
     public function configure(array $properties = []): void
     {

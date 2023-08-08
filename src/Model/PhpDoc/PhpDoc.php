@@ -9,7 +9,7 @@ use Prometee\PhpClassGenerator\Model\AbstractModel;
 class PhpDoc extends AbstractModel implements PhpDocInterface
 {
     /** @var array<string, array<int, string>> */
-    protected $lines = [];
+    protected array $lines = [];
 
     public function configure(array $lines = [], ?int $wrapOn = null): void
     {
@@ -86,5 +86,40 @@ class PhpDoc extends AbstractModel implements PhpDocInterface
     public function setLines(array $lines): void
     {
         $this->lines = $lines;
+    }
+
+    public static function isTypedLineRequired(string $phpType, ?string $phpDocType, string $description = ''): bool
+    {
+        if ('' !== $description) {
+            return true;
+        }
+
+        if (null === $phpDocType) {
+            return false;
+        }
+
+        if ('' === $phpType) {
+            return true;
+        }
+
+        if ('void' === $phpDocType) {
+            return false;
+        }
+
+        if ($phpType === $phpDocType) {
+            return false;
+        }
+
+        $phpDocTypes = explode('|', $phpDocType);
+        sort($phpDocTypes);
+        $phpTypeEnhanced = (string) preg_replace('#^\?#', 'null|', $phpType);
+        $phpTypes = explode('|', $phpTypeEnhanced);
+        sort($phpTypes);
+
+        if ($phpDocTypes === $phpTypes) {
+            return false;
+        }
+
+        return true;
     }
 }

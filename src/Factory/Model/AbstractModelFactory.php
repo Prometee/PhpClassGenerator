@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Factory\Model;
 
+use Prometee\PhpClassGenerator\Model\ModelInterface;
+
 abstract class AbstractModelFactory implements ModelFactoryInterface
 {
-    /** @var string */
-    protected $modelClass;
-
-    public function __construct(string $modelClass)
-    {
-        $this->modelClass = $modelClass;
+    public function __construct(
+        /** @var class-string<ModelInterface> */
+        protected string $modelClass,
+    ) {
     }
 
     public function getModelClass(): string

@@ -9,12 +9,9 @@ use Prometee\PhpClassGenerator\View\AbstractView;
 
 class UseView extends AbstractView implements UseViewInterface
 {
-    /** @var UseInterface */
-    protected $useModel;
-
-    public function __construct(UseInterface $useModel)
-    {
-        $this->useModel = $useModel;
+    public function __construct(
+        protected UseInterface $useModel,
+    ) {
     }
 
     protected function doRender(): ?string

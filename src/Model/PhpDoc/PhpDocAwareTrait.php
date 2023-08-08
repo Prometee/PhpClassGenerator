@@ -6,13 +6,7 @@ namespace Prometee\PhpClassGenerator\Model\PhpDoc;
 
 trait PhpDocAwareTrait
 {
-    /** @var PhpDocInterface */
-    protected $phpDoc;
-
-    public function __construct(PhpDocInterface $phpDoc)
-    {
-        $this->phpDoc = $phpDoc;
-    }
+    protected PhpDocInterface $phpDoc;
 
     public function getPhpDoc(): PhpDocInterface
     {

@@ -13,20 +13,13 @@ use stdClass;
  */
 final class PhpBaseClassTest
 {
-    /** @var stdClass|null */
-    private $aStdClassField;
+    private ?stdClass $aStdClassField = null;
 
-    /**
-     * @return stdClass|null
-     */
     public function getAStdClassField(): ?stdClass
     {
         return $this->aStdClassField;
     }
 
-    /**
-     * @param stdClass|null $aStdClassField
-     */
     public function setAStdClassField(?stdClass $aStdClassField): void
     {
         $this->aStdClassField = $aStdClassField;

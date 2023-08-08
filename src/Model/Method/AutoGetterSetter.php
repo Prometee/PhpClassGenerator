@@ -10,7 +10,7 @@ use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 class AutoGetterSetter implements AutoGetterSetterInterface
 {
     /** @var GetterSetterInterface[] */
-    protected $autoGettersSettersAware;
+    protected array $autoGettersSettersAware;
 
     /**
      * @param GetterSetterInterface[] $autoGettersSettersAware

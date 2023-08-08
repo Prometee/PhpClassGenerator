@@ -4,26 +4,18 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\PhpDoc;
 
-use a;
 use LogicException;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
 
 class PhpDocView extends AbstractView implements PhpDocViewInterface
 {
-    /** @var PhpDocInterface */
-    protected $phpDoc;
-    /** @var int */
-    protected $wrapOn;
-    /** @var string */
-    protected $lineStartIndent = '';
+    protected string $lineStartIndent = '';
 
     public function __construct(
-        PhpDocInterface $phpDoc,
-        int $wrapOn = self::DEFAULT_WRAP_ON
+        protected PhpDocInterface $phpDoc,
+        protected int $wrapOn = self::DEFAULT_WRAP_ON
     ) {
-        $this->phpDoc = $phpDoc;
-        $this->wrapOn = $wrapOn;
     }
 
     /**
@@ -31,10 +23,6 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
      */
     protected function doRender(): ?string
     {
-        if ('' === $this->eol) {
-            throw new LogicException('EOL cannot be empty !');
-        }
-
         $phpdocLines = $this->buildLines();
 
         if (empty($phpdocLines)) {
@@ -68,10 +56,9 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
                 $phpdocLines[] = '';
                 $previousType = $type;
             }
-            $phpdocLines = array_merge(
-                $phpdocLines,
-                $this->buildTypedLines($type, $lines)
-            );
+            foreach ($this->buildTypedLines($type, $lines) as $buildTypedLine) {
+                $phpdocLines[] = $buildTypedLine;
+            }
         }
         return $phpdocLines;
     }
@@ -82,10 +69,9 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         $linePrefix = $this->buildTypedLinePrefix($type);
 
         foreach ($lines as $line) {
-            $phpdocLines = array_merge(
-                $phpdocLines,
-                $this->buildLinesFromSingleLine($linePrefix, $line)
-            );
+            foreach ($this->buildLinesFromSingleLine($linePrefix, $line) as $linesFromSingleLine) {
+                $phpdocLines[] = $linesFromSingleLine;
+            }
         }
 
         return $phpdocLines;
@@ -114,10 +100,9 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
                 $wrapOn -= $linePrefixLength;
             }
 
-            $lines = array_merge(
-                $lines,
-                $this->wrapLines($explodedLine, $wrapOn)
-            );
+            foreach ($this->wrapLines($explodedLine, $wrapOn) as $wrapLine) {
+                $lines[] = $wrapLine;
+            }
         }
 
         foreach ($lines as $i => $l) {
@@ -162,9 +147,9 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
     public function orderLines(): void
     {
         $this->phpDoc->orderLines(function ($k1, $k2) {
-            $o1 = array_search($k1, PhpDocInterface::LINE_TYPE_ORDER);
+            $o1 = array_search($k1, PhpDocInterface::LINE_TYPE_ORDER, true);
             $o1 = $o1 === false ? count(PhpDocInterface::LINE_TYPE_ORDER) + 1 : $o1;
-            $o2 = array_search($k2, PhpDocInterface::LINE_TYPE_ORDER);
+            $o2 = array_search($k2, PhpDocInterface::LINE_TYPE_ORDER, true);
             $o2 = $o2 === false ? count(PhpDocInterface::LINE_TYPE_ORDER) + 1 : $o2;
 
             return $o1 - $o2;

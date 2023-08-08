@@ -6,15 +6,11 @@ namespace Prometee\PhpClassGenerator\View;
 
 abstract class AbstractView implements ViewInterface
 {
-    /** @var string */
-    protected $indent = '    ';
+    protected string $indent = '    ';
 
-    /** @var string */
-    protected $eol = PHP_EOL;
+    /** @var non-empty-string */
+    protected string $eol = PHP_EOL;
 
-    /**
-     * {@inheritDoc}
-     */
     public function render(string $indent = null, string $eol = null): ?string
     {
         $this->indent = $indent ?? $this->indent;

@@ -6,8 +6,9 @@ namespace Prometee\PhpClassGenerator\Model\Method;
 
 use Prometee\PhpClassGenerator\Model\ModelInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareInterface;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
 
-interface MethodParameterInterface extends ModelInterface, UsesAwareInterface
+interface MethodParameterInterface extends ModelInterface, UsesAwareInterface, PhpDocAwareInterface
 {
     /**
      * @param string[] $types
@@ -23,6 +24,12 @@ interface MethodParameterInterface extends ModelInterface, UsesAwareInterface
         bool $byReference = false,
         string $description = ''
     ): void;
+
+    public function getScope(): string;
+
+    public function hasScope(): bool;
+
+    public function setScope(string $scope): void;
 
     public function getDescription(): string;
 

@@ -9,12 +9,8 @@ use Prometee\PhpClassGenerator\Model\Other\TraitsInterface;
 
 class TraitsView extends AbstractArrayView implements TraitsViewInterface
 {
-    /** @var TraitsInterface */
-    protected $traits;
-
-    public function __construct(TraitsInterface $traits)
+    public function __construct(protected TraitsInterface $traits)
     {
-        $this->traits = $traits;
     }
 
     public function getArrayToBuild(): array

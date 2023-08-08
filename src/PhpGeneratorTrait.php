@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator;
 
+use LogicException;
 use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
-use Webmozart\Assert\Assert;
 
 trait PhpGeneratorTrait
 {
-    /** @var ClassBuilderInterface */
-    protected $classBuilder;
+    protected ?string $path;
 
-    /** @var string|null */
-    protected $path;
+    protected ?array $classesConfig;
 
-    /** @var array|null */
-    protected $classesConfig;
-
-    /** @var string|null */
-    protected $namespace;
+    protected ?string $namespace;
 
     public function __construct(
-        ClassBuilderInterface $classBuilder
+        protected ClassBuilderInterface $classBuilder,
     ) {
-        $this->classBuilder = $classBuilder;
     }
 
     public function configure(
@@ -69,11 +62,14 @@ trait PhpGeneratorTrait
 
         foreach ($this->classesConfig as $config) {
             $class = $config['class'] ?? '';
-            Assert::notEmpty($class, 'The config attribute "class" should not be empty !');
+
+            if ("" === $class) {
+                throw new LogicException('The config attribute "class" should not be empty !');
+            }
 
             $path = explode('\\', $class);
             $className = (string) array_pop($path);
-            $classNamespace = (string) implode('\\', $path);
+            $classNamespace = implode('\\', $path);
             $classNamespace = $this->namespace . '\\' . $classNamespace;
             $classNamespace = rtrim($classNamespace, '\\');
 
@@ -104,7 +100,9 @@ trait PhpGeneratorTrait
             }
 
             $written = $this->writeClass($classContent, $classFilePath);
-            Assert::notFalse($written, sprintf('Unable to write the file %s !', $classFilePath));
+            if (false === $written) {
+                throw new LogicException(sprintf('Unable to write the file "%s" !', $classFilePath));
+            }
         }
 
         return true;
@@ -140,10 +138,9 @@ trait PhpGeneratorTrait
             $description = implode($eol, $description);
 
             $default = $propertyConfig['default'] ?? null;
-            Assert::nullOrString(
-                $default,
-                "default value should be a string or null (ex: '\"my_default\"', 'true', 'false', '10', null"
-            );
+            if (null !== $default && false === is_string($default)) {
+                throw new LogicException('The default value should be a string or null (ex: \'"my_default"\', \'true\', \'false\', \'10\', null).');
+            }
 
             $property = $this->classBuilder->createProperty(
                 $propertyConfig['name'],

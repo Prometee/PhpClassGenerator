@@ -7,6 +7,7 @@ namespace Prometee\PhpClassGenerator\Factory\Model\Class_;
 use Prometee\PhpClassGenerator\Model\Class_\TraitClassInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property class-string<TraitClassInterface> $modelClass */
 final class TraitClassModelFactory extends AbstractDecoratedClassModelFactory implements TraitClassModelFactoryInterface
 {
     public function create(?UsesInterface $uses = null): TraitClassInterface

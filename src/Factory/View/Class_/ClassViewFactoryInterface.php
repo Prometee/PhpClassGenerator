@@ -13,5 +13,6 @@ interface ClassViewFactoryInterface
 
     public function getClassViewClass(): string;
 
+    /** @param class-string<ClassViewInterface> $classViewClass */
     public function setClassViewClass(string $classViewClass): void;
 }

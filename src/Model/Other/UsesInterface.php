@@ -43,7 +43,7 @@ interface UsesInterface extends ModelInterface
     public function getUseModels(): array;
 
     /**
-     * @param UseInterface[] $uses
+     * @param UseInterface[] $useModels
      */
-    public function setUseModels(array $uses): void;
+    public function setUseModels(array $useModels): void;
 }

@@ -9,17 +9,11 @@ use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewInterface;
 
 final class PhpDocViewFactory implements PhpDocViewFactoryInterface
 {
-    /** @var string */
-    private $phpDocViewClass;
-    /** @var int */
-    private $wrapOn;
-
     public function __construct(
-        string $phpDocViewClass,
-        int $wrapOn = PhpDocViewInterface::DEFAULT_WRAP_ON
+        /** @var class-string<PhpDocViewInterface> */
+        private string $phpDocViewClass,
+        private int $wrapOn = PhpDocViewInterface::DEFAULT_WRAP_ON,
     ) {
-        $this->phpDocViewClass = $phpDocViewClass;
-        $this->wrapOn = $wrapOn;
     }
 
     public function create(PhpDocInterface $phpDoc): PhpDocViewInterface

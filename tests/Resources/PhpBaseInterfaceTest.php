@@ -13,20 +13,13 @@ use DateTimeInterface;
  */
 final class PhpBaseInterfaceTest
 {
-    /** @var DateTimeInterface|null */
-    private $aDateTimeField;
+    private ?DateTimeInterface $aDateTimeField = null;
 
-    /**
-     * @return DateTimeInterface|null
-     */
     public function getADateTimeField(): ?DateTimeInterface
     {
         return $this->aDateTimeField;
     }
 
-    /**
-     * @param DateTimeInterface|null $aDateTimeField
-     */
     public function setADateTimeField(?DateTimeInterface $aDateTimeField): void
     {
         $this->aDateTimeField = $aDateTimeField;

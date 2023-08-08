@@ -11,20 +11,13 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
  */
 final class IntegerTest
 {
-    /** @var int */
-    private $anIntegerField = 0;
+    private int $anIntegerField = 0;
 
-    /**
-     * @return int
-     */
     public function getAnIntegerField(): int
     {
         return $this->anIntegerField;
     }
 
-    /**
-     * @param int $anIntegerField
-     */
     public function setAnIntegerField(int $anIntegerField): void
     {
         $this->anIntegerField = $anIntegerField;

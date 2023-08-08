@@ -6,9 +6,9 @@ namespace Prometee\PhpClassGenerator\Model\Method;
 
 class Constructor extends Method implements ConstructorInterface
 {
-    protected $scope = self::SCOPE_PUBLIC;
+    protected string $scope = self::SCOPE_PUBLIC;
     
-    protected $name = '__construct';
+    protected string $name = '__construct';
 
     public function configure(
         string $scope,

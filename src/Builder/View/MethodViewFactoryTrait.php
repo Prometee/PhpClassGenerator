@@ -10,24 +10,24 @@ use Prometee\PhpClassGenerator\Factory\View\Method\MethodViewFactory;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\View\Method\MethodParameterView;
+use Prometee\PhpClassGenerator\View\Method\MethodParameterViewInterface;
 use Prometee\PhpClassGenerator\View\Method\MethodView;
+use Prometee\PhpClassGenerator\View\Method\MethodViewInterface;
 
 trait MethodViewFactoryTrait
 {
-    /** @var MethodParameterViewFactoryInterface */
-    private $methodParameterViewFactory;
-    /** @var MethodViewFactoryInterface */
-    private $methodViewFactory;
+    private ?MethodParameterViewFactoryInterface $methodParameterViewFactory = null;
+    private ?MethodViewFactoryInterface $methodViewFactory = null;
 
-    /** @var string */
-    private $methodParameterViewFactoryClass = MethodParameterViewFactory::class;
-    /** @var string */
-    private $methodViewFactoryClass = MethodViewFactory::class;
+    /** @var class-string<MethodParameterViewFactoryInterface> */
+    private string $methodParameterViewFactoryClass = MethodParameterViewFactory::class;
+    /** @var class-string<MethodViewFactoryInterface> */
+    private string $methodViewFactoryClass = MethodViewFactory::class;
 
-    /** @var string */
-    private $methodParameterViewClass = MethodParameterView::class;
-    /** @var string */
-    private $methodViewClass = MethodView::class;
+    /** @var class-string<MethodParameterViewInterface> */
+    private string $methodParameterViewClass = MethodParameterView::class;
+    /** @var class-string<MethodViewInterface> */
+    private string $methodViewClass = MethodView::class;
 
     abstract public function buildPhpDocViewFactory(): PhpDocViewFactoryInterface;
 
@@ -35,7 +35,8 @@ trait MethodViewFactoryTrait
     {
         if (null === $this->methodParameterViewFactory) {
             $this->methodParameterViewFactory = new $this->methodParameterViewFactoryClass(
-                $this->methodParameterViewClass
+                $this->methodParameterViewClass,
+                $this->buildPhpDocViewFactory()
             );
         }
 

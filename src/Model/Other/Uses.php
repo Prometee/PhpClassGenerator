@@ -9,18 +9,13 @@ use Prometee\PhpClassGenerator\Model\AbstractModel;
 
 class Uses extends AbstractModel implements UsesInterface
 {
-    /** @var UseModelFactoryInterface */
-    protected $useModelFactory;
     /** @var UseInterface[] */
-    protected $useModels = [];
-    /** @var string */
-    private $namespace = '';
-    /** @var string|null */
-    private $className;
+    protected array $useModels = [];
+    private string $namespace = '';
+    private ?string $className = null;
 
-    public function __construct(UseModelFactoryInterface $useModelFactory)
+    public function __construct(protected UseModelFactoryInterface $useModelFactory)
     {
-        $this->useModelFactory = $useModelFactory;
     }
 
     public function configure(
@@ -57,8 +52,7 @@ class Uses extends AbstractModel implements UsesInterface
     {
         $cleanedUse = rtrim($use, '][');
         $cleanedUse = trim($cleanedUse, '\\');
-        $cleanedUse = ltrim($cleanedUse, '?');
-        return $cleanedUse;
+        return ltrim($cleanedUse, '?');
     }
 
     public function addRawUseOrReturnType(string $use): string
@@ -68,13 +62,13 @@ class Uses extends AbstractModel implements UsesInterface
         }
 
         $arraySuffix =
-            1 === preg_match('#\[]$#', $use)
+            str_ends_with($use, '[]')
                 ? '[]'
                 : ''
         ;
 
         $nullPrefix =
-            1 === preg_match('#^\?#', $use)
+            str_starts_with($use, '?')
                 ? '?'
                 : ''
         ;
@@ -163,17 +157,11 @@ class Uses extends AbstractModel implements UsesInterface
         return $this->useModels[$use];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getUseModels(): array
     {
         return $this->useModels;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setUseModels(array $useModels): void
     {
         $this->useModels = $useModels;

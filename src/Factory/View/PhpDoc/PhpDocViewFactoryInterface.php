@@ -11,6 +11,7 @@ interface PhpDocViewFactoryInterface
 {
     public function create(PhpDocInterface $phpDoc): PhpDocViewInterface;
 
+    /** @param class-string<PhpDocViewInterface> $phpDocViewClass */
     public function setPhpDocViewClass(string $phpDocViewClass): void;
 
     public function getPhpDocViewClass(): string;

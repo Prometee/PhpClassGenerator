@@ -8,6 +8,7 @@ use LogicException;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
+use Prometee\PhpClassGenerator\Model\Method\MethodParameterInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
@@ -16,34 +17,18 @@ use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 class MethodView extends AbstractView implements MethodViewInterface
 {
     use PhpDocViewAwareTrait {
-        PhpDocViewAwareTrait::__construct as private __constructPhpDocViewFactory;
         PhpDocViewAwareTrait::configurePhpDoc as private _configurePhpDoc;
     }
 
-    /** @var MethodInterface */
-    protected $method;
-    /** @var MethodParameterViewFactoryInterface */
-    protected $methodParameterView;
-
     public function __construct(
-        MethodInterface $method,
-        PhpDocViewFactoryInterface $phpDocViewFactory,
-        MethodParameterViewFactoryInterface $methodParameterView
+        protected MethodInterface $method,
+        protected PhpDocViewFactoryInterface $phpDocViewFactory,
+        protected MethodParameterViewFactoryInterface $methodParameterView
     ) {
-        $this->method = $method;
-        $this->__constructPhpDocViewFactory($phpDocViewFactory);
-        $this->methodParameterView = $methodParameterView;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function doRender(): ?string
     {
-        if ('' === $this->eol) {
-            throw new LogicException('EOL cannot be empty !');
-        }
-
         $this->configurePhpDoc(
             $this->method->getPhpDoc(),
             $this->method->getUses()
@@ -69,11 +54,18 @@ class MethodView extends AbstractView implements MethodViewInterface
             $phpDoc->addDescriptionLine($description);
         }
         foreach ($this->method->getParameters() as $parameter) {
-            $phpDoc->addParamLine($parameter->getPhpName(), $parameter->getPhpDocType(), $parameter->getDescription());
+            $phpDocType = $parameter->getPhpDocType();
+            if (
+                false === $parameter->hasScope()
+                && $phpDoc::isTypedLineRequired($parameter->getPhpTypeFromTypes(), $phpDocType, $parameter->getDescription())
+            ) {
+                $phpDoc->addParamLine($parameter->getPhpName(), $phpDocType, $parameter->getDescription());
+            }
         }
-        $returnTypes = $this->method->getReturnTypes();
-        if (false === empty($returnTypes) && false === in_array('void', $returnTypes)) {
-            $phpDoc->addReturnLine($this->method->getPhpDocReturnType());
+
+        $phpDocReturnType = $this->method->getPhpDocReturnType();
+        if ($phpDoc::isTypedLineRequired($this->method->getPhpTypeFromReturnTypes(), $phpDocReturnType)) {
+            $phpDoc->addReturnLine($phpDocReturnType);
         }
 
         $this->_configurePhpDoc($phpDoc, $uses);
@@ -99,6 +91,7 @@ class MethodView extends AbstractView implements MethodViewInterface
 
         // result example : "string $first,%1$sstring $second,%1$sstring $third"
         $methodParameters = $this->buildMethodParameters('%1$s');
+
         // 3 = length of $formatVar - 1 (see the method parameter, the line just below)
         // -1 because the first parameter don't have $formatVar
         $methodParametersLength = strlen($methodParameters) - 3 * (count($this->method->getParameters()) - 1);
@@ -120,7 +113,7 @@ class MethodView extends AbstractView implements MethodViewInterface
         $afterSignature = $this->eol . $this->indent;
 
         $contentLength = strlen($content) - strlen($parametersFutureFormat) + $methodParametersLength;
-        if ($contentLength > $wrapOn) {
+        if ($contentLength > $wrapOn || str_contains($methodParameters, '/*')) {
             // Make parameters go into multiline formation
             $additionalIndentation = $this->eol . $this->indent . $this->indent;
             $parametersStart = $additionalIndentation;
@@ -139,14 +132,16 @@ class MethodView extends AbstractView implements MethodViewInterface
 
     public function buildMethodParameters(string $formatVar = ' '): string
     {
-        $parameters = [];
+        $methodParameters = [];
 
         foreach ($this->method->getParameters() as $methodParameter) {
             $methodParameterView = $this->methodParameterView->create($methodParameter);
-            $parameters[] = $methodParameterView->render($this->indent, $this->eol);
+            $rendered = $methodParameterView->render('', $this->eol) ?? '';
+            $rendered = str_replace($this->eol, $formatVar, $rendered);
+            $methodParameters[] = $rendered;
         }
 
-        return implode(sprintf(',%s', $formatVar), $parameters);
+        return implode(sprintf(',%s', $formatVar), $methodParameters);
     }
 
     public function buildReturnType(): string

@@ -10,17 +10,10 @@ use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 class UsesView extends AbstractArrayView implements UsesViewInterface
 {
-    /** @var UsesInterface */
-    protected $uses;
-    /** @var UseViewFactoryInterface */
-    protected $useViewFactory;
-
     public function __construct(
-        UsesInterface $uses,
-        UseViewFactoryInterface $useViewFactory
+        protected UsesInterface $uses,
+        protected UseViewFactoryInterface $useViewFactory
     ) {
-        $this->uses = $uses;
-        $this->useViewFactory = $useViewFactory;
     }
 
     public function getArrayToBuild(): array
@@ -46,9 +39,6 @@ class UsesView extends AbstractArrayView implements UsesViewInterface
         return $useModels;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function doRender(): ?string
     {
         $content = parent::doRender();

@@ -6,5 +6,5 @@ namespace Prometee\PhpClassGenerator\Model\Class_;
 
 class TraitClass extends Class_ implements TraitClassInterface
 {
-    protected $type = 'trait';
+    protected string $type = 'trait';
 }

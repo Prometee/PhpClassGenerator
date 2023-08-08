@@ -12,42 +12,29 @@ use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
 class Property extends AbstractModel implements PropertyInterface
 {
-    use UsesAwareTrait {
-        UsesAwareTrait::__construct as private __constructUses;
-    }
-    use PhpDocAwareTrait {
-        PhpDocAwareTrait::__construct as private __constructPhpDoc;
-    }
+    use UsesAwareTrait;
+    use PhpDocAwareTrait;
 
-    /** @var string */
-    protected $scope = 'private';
-    /** @var string */
-    protected $name;
-    /** @var string|null */
-    protected $value;
-    /** @var string */
-    protected $description = '';
+    protected string $scope = 'private';
+    protected string $name = '';
+    protected ?string $value = null;
+    protected string $description = '';
     /** @var string[] */
-    protected $types;
-    /** @var bool */
-    protected $readable = true;
-    /** @var bool */
-    protected $writeable = true;
-    /** @var bool */
-    protected $required = false;
-    /** @var bool */
-    protected $inherited = false;
-    /** @var bool */
-    protected $inherited_required = false;
-    /** @var int|null */
-    private $inherited_position;
+    protected array $types = [];
+    protected bool $readable = true;
+    protected bool $writeable = true;
+    protected bool $promoted = false;
+    protected bool $required = false;
+    protected bool $inherited = false;
+    protected bool $inherited_required = false;
+    private ?int $inherited_position = null;
 
     public function __construct(
         UsesInterface $uses,
         PhpDocInterface $phpDoc
     ) {
-        $this->__constructUses($uses);
-        $this->__constructPhpDoc($phpDoc);
+        $this->setUses($uses);
+        $this->setPhpDoc($phpDoc);
     }
 
     public function configure(
@@ -92,7 +79,7 @@ class Property extends AbstractModel implements PropertyInterface
 
     public function hasType(string $type): bool
     {
-        return false !== array_search($type, $this->types);
+        return in_array($type, $this->types, true);
     }
 
     public function getPhpDocType(): ?string
@@ -105,13 +92,18 @@ class Property extends AbstractModel implements PropertyInterface
         foreach ($this->types as $type) {
             $types[] = $this->uses->addRawUseOrReturnType($type);
         }
-        
+
         return implode('|', $types);
     }
 
     public function getPhpTypeFromTypes(): string
     {
-        return self::getPhpType($this->types);
+        $types = [];
+        foreach ($this->types as $type) {
+            $types[] = $this->uses->addRawUseOrReturnType($type);
+        }
+
+        return self::getPhpType($types);
     }
 
     public function getDefaultValueFromTypes(): ?string
@@ -222,5 +214,22 @@ class Property extends AbstractModel implements PropertyInterface
     public function getInheritedPosition(): ?int
     {
         return $this->inherited_position;
+    }
+
+    public function isPromoted(): bool
+    {
+        if ($this->isInheritedAndInheritedRequired()) {
+            return false;
+        }
+
+        if (in_array('null', $this->getTypes())) {
+            return false;
+        }
+
+        if (null === $this->getValue()) {
+            return true;
+        }
+
+        return $this->isRequired();
     }
 }

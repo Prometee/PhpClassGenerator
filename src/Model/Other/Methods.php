@@ -12,7 +12,7 @@ class Methods extends AbstractModel implements MethodsInterface
     use UsesAwareTrait;
 
     /** @var MethodInterface[] */
-    protected $methods = [];
+    protected array $methods = [];
 
     public function configure(array $methods = []): void
     {

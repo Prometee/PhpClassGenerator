@@ -13,9 +13,6 @@ use Tests\Prometee\PhpClassGenerator\Resources\SubPath\ExtendedClassTest;
  */
 final class WithExtendsTest extends ExtendedClassTest
 {
-    /**
-     * @param int $id
-     */
     public function __construct(int $id)
     {
         parent::__construct($id);

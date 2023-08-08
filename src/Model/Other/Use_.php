@@ -9,18 +9,12 @@ use Prometee\PhpClassGenerator\Model\AbstractModel;
 
 class Use_ extends AbstractModel implements UseInterface
 {
-    /** @var string */
-    protected $use;
-    /** @var string */
-    protected $namespace;
-    /** @var string */
-    protected $className;
-    /** @var string */
-    protected $internalName;
-    /** @var string|null */
-    protected $alias;
-    /** @var bool */
-    protected $muted = false;
+    protected ?string $use = null;
+    protected ?string $namespace = null;
+    protected ?string $className = null;
+    protected ?string $internalName = null;
+    protected ?string $alias = null;
+    protected bool $muted = false;
 
     public function configure(string $use, ?string $desiredAlias = null): void
     {

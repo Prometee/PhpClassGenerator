@@ -6,13 +6,7 @@ namespace Prometee\PhpClassGenerator\Model\Other;
 
 trait UsesAwareTrait
 {
-    /** @var UsesInterface **/
-    protected $uses;
-
-    public function __construct(UsesInterface $uses)
-    {
-        $this->uses = $uses;
-    }
+    protected UsesInterface $uses;
 
     public function getUses(): UsesInterface
     {

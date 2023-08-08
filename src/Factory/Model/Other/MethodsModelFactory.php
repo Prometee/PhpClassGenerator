@@ -8,6 +8,7 @@ use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
 use Prometee\PhpClassGenerator\Model\Other\MethodsInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property class-string<MethodsInterface> $modelClass */
 final class MethodsModelFactory extends AbstractModelFactory implements MethodsModelFactoryInterface
 {
     public function create(UsesInterface $uses): MethodsInterface

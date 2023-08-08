@@ -6,7 +6,7 @@ namespace Prometee\PhpClassGenerator\Model\Property;
 
 class Constant extends Property implements ConstantInterface
 {
-    protected $scope = 'public const';
+    protected string $scope = 'public const';
 
     public function getPhpName(): string
     {
@@ -22,5 +22,10 @@ class Constant extends Property implements ConstantInterface
         }
 
         return $value;
+    }
+
+    public function getPhpTypeFromTypes(): string
+    {
+        return '';
     }
 }

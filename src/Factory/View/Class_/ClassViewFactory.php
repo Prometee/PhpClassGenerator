@@ -14,33 +14,15 @@ use Prometee\PhpClassGenerator\View\Class_\ClassViewInterface;
 
 final class ClassViewFactory implements ClassViewFactoryInterface
 {
-    /** @var string */
-    protected $classViewClass;
-    /** @var PhpDocViewFactoryInterface */
-    protected $phpDocViewFactory;
-    /** @var MethodsViewFactoryInterface */
-    protected $methodsViewFactory;
-    /** @var UsesViewFactoryInterface */
-    protected $usesViewFactory;
-    /** @var TraitsViewFactoryInterface */
-    protected $traitsViewFactory;
-    /** @var PropertiesViewFactoryInterface */
-    protected $propertiesViewFactory;
-
     public function __construct(
-        string $classViewClass,
-        PhpDocViewFactoryInterface $phpDocViewFactory,
-        MethodsViewFactoryInterface $methodsViewFactory,
-        UsesViewFactoryInterface $usesViewFactory,
-        TraitsViewFactoryInterface $traitsViewFactory,
-        PropertiesViewFactoryInterface $propertiesViewFactory
+        /** @var class-string<ClassViewInterface> */
+        protected string $classViewClass,
+        protected PhpDocViewFactoryInterface $phpDocViewFactory,
+        protected MethodsViewFactoryInterface $methodsViewFactory,
+        protected UsesViewFactoryInterface $usesViewFactory,
+        protected TraitsViewFactoryInterface $traitsViewFactory,
+        protected PropertiesViewFactoryInterface $propertiesViewFactory,
     ) {
-        $this->classViewClass = $classViewClass;
-        $this->phpDocViewFactory = $phpDocViewFactory;
-        $this->methodsViewFactory = $methodsViewFactory;
-        $this->usesViewFactory = $usesViewFactory;
-        $this->traitsViewFactory = $traitsViewFactory;
-        $this->propertiesViewFactory = $propertiesViewFactory;
     }
 
     public function create(ClassInterface $classModel): ClassViewInterface

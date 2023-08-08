@@ -8,17 +8,17 @@ use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Property\PropertyViewFactory;
 use Prometee\PhpClassGenerator\Factory\View\Property\PropertyViewFactoryInterface;
 use Prometee\PhpClassGenerator\View\Property\PropertyView;
+use Prometee\PhpClassGenerator\View\Property\PropertyViewInterface;
 
 trait PropertyViewFactoryTrait
 {
-    /** @var PropertyViewFactoryInterface */
-    private $propertyViewFactory;
+    private ?PropertyViewFactoryInterface $propertyViewFactory = null;
 
-    /** @var string */
-    private $propertyViewFactoryClass = PropertyViewFactory::class;
+    /** @var class-string<PropertyViewFactoryInterface> */
+    private string $propertyViewFactoryClass = PropertyViewFactory::class;
 
-    /** @var string */
-    private $propertyViewClass = PropertyView::class;
+    /** @var class-string<PropertyViewInterface> */
+    private string $propertyViewClass = PropertyView::class;
 
     abstract public function buildPhpDocViewFactory(): PhpDocViewFactoryInterface;
 

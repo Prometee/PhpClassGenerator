@@ -11,17 +11,15 @@ use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewInterface;
 
 trait PhpDocViewFactoryTrait
 {
-    /** @var PhpDocViewFactoryInterface */
-    private $phpDocViewFactory;
+    private ?PhpDocViewFactoryInterface $phpDocViewFactory = null;
 
-    /** @var string */
-    private $phpDocViewFactoryClass = PhpDocViewFactory::class;
+    /** @var class-string<PhpDocViewFactoryInterface> */
+    private string $phpDocViewFactoryClass = PhpDocViewFactory::class;
 
-    /** @var string */
-    private $phpDocViewClass = PhpDocView::class;
+    /** @var class-string<PhpDocViewInterface> */
+    private string $phpDocViewClass = PhpDocView::class;
 
-    /** @var int */
-    private $wrapOn;
+    private int $wrapOn;
 
     public function __construct(int $wrapOn = PhpDocViewInterface::DEFAULT_WRAP_ON)
     {

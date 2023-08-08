@@ -10,21 +10,12 @@ use Prometee\PhpClassGenerator\View\Method\MethodViewInterface;
 
 final class MethodViewFactory implements MethodViewFactoryInterface
 {
-    /** @var string */
-    protected $methodViewClass;
-    /** @var PhpDocViewFactoryInterface */
-    protected $phpDocViewFactory;
-    /** @var MethodParameterViewFactory */
-    protected $methodParameterViewFactory;
-
     public function __construct(
-        string $methodViewClass,
-        PhpDocViewFactoryInterface $phpDocViewFactory,
-        MethodParameterViewFactory $methodParameterViewFactory
+        /** @var class-string<MethodViewInterface> */
+        protected string $methodViewClass,
+        protected PhpDocViewFactoryInterface $phpDocViewFactory,
+        protected MethodParameterViewFactory $methodParameterViewFactory
     ) {
-        $this->methodViewClass = $methodViewClass;
-        $this->phpDocViewFactory = $phpDocViewFactory;
-        $this->methodParameterViewFactory = $methodParameterViewFactory;
     }
 
     public function create(MethodInterface $method): MethodViewInterface

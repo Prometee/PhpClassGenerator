@@ -47,13 +47,13 @@ abstract class AbstractModel implements ModelInterface
     public static function getPhpType(array $types): string
     {
         if (in_array('mixed', $types)) {
-            return '';
+            return 'mixed';
         }
 
         $phpTypes = [];
         $isNullable = false;
         foreach ($types as $type) {
-            if (preg_match('#\[]$#', $type)) {
+            if (str_ends_with($type, '[]')) {
                 $phpTypes[] = 'array';
                 continue;
             }
@@ -67,21 +67,29 @@ abstract class AbstractModel implements ModelInterface
 
         $phpTypes = array_unique($phpTypes);
 
-        // Means mixed types
-        if (count($phpTypes) > 1) {
-            return '';
+        if (1 === count($phpTypes)) {
+            return sprintf(
+                '%s%s',
+                $isNullable ? '?' : '',
+                implode('', $phpTypes)
+            );
         }
 
         return sprintf(
             '%s%s',
-            $isNullable ? '?' : '',
-            implode('', $phpTypes)
+            implode('|', $phpTypes),
+            $isNullable ? '|null' : ''
         );
     }
 
     public static function getPhpDefaultValue(array $types): ?string
     {
         $defaultValue = null;
+
+        if (in_array('null', $types, true)) {
+            return 'null';
+        }
+
         switch (self::getPhpType($types)) {
             case 'array':
                 $defaultValue = '[]';

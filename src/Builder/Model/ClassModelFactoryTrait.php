@@ -15,14 +15,12 @@ use Prometee\PhpClassGenerator\Model\Class_\Class_;
 
 trait ClassModelFactoryTrait
 {
-    /** @var ClassModelFactoryInterface */
-    private $classModelFactory;
+    private ?ClassModelFactoryInterface $classModelFactory = null;
 
-    /** @var string */
-    private $classModelFactoryClass = ClassModelFactory::class;
+    /** @var class-string<ClassModelFactoryInterface> */
+    private string $classModelFactoryClass = ClassModelFactory::class;
 
-    /** @var string */
-    private $classModelClass = Class_::class;
+    private string $classModelClass = Class_::class;
 
     abstract public function buildPhpDocModelFactory(): PhpDocModelFactoryInterface;
     abstract public function buildUsesModelFactory(): UsesModelFactoryInterface;

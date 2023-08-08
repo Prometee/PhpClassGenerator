@@ -84,6 +84,11 @@ interface PhpReservedWordsHelperInterface
         'void',
         'iterable',
         'object',
+
+        // PHP 8
+        'mixed',
+        'never',
+
         // Soft reserved words
         'resource',
         'mixed',

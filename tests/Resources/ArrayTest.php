@@ -14,10 +14,9 @@ use Tests\Prometee\PhpClassGenerator\Resources\ArrayTest as ArrayTestAlias;
 final class ArrayTest
 {
     /** @var ArrayTestAlias[]|null */
-    private $anArrayOfItems;
+    private ?array $anArrayOfItems = null;
 
-    /** @var array|null */
-    private $aSimpleArrayField;
+    private ?array $aSimpleArrayField = null;
 
     /**
      * @return ArrayTestAlias[]|null
@@ -35,23 +34,15 @@ final class ArrayTest
         $this->anArrayOfItems = $anArrayOfItems;
     }
 
-    /**
-     * @param ArrayTestAlias $item
-     *
-     * @return bool
-     */
     public function hasAnArrayOfItems(ArrayTestAlias $item): bool
     {
         if (null === $this->anArrayOfItems) {
             return false;
         }
 
-        return in_array($item, $this->anArrayOfItems);
+        return in_array($item, $this->anArrayOfItems, true);
     }
 
-    /**
-     * @param ArrayTestAlias $item
-     */
     public function addAnArrayOfItems(ArrayTestAlias $item): void
     {
         if ($this->hasAnArrayOfItems($item)) {
@@ -65,9 +56,6 @@ final class ArrayTest
         $this->anArrayOfItems[] = $item;
     }
 
-    /**
-     * @param ArrayTestAlias $item
-     */
     public function removeAnArrayOfItems(ArrayTestAlias $item): void
     {
         if (null === $this->anArrayOfItems) {
@@ -75,45 +63,31 @@ final class ArrayTest
         }
 
         if ($this->hasAnArrayOfItems($item)) {
-            $index = array_search($item, $this->anArrayOfItems);
+            $index = array_search($item, $this->anArrayOfItems, true);
             unset($this->anArrayOfItems[$index]);
         }
     }
 
-    /**
-     * @return array|null
-     */
     public function getASimpleArrayField(): ?array
     {
         return $this->aSimpleArrayField;
     }
 
-    /**
-     * @param array|null $aSimpleArrayField
-     */
     public function setASimpleArrayField(?array $aSimpleArrayField): void
     {
         $this->aSimpleArrayField = $aSimpleArrayField;
     }
 
-    /**
-     * @param mixed $item
-     *
-     * @return bool
-     */
-    public function hasASimpleArrayField($item): bool
+    public function hasASimpleArrayField(mixed $item): bool
     {
         if (null === $this->aSimpleArrayField) {
             return false;
         }
 
-        return in_array($item, $this->aSimpleArrayField);
+        return in_array($item, $this->aSimpleArrayField, true);
     }
 
-    /**
-     * @param mixed $item
-     */
-    public function addASimpleArrayField($item): void
+    public function addASimpleArrayField(mixed $item): void
     {
         if ($this->hasASimpleArrayField($item)) {
             return;
@@ -126,17 +100,14 @@ final class ArrayTest
         $this->aSimpleArrayField[] = $item;
     }
 
-    /**
-     * @param mixed $item
-     */
-    public function removeASimpleArrayField($item): void
+    public function removeASimpleArrayField(mixed $item): void
     {
         if (null === $this->aSimpleArrayField) {
             $this->aSimpleArrayField = [];
         }
 
         if ($this->hasASimpleArrayField($item)) {
-            $index = array_search($item, $this->aSimpleArrayField);
+            $index = array_search($item, $this->aSimpleArrayField, true);
             unset($this->aSimpleArrayField[$index]);
         }
     }

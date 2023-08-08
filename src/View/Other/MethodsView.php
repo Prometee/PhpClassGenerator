@@ -9,17 +9,10 @@ use Prometee\PhpClassGenerator\Model\Other\MethodsInterface;
 
 class MethodsView extends AbstractArrayView implements MethodsViewInterface
 {
-    /** @var MethodsInterface */
-    protected $methods;
-    /** @var MethodViewFactoryInterface */
-    protected $methodViewFactory;
-
     public function __construct(
-        MethodsInterface $methods,
-        MethodViewFactoryInterface $methodViewFactory
+        protected MethodsInterface $methods,
+        protected MethodViewFactoryInterface $methodViewFactory
     ) {
-        $this->methods = $methods;
-        $this->methodViewFactory = $methodViewFactory;
     }
 
     public function getArrayToBuild(): array

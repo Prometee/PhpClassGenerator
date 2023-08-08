@@ -9,12 +9,10 @@ use Prometee\PhpClassGenerator\View\Other\TraitsViewInterface;
 
 final class TraitsViewFactory implements TraitsViewFactoryInterface
 {
-    /** @var string */
-    protected $traitsViewClass;
-
-    public function __construct(string $traitsViewClass)
-    {
-        $this->traitsViewClass = $traitsViewClass;
+    public function __construct(
+        /** @var class-string<TraitsViewInterface> */
+        protected string $traitsViewClass,
+    ) {
     }
 
     public function create(TraitsInterface $traits): TraitsViewInterface

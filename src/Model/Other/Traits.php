@@ -11,7 +11,7 @@ class Traits extends AbstractModel implements TraitsInterface
     use UsesAwareTrait;
 
     /** @var array<int, string> */
-    protected $traits = [];
+    protected array $traits = [];
 
     public function configure(array $traits = []): void
     {

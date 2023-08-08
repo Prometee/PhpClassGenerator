@@ -7,6 +7,7 @@ namespace Prometee\PhpClassGenerator\Factory\Model\Method;
 use Prometee\PhpClassGenerator\Model\Method\ArrayGetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property class-string<ArrayGetterSetterInterface> $modelClass */
 final class ArrayGetterSetterModelFactory extends AbstractDecoratedGetterSetterModelFactory implements ArrayGetterSetterModelFactoryInterface
 {
     public function create(UsesInterface $uses): ArrayGetterSetterInterface

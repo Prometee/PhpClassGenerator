@@ -10,17 +10,11 @@ use Prometee\PhpClassGenerator\View\Other\PropertiesViewInterface;
 
 final class PropertiesViewFactory implements PropertiesViewFactoryInterface
 {
-    /** @var string */
-    protected $propertiesViewClass;
-    /** @var PropertyViewFactoryInterface */
-    protected $propertyViewFactory;
-
     public function __construct(
-        string $propertiesViewClass,
-        PropertyViewFactoryInterface $propertyViewFactory
+        /** @var class-string<PropertiesViewInterface> */
+        protected string $propertiesViewClass,
+        protected PropertyViewFactoryInterface $propertyViewFactory,
     ) {
-        $this->propertiesViewClass = $propertiesViewClass;
-        $this->propertyViewFactory = $propertyViewFactory;
     }
 
     public function create(PropertiesInterface $properties): PropertiesViewInterface

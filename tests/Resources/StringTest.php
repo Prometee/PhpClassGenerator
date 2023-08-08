@@ -11,20 +11,13 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
  */
 final class StringTest
 {
-    /** @var string */
-    private $aStringField = '';
+    private string $aStringField = '';
 
-    /**
-     * @return string
-     */
     public function getAStringField(): string
     {
         return $this->aStringField;
     }
 
-    /**
-     * @param string $aStringField
-     */
     public function setAStringField(string $aStringField): void
     {
         $this->aStringField = $aStringField;

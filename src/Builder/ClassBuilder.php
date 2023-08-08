@@ -18,61 +18,42 @@ use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\Model\Method\ConstructorInterface;
 use Prometee\PhpClassGenerator\Model\Method\GetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
+use Prometee\PhpClassGenerator\Model\Method\MethodParameterInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 class ClassBuilder implements ClassBuilderInterface
 {
-    /** @var string */
-    protected $indent = '    ';
-    /** @var string */
-    protected $eol = "\n";
+    protected string $indent = '    ';
+    /** @var non-empty-string */
+    protected string $eol = "\n";
 
-    /** @var UsesInterface */
-    protected $uses;
+    protected UsesInterface $uses;
 
-    /** @var string */
-    protected $classType;
+    protected string $classType;
     /** @var PropertyInterface[] */
-    protected $properties = [];
+    protected array $properties = [];
     /** @var MethodInterface[] */
-    protected $methods = [];
-    /** @var string|null */
-    protected $extendClass;
+    protected array $methods = [];
+    protected ?string $extendClass = null;
     /** @var string[] */
-    protected $implements = [];
+    protected array $implements = [];
 
-    /** @var ModelFactoryBuilderInterface */
-    protected $modelFactoryBuilder;
-    /** @var ViewFactoryBuilderInterface */
-    protected $viewFactoryBuilder;
-
-    /** @var UsesModelFactoryInterface */
-    protected $usesModelFactory;
-    /** @var MethodParameterModelFactoryInterface */
-    protected $methodParameterModelFactory;
-    /** @var ConstructorModelFactoryInterface */
-    protected $constructorModelFactory;
-    /** @var PropertyModelFactoryInterface */
-    protected $propertyModelFactory;
-    /** @var ConstantModelFactoryInterface */
-    protected $constantModelFactory;
-    /** @var AutoGetterSetterModelFactoryInterface */
-    protected $autoGetterSetterModelFactory;
-    /** @var ClassViewFactoryInterface */
-    protected $classViewFactory;
-    /** @var MethodModelFactoryInterface */
-    protected $methodModelFactory;
+    protected UsesModelFactoryInterface $usesModelFactory;
+    protected MethodParameterModelFactoryInterface $methodParameterModelFactory;
+    protected ConstructorModelFactoryInterface $constructorModelFactory;
+    protected PropertyModelFactoryInterface $propertyModelFactory;
+    protected ConstantModelFactoryInterface $constantModelFactory;
+    protected AutoGetterSetterModelFactoryInterface $autoGetterSetterModelFactory;
+    protected ClassViewFactoryInterface $classViewFactory;
+    protected MethodModelFactoryInterface $methodModelFactory;
 
     public function __construct(
-        ModelFactoryBuilderInterface $modelFactoryBuilder,
-        ViewFactoryBuilderInterface $viewFactoryBuilder,
+        protected ModelFactoryBuilderInterface $modelFactoryBuilder,
+        protected ViewFactoryBuilderInterface $viewFactoryBuilder,
         string $classType = self::CLASS_TYPE_CLASS
     ) {
-        $this->modelFactoryBuilder = $modelFactoryBuilder;
-        $this->viewFactoryBuilder = $viewFactoryBuilder;
-
         $this->usesModelFactory = $this->modelFactoryBuilder->buildUsesModelFactory();
         $this->constructorModelFactory = $this->modelFactoryBuilder->buildConstructorModelFactory();
         $this->methodParameterModelFactory = $this->modelFactoryBuilder->buildMethodParameterModelFactory();
@@ -221,8 +202,7 @@ class ClassBuilder implements ClassBuilderInterface
 
     public function renderClass(ClassInterface $classModel): ?string
     {
-        $classView = $this->classViewFactory->create($classModel);
-        return $classView->render($this->indent, $this->eol);
+        return $this->classViewFactory->create($classModel)->render($this->indent, $this->eol);
     }
 
     protected function buildConstructor(): ?ConstructorInterface
@@ -230,26 +210,19 @@ class ClassBuilder implements ClassBuilderInterface
         $constructor = $this->constructorModelFactory->create($this->getUses());
         $inheritedParameters = [];
         foreach ($this->properties as $property) {
-            $isInheritedAndInheritedRequired = $property->isInheritedAndInheritedRequired();
-
-            if (!$isInheritedAndInheritedRequired && in_array('null', $property->getTypes())) {
+            $methodParameter = $this->buildParameterFromProperty($constructor->getUses(), $property);
+            if (null === $methodParameter) {
                 continue;
             }
 
-            if (!$isInheritedAndInheritedRequired && null !== $property->getValue()) {
-                continue;
-            }
-
-            $methodParameter = $this->methodParameterModelFactory->create($constructor->getUses());
-            $methodParameter->configure(
-                $property->getTypes(),
-                $property->getName()
-            );
-            $methodParameter->setDescription($property->getDescription());
             $constructor->addParameter($methodParameter);
 
-            if ($isInheritedAndInheritedRequired) {
+            if ($property->isInheritedAndInheritedRequired()) {
                 $inheritedParameters[$property->getPhpName()] = $property->getInheritedPosition();
+                continue;
+            }
+
+            if ($property->isPromoted()) {
                 continue;
             }
 
@@ -261,7 +234,7 @@ class ClassBuilder implements ClassBuilderInterface
         }
 
         if (false === empty($inheritedParameters)) {
-            uasort($inheritedParameters, function ($pos1, $pos2) {
+            uasort($inheritedParameters, static function ($pos1, $pos2) {
                 if ($pos1 === $pos2) {
                     return 0;
                 }
@@ -291,11 +264,39 @@ class ClassBuilder implements ClassBuilderInterface
             ));
         }
 
-        if (0 === count($constructor->getLines())) {
+        if (0 === count($constructor->getParameters()) && 0 === count($constructor->getLines())) {
             return null;
         }
 
         return $constructor;
+    }
+
+    protected function buildParameterFromProperty(UsesInterface $uses, PropertyInterface $property): ?MethodParameterInterface
+    {
+        $isInheritedAndInheritedRequired = $property->isInheritedAndInheritedRequired();
+
+        if (!$isInheritedAndInheritedRequired && in_array('null', $property->getTypes())) {
+            return null;
+        }
+
+        if (!$isInheritedAndInheritedRequired && null !== $property->getValue()) {
+            return null;
+        }
+
+        $methodParameter = $this->methodParameterModelFactory->create($uses);
+        $methodParameter->configure(
+            $property->getTypes(),
+            $property->getName()
+        );
+        $methodParameter->setDescription($property->getDescription());
+        $methodParameter->setValue($property->getValue());
+
+        if ($property->isPromoted()) {
+            $methodParameter->setScope($property->getScope());
+            $methodParameter->setPhpDoc($property->getPhpDoc());
+        }
+
+        return $methodParameter;
     }
 
     public function buildGetterSetter(PropertyInterface $property): GetterSetterInterface

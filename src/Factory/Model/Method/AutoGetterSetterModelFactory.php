@@ -8,25 +8,19 @@ use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
 use Prometee\PhpClassGenerator\Model\Method\AutoGetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property class-string<AutoGetterSetterInterface> $modelClass */
 final class AutoGetterSetterModelFactory extends AbstractModelFactory implements AutoGetterSetterModelFactoryInterface
 {
-    /** @var ArrayGetterSetterModelFactoryInterface */
-    private $arrayGetterSetterModelFactory;
-    /** @var IsserSetterModelFactoryInterface */
-    private $isserSetterModelFactory;
-    /** @var GetterSetterModelFactoryInterface */
-    private $getterSetterModelFactory;
-
+    /**
+     * @param class-string<AutoGetterSetterInterface> $modelClass
+     */
     public function __construct(
         string $modelClass,
-        ArrayGetterSetterModelFactoryInterface $arrayGetterSetterModelFactory,
-        IsserSetterModelFactoryInterface $isserSetterModelFactory,
-        GetterSetterModelFactoryInterface $getterSetterModelFactory
+        private ArrayGetterSetterModelFactoryInterface $arrayGetterSetterModelFactory,
+        private IsserSetterModelFactoryInterface $isserSetterModelFactory,
+        private GetterSetterModelFactoryInterface $getterSetterModelFactory
     ) {
         parent::__construct($modelClass);
-        $this->arrayGetterSetterModelFactory = $arrayGetterSetterModelFactory;
-        $this->isserSetterModelFactory = $isserSetterModelFactory;
-        $this->getterSetterModelFactory = $getterSetterModelFactory;
     }
 
     public function create(UsesInterface $uses): AutoGetterSetterInterface

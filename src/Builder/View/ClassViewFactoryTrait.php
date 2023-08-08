@@ -12,17 +12,17 @@ use Prometee\PhpClassGenerator\Factory\View\Other\TraitsViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\UsesViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\View\Class_\ClassView;
+use Prometee\PhpClassGenerator\View\Class_\ClassViewInterface;
 
 trait ClassViewFactoryTrait
 {
-    /** @var ClassViewFactoryInterface */
-    private $classViewFactory;
+    private ?ClassViewFactoryInterface $classViewFactory = null;
 
-    /** @var string */
-    private $classViewFactoryClass = ClassViewFactory::class;
+    /** @var class-string<ClassViewFactoryInterface> */
+    private string $classViewFactoryClass = ClassViewFactory::class;
 
-    /** @var string */
-    private $classViewClass = ClassView::class;
+    /** @var class-string<ClassViewInterface> */
+    private string $classViewClass = ClassView::class;
 
     abstract public function buildPhpDocViewFactory(): PhpDocViewFactoryInterface;
     abstract public function buildMethodsViewFactory(): MethodsViewFactoryInterface;

@@ -9,12 +9,10 @@ use Prometee\PhpClassGenerator\View\Other\UseViewInterface;
 
 final class UseViewFactory implements UseViewFactoryInterface
 {
-    /** @var string */
-    protected $useViewClass;
-
-    public function __construct(string $useViewClass)
-    {
-        $this->useViewClass = $useViewClass;
+    public function __construct(
+        /** @var class-string<UseViewInterface> */
+        protected string $useViewClass,
+    ) {
     }
 
     public function create(UseInterface $useModel): UseViewInterface

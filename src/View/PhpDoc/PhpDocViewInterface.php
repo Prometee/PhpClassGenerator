@@ -51,6 +51,6 @@ interface PhpDocViewInterface extends ViewInterface
     public function setWrapOn(int $wrapOn): void;
 
     public function getLineStartIndent(): string;
-    
+
     public function setLineStartIndent(string $lineStartIndent): void;
 }

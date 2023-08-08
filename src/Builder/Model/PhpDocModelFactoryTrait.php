@@ -7,17 +7,17 @@ namespace Prometee\PhpClassGenerator\Builder\Model;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDoc;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
 trait PhpDocModelFactoryTrait
 {
-    /** @var PhpDocModelFactoryInterface */
-    private $phpDocModelFactory;
+    private ?PhpDocModelFactoryInterface $phpDocModelFactory = null;
 
-    /** @var string */
-    private $phpDocModelFactoryClass = PhpDocModelFactory::class;
+    /** @var class-string<PhpDocModelFactoryInterface> */
+    private string $phpDocModelFactoryClass = PhpDocModelFactory::class;
 
-    /** @var string */
-    private $phpDocClass = PhpDoc::class;
+    /** @var class-string<PhpDocInterface> */
+    private string $phpDocClass = PhpDoc::class;
 
     public function buildPhpDocModelFactory(): PhpDocModelFactoryInterface
     {

@@ -11,9 +11,6 @@ abstract class AbstractArrayView extends AbstractView implements ArrayViewInterf
 {
     abstract public function getArrayToBuild(): array;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function doRender(): ?string
     {
         $arrayToBuild = $this->getArrayToBuild();

@@ -55,11 +55,11 @@ interface PropertyInterface extends ModelInterface, PhpDocAwareInterface, UsesAw
 
     public function getPhpDocType(): ?string;
 
-    public function setReadable(bool $readOnly): void;
+    public function setReadable(bool $readable): void;
 
     public function isReadable(): bool;
 
-    public function setWriteable(bool $writeOnly): void;
+    public function setWriteable(bool $writeable): void;
 
     public function isWriteable(): bool;
 
@@ -80,4 +80,6 @@ interface PropertyInterface extends ModelInterface, PhpDocAwareInterface, UsesAw
     public function setInheritedPosition(?int $inherited_position): void;
 
     public function getInheritedPosition(): ?int;
+
+    public function isPromoted(): bool;
 }

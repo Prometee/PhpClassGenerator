@@ -49,4 +49,6 @@ interface PhpDocInterface extends ModelInterface
      * @param array<string, array<int, string>> $lines
      */
     public function setLines(array $lines): void;
+
+    public static function isTypedLineRequired(string $phpType, ?string $phpDocType, string $description = ''): bool;
 }

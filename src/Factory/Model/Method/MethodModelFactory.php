@@ -9,17 +9,17 @@ use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property class-string<MethodInterface> $modelClass */
 final class MethodModelFactory extends AbstractModelFactory implements MethodModelFactoryInterface
 {
-    /** @var PhpDocModelFactoryInterface */
-    protected $phpDocModelFactory;
-
+    /**
+     * @param class-string<MethodInterface> $modelClass
+     */
     public function __construct(
         string $modelClass,
-        PhpDocModelFactoryInterface $phpDocModelFactory
+        protected PhpDocModelFactoryInterface $phpDocModelFactory
     ) {
         parent::__construct($modelClass);
-        $this->phpDocModelFactory = $phpDocModelFactory;
     }
 
     public function create(UsesInterface $uses): MethodInterface

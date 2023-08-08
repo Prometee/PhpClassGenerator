@@ -25,6 +25,10 @@ class IsserSetter extends GetterSetter implements IsserSetterInterface
 
     public function configureGetter(string $indent = null): void
     {
+        if (null === $this->property) {
+            return;
+        }
+
         if (false === $this->property->isReadable()) {
             return;
         }

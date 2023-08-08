@@ -15,35 +15,16 @@ use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 
 class ClassView extends AbstractView implements ClassViewInterface
 {
-    use PhpDocViewAwareTrait {
-        PhpDocViewAwareTrait::__construct as private __constructPhpDocViewFactory;
-    }
-
-    /** @var ClassInterface */
-    protected $classModel;
-    /** @var UsesViewFactoryInterface */
-    protected $usesViewFactory;
-    /** @var TraitsViewFactoryInterface */
-    protected $traitsViewFactory;
-    /** @var PropertiesViewFactoryInterface */
-    protected $propertiesViewFactory;
-    /** @var MethodsViewFactoryInterface */
-    protected $methodsViewFactory;
+    use PhpDocViewAwareTrait;
 
     public function __construct(
-        ClassInterface $classModel,
-        PhpDocViewFactoryInterface $phpDocViewFactory,
-        UsesViewFactoryInterface $usesViewFactory,
-        TraitsViewFactoryInterface $traitsViewFactory,
-        PropertiesViewFactoryInterface $propertiesViewFactory,
-        MethodsViewFactoryInterface $methodsViewFactory
+        protected ClassInterface $classModel,
+        protected PhpDocViewFactoryInterface $phpDocViewFactory,
+        protected UsesViewFactoryInterface $usesViewFactory,
+        protected TraitsViewFactoryInterface $traitsViewFactory,
+        protected PropertiesViewFactoryInterface $propertiesViewFactory,
+        protected MethodsViewFactoryInterface $methodsViewFactory
     ) {
-        $this->classModel = $classModel;
-        $this->__constructPhpDocViewFactory($phpDocViewFactory);
-        $this->usesViewFactory = $usesViewFactory;
-        $this->traitsViewFactory = $traitsViewFactory;
-        $this->propertiesViewFactory = $propertiesViewFactory;
-        $this->methodsViewFactory = $methodsViewFactory;
     }
 
     protected function doRender(): ?string

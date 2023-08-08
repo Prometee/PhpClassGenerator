@@ -12,31 +12,17 @@ use function Symfony\Component\String\u;
 
 class GetterSetter implements GetterSetterInterface
 {
-    use UsesAwareTrait {
-        UsesAwareTrait::__construct as private __constructUses;
-    }
+    use UsesAwareTrait;
 
-    /** @var MethodInterface */
-    protected $getterMethod;
-    /** @var MethodInterface */
-    protected $setterMethod;
-    /** @var MethodParameterModelFactoryInterface */
-    protected $methodParameterFactory;
-
-    /** @var PropertyInterface */
-    protected $property;
+    protected ?PropertyInterface $property = null;
 
     public function __construct(
         UsesInterface $uses,
-        MethodInterface $getterMethod,
-        MethodInterface $setterModelMethod,
-        MethodParameterModelFactoryInterface $methodParameterFactory
+        protected MethodInterface $getterMethod,
+        protected MethodInterface $setterMethod,
+        protected MethodParameterModelFactoryInterface $methodParameterFactory
     ) {
-        $this->__constructUses($uses);
-        $this->getterMethod = $getterMethod;
-        $this->setterMethod = $setterModelMethod;
-        $this->methodParameterFactory = $methodParameterFactory;
-
+        $this->setUses($uses);
         $this->getterMethod->setUses($this->uses);
         $this->setterMethod->setUses($this->uses);
     }
@@ -57,6 +43,10 @@ class GetterSetter implements GetterSetterInterface
     public function getMethods(): array
     {
         $methods = [];
+        if (null === $this->property) {
+            return $methods;
+        }
+
         if ($this->property->isReadable()) {
             $methods[] = $this->getterMethod;
         }
@@ -67,8 +57,12 @@ class GetterSetter implements GetterSetterInterface
         return $methods;
     }
 
-    public function getMethodName(?string $prefix = null, ?string $suffix = null): string
+    protected function getMethodName(?string $prefix = null, ?string $suffix = null): string
     {
+        if (null === $this->property) {
+            return '';
+        }
+
         $name = u($this->property->getName())
             ->camel()->title()
             ->toString();
@@ -76,8 +70,12 @@ class GetterSetter implements GetterSetterInterface
         return $prefix . $name . $suffix;
     }
 
-    public function configureGetter(): void
+    protected function configureGetter(): void
     {
+        if (null === $this->property) {
+            return;
+        }
+
         if (false === $this->property->isReadable()) {
             return;
         }
@@ -93,8 +91,12 @@ class GetterSetter implements GetterSetterInterface
         );
     }
 
-    public function configureSetter(): void
+    protected function configureSetter(): void
     {
+        if (null === $this->property) {
+            return;
+        }
+
         if (false === $this->property->isWriteable()) {
             return;
         }

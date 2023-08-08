@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Factory\Model\Class_;
 
 use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
-use Prometee\PhpClassGenerator\Factory\Model\ModelFactoryInterface;
+use Prometee\PhpClassGenerator\Model\Class_\AbstractClassInterface;
 
-abstract class AbstractDecoratedClassModelFactory extends AbstractModelFactory implements ModelFactoryInterface
+abstract class AbstractDecoratedClassModelFactory extends AbstractModelFactory
 {
-    /** @var ClassModelFactoryInterface */
-    protected $decoratedClassModelFactory;
-
+    /**
+     * @param class-string<AbstractClassInterface> $modelClass
+     */
     public function __construct(
         string $modelClass,
-        ClassModelFactoryInterface $decoratedClassModelFactory
+        protected ClassModelFactoryInterface $decoratedClassModelFactory
     ) {
         parent::__construct($modelClass);
-        $this->decoratedClassModelFactory = $decoratedClassModelFactory;
     }
 }

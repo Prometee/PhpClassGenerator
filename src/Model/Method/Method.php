@@ -13,36 +13,27 @@ use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
 class Method extends AbstractModel implements MethodInterface
 {
-    use UsesAwareTrait {
-        UsesAwareTrait::__construct as private __constructUses;
-    }
-    use PhpDocAwareTrait {
-        PhpDocAwareTrait::__construct as private __constructPhpDoc;
-    }
+    use UsesAwareTrait;
+    use PhpDocAwareTrait;
 
-    /** @var string */
-    protected $scope = self::SCOPE_PUBLIC;
-    /** @var string */
-    protected $name = '';
+    protected string $scope = self::SCOPE_PUBLIC;
+    protected string $name = '';
     /** @var string[] */
-    protected $returnTypes = [];
-    /** @var bool */
-    protected $static = false;
-    /** @var string */
-    protected $description = '';
+    protected array $returnTypes = [];
+    protected bool $static = false;
+    protected string $description = '';
     /** @var MethodParameterInterface[] */
-    protected $parameters = [];
+    protected array $parameters = [];
     /** @var string[] */
-    protected $lines = [];
-    /** @var string */
-    protected $lineIndentation = '    ';
+    protected array $lines = [];
+    protected string $lineIndentation = '    ';
 
     public function __construct(
         UsesInterface $uses,
         PhpDocInterface $phpDoc
     ) {
-        $this->__constructUses($uses);
-        $this->__constructPhpDoc($phpDoc);
+        $this->setUses($uses);
+        $this->setPhpDoc($phpDoc);
     }
 
     public function configure(
@@ -80,7 +71,11 @@ class Method extends AbstractModel implements MethodInterface
 
     public function getPhpTypeFromReturnTypes(): string
     {
-        return self::getPhpType($this->returnTypes);
+        $returnTypes = [];
+        foreach ($this->returnTypes as $returnType) {
+            $returnTypes[] = $this->uses->addRawUseOrReturnType($returnType);
+        }
+        return self::getPhpType($returnTypes);
     }
 
     public function setReturnTypes(array $returnTypes): void

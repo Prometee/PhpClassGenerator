@@ -7,6 +7,7 @@ namespace Prometee\PhpClassGenerator\Factory\Model\Class_;
 use Prometee\PhpClassGenerator\Model\Class_\AbstractClassInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property AbstractClassInterface $modelClass */
 final class AbstractClassModelFactory extends AbstractDecoratedClassModelFactory implements AbstractClassModelFactoryInterface
 {
     public function create(?UsesInterface $uses = null): AbstractClassInterface

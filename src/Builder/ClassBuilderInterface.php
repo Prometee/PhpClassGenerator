@@ -49,6 +49,7 @@ interface ClassBuilderInterface
      */
     public function getProperties(): array;
 
+    /** @param non-empty-string $eol */
     public function setEol(string $eol): void;
 
     public function addClassicProperty(

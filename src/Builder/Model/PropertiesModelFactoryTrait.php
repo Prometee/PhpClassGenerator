@@ -10,24 +10,24 @@ use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterf
 use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Property\Constant;
+use Prometee\PhpClassGenerator\Model\Property\ConstantInterface;
 use Prometee\PhpClassGenerator\Model\Property\Property;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 trait PropertiesModelFactoryTrait
 {
-    /** @var PropertyModelFactoryInterface */
-    private $propertyModelFactory;
-    /** @var ConstantModelFactoryInterface */
-    private $constantModelFactory;
+    private ?PropertyModelFactoryInterface $propertyModelFactory = null;
+    private ?ConstantModelFactoryInterface $constantModelFactory = null;
 
-    /** @var string */
-    private $propertyModelFactoryClass = PropertyModelFactory::class;
-    /** @var string */
-    private $constantModelFactoryClass = ConstantModelFactory::class;
+    /** @var class-string<PropertyModelFactoryInterface> */
+    private string $propertyModelFactoryClass = PropertyModelFactory::class;
+    /** @var class-string<ConstantModelFactoryInterface> */
+    private string $constantModelFactoryClass = ConstantModelFactory::class;
 
-    /** @var string */
-    private $propertyClass = Property::class;
-    /** @var string */
-    private $constantClass = Constant::class;
+    /** @var class-string<PropertyInterface> */
+    private string $propertyClass = Property::class;
+    /** @var class-string<ConstantInterface> */
+    private string $constantClass = Constant::class;
 
     abstract public function buildPhpDocModelFactory(): PhpDocModelFactoryInterface;
 

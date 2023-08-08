@@ -6,17 +6,18 @@ namespace Prometee\PhpClassGenerator\Factory\Model\Property;
 
 use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\ModelFactoryInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
-abstract class AbstractDecoratedPropertyModelFactory extends AbstractModelFactory implements ModelFactoryInterface
+/** @property class-string<PropertyInterface> $modelClass */
+abstract class AbstractDecoratedPropertyModelFactory extends AbstractModelFactory
 {
-    /** @var PropertyModelFactoryInterface */
-    protected $decoratedModelFactory;
-
+    /**
+     * @param class-string<PropertyInterface> $modelClass
+     */
     public function __construct(
         string $modelClass,
-        PropertyModelFactoryInterface $decoratedPropertyModelFactory
+        protected PropertyModelFactoryInterface $decoratedModelFactory
     ) {
         parent::__construct($modelClass);
-        $this->decoratedModelFactory = $decoratedPropertyModelFactory;
     }
 }

@@ -3,9 +3,9 @@
 [![Build Status][ico-github-actions]][link-github-actions]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
-## PHP7 class generator
+## PHP8 class generator
 
-This library generate PHP7 classes.
+This library generate PHP8 classes.
 
 ## Installation
 

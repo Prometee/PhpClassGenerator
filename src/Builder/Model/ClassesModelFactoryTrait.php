@@ -13,39 +13,40 @@ use Prometee\PhpClassGenerator\Factory\Model\Class_\InterfaceClassModelFactoryIn
 use Prometee\PhpClassGenerator\Factory\Model\Class_\TraitClassModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\TraitClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Class_\AbstractClass;
+use Prometee\PhpClassGenerator\Model\Class_\AbstractClassInterface;
 use Prometee\PhpClassGenerator\Model\Class_\FinalClass;
+use Prometee\PhpClassGenerator\Model\Class_\FinalClassInterface;
 use Prometee\PhpClassGenerator\Model\Class_\InterfaceClass;
+use Prometee\PhpClassGenerator\Model\Class_\InterfaceClassInterface;
 use Prometee\PhpClassGenerator\Model\Class_\TraitClass;
+use Prometee\PhpClassGenerator\Model\Class_\TraitClassInterface;
 
 trait ClassesModelFactoryTrait
 {
     use ClassModelFactoryTrait;
 
-    /** @var FinalClassModelFactoryInterface */
-    private $finalClassModelFactory;
-    /** @var TraitClassModelFactoryInterface */
-    private $traitClassModelFactory;
-    /** @var AbstractClassModelFactoryInterface */
-    private $abstractClassModelFactory;
-    /** @var InterfaceClassModelFactoryInterface */
-    private $interfaceClassModelFactory;
-    /** @var string */
-    private $finalClassModelFactoryClass = FinalClassModelFactory::class;
-    /** @var string */
-    private $traitClassModelFactoryClass = TraitClassModelFactory::class;
-    /** @var string */
-    private $abstractClassModelFactoryClass = AbstractClassModelFactory::class;
-    /** @var string */
-    private $interfaceClassModelFactoryClass = InterfaceClassModelFactory::class;
+    private ?FinalClassModelFactoryInterface $finalClassModelFactory = null;
+    private ?TraitClassModelFactoryInterface $traitClassModelFactory = null;
+    private ?AbstractClassModelFactoryInterface $abstractClassModelFactory = null;
+    private ?InterfaceClassModelFactoryInterface $interfaceClassModelFactory = null;
 
-    /** @var string */
-    private $finalClassClass = FinalClass::class;
-    /** @var string */
-    private $traitClassClass = TraitClass::class;
-    /** @var string */
-    private $abstractClassClass = AbstractClass::class;
-    /** @var string */
-    private $interfaceClassClass = InterfaceClass::class;
+    /** @var class-string<FinalClassModelFactoryInterface> */
+    private string $finalClassModelFactoryClass = FinalClassModelFactory::class;
+    /** @var class-string<TraitClassModelFactoryInterface> */
+    private string $traitClassModelFactoryClass = TraitClassModelFactory::class;
+    /** @var class-string<AbstractClassModelFactoryInterface> */
+    private string $abstractClassModelFactoryClass = AbstractClassModelFactory::class;
+    /** @var class-string<InterfaceClassModelFactoryInterface> */
+    private string $interfaceClassModelFactoryClass = InterfaceClassModelFactory::class;
+
+    /** @var class-string<FinalClassInterface> */
+    private string $finalClassClass = FinalClass::class;
+    /** @var class-string<TraitClassInterface> */
+    private string $traitClassClass = TraitClass::class;
+    /** @var class-string<AbstractClassInterface> */
+    private string $abstractClassClass = AbstractClass::class;
+    /** @var class-string<InterfaceClassInterface> */
+    private string $interfaceClassClass = InterfaceClass::class;
 
     public function buildFinalClassModelFactory(): FinalClassModelFactoryInterface
     {

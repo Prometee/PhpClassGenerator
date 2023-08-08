@@ -12,31 +12,31 @@ use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\Constructor;
+use Prometee\PhpClassGenerator\Model\Method\ConstructorInterface;
 use Prometee\PhpClassGenerator\Model\Method\Method;
+use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodParameter;
+use Prometee\PhpClassGenerator\Model\Method\MethodParameterInterface;
 
 trait MethodsModelFactoryTrait
 {
-    /** @var MethodModelFactoryInterface */
-    private $methodModelFactory;
-    /** @var MethodParameterModelFactoryInterface */
-    private $methodParameterModelFactory;
-    /** @var ConstructorModelFactoryInterface */
-    private $constructorModelFactory;
+    private ?MethodModelFactoryInterface $methodModelFactory = null;
+    private ?MethodParameterModelFactoryInterface $methodParameterModelFactory = null;
+    private ?ConstructorModelFactoryInterface $constructorModelFactory = null;
 
-    /** @var string */
-    private $methodModelFactoryClass = MethodModelFactory::class;
-    /** @var string */
-    private $methodParameterModelFactoryClass = MethodParameterModelFactory::class;
-    /** @var string */
-    private $constructorModelFactoryClass = ConstructorModelFactory::class;
+    /** @var class-string<MethodModelFactoryInterface> */
+    private string $methodModelFactoryClass = MethodModelFactory::class;
+    /** @var class-string<MethodParameterModelFactoryInterface> */
+    private string $methodParameterModelFactoryClass = MethodParameterModelFactory::class;
+    /** @var class-string<ConstructorModelFactoryInterface> */
+    private string $constructorModelFactoryClass = ConstructorModelFactory::class;
 
-    /** @var string */
-    private $methodClass = Method::class;
-    /** @var string */
-    private $methodParameterClass = MethodParameter::class;
-    /** @var string */
-    private $constructorClass = Constructor::class;
+    /** @var class-string<MethodInterface> */
+    private string $methodClass = Method::class;
+    /** @var class-string<MethodParameterInterface> */
+    private string $methodParameterClass = MethodParameter::class;
+    /** @var class-string<ConstructorInterface> */
+    private string $constructorClass = Constructor::class;
 
     abstract public function buildPhpDocModelFactory(): PhpDocModelFactoryInterface;
 
@@ -56,7 +56,8 @@ trait MethodsModelFactoryTrait
     {
         if (null === $this->methodParameterModelFactory) {
             $this->methodParameterModelFactory = new $this->methodParameterModelFactoryClass(
-                $this->methodParameterClass
+                $this->methodParameterClass,
+                $this->buildPhpDocModelFactory()
             );
         }
 

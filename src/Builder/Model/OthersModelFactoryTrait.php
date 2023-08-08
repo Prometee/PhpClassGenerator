@@ -15,45 +15,45 @@ use Prometee\PhpClassGenerator\Factory\Model\Other\UseModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Other\Methods;
+use Prometee\PhpClassGenerator\Model\Other\MethodsInterface;
 use Prometee\PhpClassGenerator\Model\Other\Properties;
+use Prometee\PhpClassGenerator\Model\Other\PropertiesInterface;
 use Prometee\PhpClassGenerator\Model\Other\Traits;
+use Prometee\PhpClassGenerator\Model\Other\TraitsInterface;
 use Prometee\PhpClassGenerator\Model\Other\Use_;
+use Prometee\PhpClassGenerator\Model\Other\UseInterface;
 use Prometee\PhpClassGenerator\Model\Other\Uses;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
 trait OthersModelFactoryTrait
 {
-    /** @var PropertiesModelFactoryInterface */
-    private $propertiesModelFactory;
-    /** @var UsesModelFactoryInterface */
-    private $usesModelFactory;
-    /** @var UseModelFactoryInterface */
-    private $useModelFactory;
-    /** @var TraitsModelFactoryInterface */
-    private $traitsModelFactory;
-    /** @var MethodsModelFactoryInterface */
-    private $methodsModelFactory;
+    private ?PropertiesModelFactoryInterface $propertiesModelFactory = null;
+    private ?UsesModelFactoryInterface $usesModelFactory = null;
+    private ?UseModelFactoryInterface $useModelFactory = null;
+    private ?TraitsModelFactoryInterface $traitsModelFactory = null;
+    private ?MethodsModelFactoryInterface $methodsModelFactory = null;
 
-    /** @var string */
-    private $propertiesModelFactoryClass = PropertiesModelFactory::class;
-    /** @var string */
-    private $usesModelFactoryClass = UsesModelFactory::class;
-    /** @var string */
-    private $useModelFactoryClass = UseModelFactory::class;
-    /** @var string */
-    private $traitsModelFactoryClass = TraitsModelFactory::class;
-    /** @var string */
-    private $methodsModelFactoryClass = MethodsModelFactory::class;
+    /** @var class-string<PropertiesModelFactoryInterface> */
+    private string $propertiesModelFactoryClass = PropertiesModelFactory::class;
+    /** @var class-string<UsesModelFactoryInterface> */
+    private string $usesModelFactoryClass = UsesModelFactory::class;
+    /** @var class-string<UseModelFactoryInterface> */
+    private string $useModelFactoryClass = UseModelFactory::class;
+    /** @var class-string<TraitsModelFactoryInterface> */
+    private string $traitsModelFactoryClass = TraitsModelFactory::class;
+    /** @var class-string<MethodsModelFactoryInterface> */
+    private string $methodsModelFactoryClass = MethodsModelFactory::class;
 
-    /** @var string */
-    private $propertiesClass = Properties::class;
-    /** @var string */
-    private $usesClass = Uses::class;
-    /** @var string */
-    private $useClass = Use_::class;
-    /** @var string */
-    private $traitsClass = Traits::class;
-    /** @var string */
-    private $methodsClass = Methods::class;
+    /** @var class-string<PropertiesInterface> */
+    private string $propertiesClass = Properties::class;
+    /** @var class-string<UsesInterface> */
+    private string $usesClass = Uses::class;
+    /** @var class-string<UseInterface> */
+    private string $useClass = Use_::class;
+    /** @var class-string<TraitsInterface> */
+    private string $traitsClass = Traits::class;
+    /** @var class-string<MethodsInterface> */
+    private string $methodsClass = Methods::class;
 
     public function buildPropertiesModelFactory(): PropertiesModelFactoryInterface
     {

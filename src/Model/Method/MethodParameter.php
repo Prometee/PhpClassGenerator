@@ -6,21 +6,30 @@ namespace Prometee\PhpClassGenerator\Model\Method;
 
 use Prometee\PhpClassGenerator\Model\AbstractModel;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareTrait;
+use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareTrait;
+use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
 class MethodParameter extends AbstractModel implements MethodParameterInterface
 {
     use UsesAwareTrait;
+    use PhpDocAwareTrait;
 
+    protected string $scope = '';
     /** @var string[] */
-    protected $types = [];
-    /** @var string */
-    protected $name;
-    /** @var string|null */
-    protected $value;
-    /** @var bool */
-    protected $byReference = false;
-    /** @var string */
-    protected $description = '';
+    protected array $types = [];
+    protected string $name = '';
+    protected ?string $value = null;
+    protected bool $byReference = false;
+    protected string $description = '';
+
+    public function __construct(
+        UsesInterface $uses,
+        PhpDocInterface $phpDoc,
+    ) {
+        $this->setUses($uses);
+        $this->setPhpDoc($phpDoc);
+    }
 
     public function configure(
         array $types,
@@ -36,9 +45,19 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
         $this->setDescription($description);
     }
 
-    public function getPhpName(): string
+    public function getScope(): string
     {
-        return '$' . $this->getName();
+        return $this->scope;
+    }
+
+    public function hasScope(): bool
+    {
+        return '' !== $this->scope;
+    }
+
+    public function setScope(string $scope): void
+    {
+        $this->scope = $scope;
     }
 
     public function getTypes(): array
@@ -54,6 +73,11 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
         }
     }
 
+    public function getPhpName(): string
+    {
+        return '$' . $this->getName();
+    }
+
     public function addType(string $type): void
     {
         if (false === $this->hasType($type)) {
@@ -64,16 +88,14 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
 
     public function hasType(string $type): bool
     {
-        return false !== array_search($type, $this->types);
+        return in_array($type, $this->types, true);
     }
 
     public function getPhpTypeFromTypes(): string
     {
         $type = self::getPhpType($this->types);
 
-        $type = $this->uses->addRawUseOrReturnType($type);
-
-        return $type;
+        return $this->uses->addRawUseOrReturnType($type);
     }
 
     public function getPhpDocType(): string

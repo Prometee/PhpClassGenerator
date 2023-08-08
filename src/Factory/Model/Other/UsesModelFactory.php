@@ -7,17 +7,17 @@ namespace Prometee\PhpClassGenerator\Factory\Model\Other;
 use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property class-string<UsesInterface> $modelClass */
 final class UsesModelFactory extends AbstractModelFactory implements UsesModelFactoryInterface
 {
-    /** @var UseModelFactoryInterface */
-    private $useModelFactory;
-
+    /**
+     * @param class-string<UsesInterface> $modelClass
+     */
     public function __construct(
         string $modelClass,
-        UseModelFactoryInterface $useModelFactory
+        private UseModelFactoryInterface $useModelFactory
     ) {
         parent::__construct($modelClass);
-        $this->useModelFactory = $useModelFactory;
     }
 
     public function create(): UsesInterface

@@ -15,38 +15,38 @@ use Prometee\PhpClassGenerator\Factory\Model\Method\IsserSetterModelFactoryInter
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\ArrayGetterSetter;
+use Prometee\PhpClassGenerator\Model\Method\ArrayGetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Method\AutoGetterSetter;
+use Prometee\PhpClassGenerator\Model\Method\AutoGetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Method\GetterSetter;
+use Prometee\PhpClassGenerator\Model\Method\GetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Method\IsserSetter;
+use Prometee\PhpClassGenerator\Model\Method\IsserSetterInterface;
 
 trait GetterSettersModelFactoryTrait
 {
-    /** @var GetterSetterModelFactoryInterface */
-    private $getterSetterModelFactory;
-    /** @var ArrayGetterSetterModelFactoryInterface */
-    private $arrayGetterSetterModelFactory;
-    /** @var IsserSetterModelFactoryInterface */
-    private $isserSetterModelFactory;
-    /** @var AutoGetterSetterModelFactoryInterface */
-    private $autoGetterSetterModelFactory;
+    private ?GetterSetterModelFactoryInterface $getterSetterModelFactory = null;
+    private ?ArrayGetterSetterModelFactoryInterface $arrayGetterSetterModelFactory = null;
+    private ?IsserSetterModelFactoryInterface $isserSetterModelFactory = null;
+    private ?AutoGetterSetterModelFactoryInterface $autoGetterSetterModelFactory = null;
 
-    /** @var string */
-    private $getterSetterModelFactoryClass = GetterSetterModelFactory::class;
-    /** @var string */
-    private $arrayGetterSetterModelFactoryClass = ArrayGetterSetterModelFactory::class;
-    /** @var string */
-    private $isserSetterModelFactoryClass = IsserSetterModelFactory::class;
-    /** @var string */
-    private $autoGetterSetterModelFactoryClass = AutoGetterSetterModelFactory::class;
+    /** @var class-string<GetterSetterModelFactoryInterface> */
+    private string $getterSetterModelFactoryClass = GetterSetterModelFactory::class;
+    /** @var class-string<ArrayGetterSetterModelFactoryInterface> */
+    private string $arrayGetterSetterModelFactoryClass = ArrayGetterSetterModelFactory::class;
+    /** @var class-string<IsserSetterModelFactoryInterface> */
+    private string $isserSetterModelFactoryClass = IsserSetterModelFactory::class;
+    /** @var class-string<AutoGetterSetterModelFactoryInterface> */
+    private string $autoGetterSetterModelFactoryClass = AutoGetterSetterModelFactory::class;
 
-    /** @var string */
-    private $getterSetterClass = GetterSetter::class;
-    /** @var string */
-    private $arrayGetterSetterClass = ArrayGetterSetter::class;
-    /** @var string */
-    private $isserSetterClass = IsserSetter::class;
-    /** @var string */
-    private $autoGetterSetterClass = AutoGetterSetter::class;
+    /** @var class-string<GetterSetterInterface> */
+    private string $getterSetterClass = GetterSetter::class;
+    /** @var class-string<ArrayGetterSetterInterface> */
+    private string $arrayGetterSetterClass = ArrayGetterSetter::class;
+    /** @var class-string<IsserSetterInterface> */
+    private string $isserSetterClass = IsserSetter::class;
+    /** @var class-string<AutoGetterSetterInterface> */
+    private string $autoGetterSetterClass = AutoGetterSetter::class;
 
     abstract public function buildMethodModelFactory(): MethodModelFactoryInterface;
     abstract public function buildMethodParameterModelFactory(): MethodParameterModelFactoryInterface;

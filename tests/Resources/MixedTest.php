@@ -12,31 +12,21 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
 final class MixedTest
 {
     /** @var mixed|null */
-    private $aMixedField;
+    private mixed $aMixedField = null;
 
-    /** @var int|string */
-    private $anOtherMixedField;
+    private int|string|null $anOtherMixedFieldWithNull = null;
 
-    /** @var int|string|null */
-    private $anOtherMixedFieldWithNull;
-
-    /** @var self[]|array */
-    private $anOtherMixedFieldWithArray;
-
-    /**
-     * @param int|string $anOtherMixedField
-     * @param self[]|array $anOtherMixedFieldWithArray
-     */
-    public function __construct($anOtherMixedField, array $anOtherMixedFieldWithArray)
-    {
-        $this->anOtherMixedField = $anOtherMixedField;
-        $this->anOtherMixedFieldWithArray = $anOtherMixedFieldWithArray;
+    public function __construct(
+        private int|string $anOtherMixedField,
+        /** @var self[]|array */
+        private array $anOtherMixedFieldWithArray
+    ) {
     }
 
     /**
      * @return mixed|null
      */
-    public function getAMixedField()
+    public function getAMixedField(): mixed
     {
         return $this->aMixedField;
     }
@@ -44,39 +34,27 @@ final class MixedTest
     /**
      * @param mixed|null $aMixedField
      */
-    public function setAMixedField($aMixedField): void
+    public function setAMixedField(mixed $aMixedField): void
     {
         $this->aMixedField = $aMixedField;
     }
 
-    /**
-     * @return int|string
-     */
-    public function getAnOtherMixedField()
+    public function getAnOtherMixedField(): int|string
     {
         return $this->anOtherMixedField;
     }
 
-    /**
-     * @param int|string $anOtherMixedField
-     */
-    public function setAnOtherMixedField($anOtherMixedField): void
+    public function setAnOtherMixedField(int|string $anOtherMixedField): void
     {
         $this->anOtherMixedField = $anOtherMixedField;
     }
 
-    /**
-     * @return int|string|null
-     */
-    public function getAnOtherMixedFieldWithNull()
+    public function getAnOtherMixedFieldWithNull(): int|string|null
     {
         return $this->anOtherMixedFieldWithNull;
     }
 
-    /**
-     * @param int|string|null $anOtherMixedFieldWithNull
-     */
-    public function setAnOtherMixedFieldWithNull($anOtherMixedFieldWithNull): void
+    public function setAnOtherMixedFieldWithNull(int|string|null $anOtherMixedFieldWithNull): void
     {
         $this->anOtherMixedFieldWithNull = $anOtherMixedFieldWithNull;
     }
@@ -99,18 +77,16 @@ final class MixedTest
 
     /**
      * @param self|mixed $item
-     *
-     * @return bool
      */
-    public function hasAnOtherMixedFieldWithArray($item): bool
+    public function hasAnOtherMixedFieldWithArray(mixed $item): bool
     {
-        return in_array($item, $this->anOtherMixedFieldWithArray);
+        return in_array($item, $this->anOtherMixedFieldWithArray, true);
     }
 
     /**
      * @param self|mixed $item
      */
-    public function addAnOtherMixedFieldWithArray($item): void
+    public function addAnOtherMixedFieldWithArray(mixed $item): void
     {
         if ($this->hasAnOtherMixedFieldWithArray($item)) {
             return;
@@ -122,10 +98,10 @@ final class MixedTest
     /**
      * @param self|mixed $item
      */
-    public function removeAnOtherMixedFieldWithArray($item): void
+    public function removeAnOtherMixedFieldWithArray(mixed $item): void
     {
         if ($this->hasAnOtherMixedFieldWithArray($item)) {
-            $index = array_search($item, $this->anOtherMixedFieldWithArray);
+            $index = array_search($item, $this->anOtherMixedFieldWithArray, true);
             unset($this->anOtherMixedFieldWithArray[$index]);
         }
     }

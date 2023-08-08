@@ -3,10 +3,18 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 
+    level: max
+
+    paths:
+        - src
+        - tests/Resources/
+
     ignoreErrors:
         -
-            message: '/Parameter #1 \$separator of function explode expects non-empty-string, string given\./'
-            path: src/View/Method/MethodView.php
+            message: '/Variable \$body in empty\(\) always exists and is not falsy\./'
+            count: 1
+            path: src/View/Class_/ClassView.php
         -
-            message: '/Parameter #1 \$separator of function explode expects non-empty-string, string given\./'
-            path: src/View/PhpDoc/PhpDocView.php
+            message: '/Property Tests\\Prometee\\PhpClassGenerator\\Resources\\MixedTest::\$anOtherMixedFieldWithArray \(array<Tests\\Prometee\\PhpClassGenerator\\Resources\\MixedTest>\) does not accept array\./'
+            count: 1
+            path: tests/Resources/MixedTest.php

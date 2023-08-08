@@ -6,5 +6,5 @@ namespace Prometee\PhpClassGenerator\Model\Class_;
 
 class FinalClass extends Class_ implements FinalClassInterface
 {
-    protected $type = 'final class';
+    protected string $type = 'final class';
 }

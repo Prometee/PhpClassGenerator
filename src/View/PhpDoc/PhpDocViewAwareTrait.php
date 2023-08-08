@@ -10,14 +10,7 @@ use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
 trait PhpDocViewAwareTrait
 {
-    /** @var PhpDocViewFactoryInterface */
-    protected $phpDocViewFactory;
-
-    public function __construct(
-        PhpDocViewFactoryInterface $phpDocViewFactory
-    ) {
-        $this->phpDocViewFactory = $phpDocViewFactory;
-    }
+    protected PhpDocViewFactoryInterface $phpDocViewFactory;
 
     public function configurePhpDoc(PhpDocInterface $phpDoc, UsesInterface $uses): void
     {

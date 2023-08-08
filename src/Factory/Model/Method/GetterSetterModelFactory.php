@@ -8,21 +8,18 @@ use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
 use Prometee\PhpClassGenerator\Model\Method\GetterSetterInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 
+/** @property class-string<GetterSetterInterface> $modelClass */
 final class GetterSetterModelFactory extends AbstractModelFactory implements GetterSetterModelFactoryInterface
 {
-    /** @var MethodModelFactoryInterface */
-    protected $methodModelFactory;
-    /** @var MethodParameterModelFactoryInterface */
-    protected $methodParameterFactory;
-
+    /**
+     * @param class-string<GetterSetterInterface> $modelClass
+     */
     public function __construct(
         string $modelClass,
-        MethodModelFactoryInterface $methodModelFactory,
-        MethodParameterModelFactoryInterface $methodParameterFactory
+        protected MethodModelFactoryInterface $methodModelFactory,
+        protected MethodParameterModelFactoryInterface $methodParameterFactory
     ) {
         parent::__construct($modelClass);
-        $this->methodModelFactory = $methodModelFactory;
-        $this->methodParameterFactory = $methodParameterFactory;
     }
 
     public function create(UsesInterface $uses): GetterSetterInterface

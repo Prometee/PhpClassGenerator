@@ -15,43 +15,25 @@ use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
 class Class_ extends AbstractModel implements ClassInterface
 {
-    use UsesAwareTrait {
-        UsesAwareTrait::__construct as private __constructUses;
-    }
-    use PhpDocAwareTrait {
-        PhpDocAwareTrait::__construct as private __constructPhpDoc;
-    }
+    use UsesAwareTrait;
+    use PhpDocAwareTrait;
 
-    /** @var PropertiesInterface */
-    protected $properties;
-    /** @var MethodsInterface */
-    protected $methods;
-    /** @var TraitsInterface */
-    protected $traits;
-
-    /** @var string */
-    protected $type = 'class';
-    /** @var string */
-    protected $namespace = '';
-    /** @var string */
-    protected $className = '';
-    /** @var string|null */
-    protected $extendClassName;
+    protected string $type = 'class';
+    protected string $namespace = '';
+    protected string $className = '';
+    protected ?string $extendClassName = null;
     /** @var array<int, string> */
-    protected $implements = [];
+    protected array $implements = [];
 
     public function __construct(
         UsesInterface $uses,
         PhpDocInterface $phpDoc,
-        PropertiesInterface $properties,
-        MethodsInterface $methods,
-        TraitsInterface $traits
+        protected PropertiesInterface $properties,
+        protected MethodsInterface $methods,
+        protected TraitsInterface $traits
     ) {
-        $this->__constructUses($uses);
-        $this->__constructPhpDoc($phpDoc);
-        $this->properties = $properties;
-        $this->methods = $methods;
-        $this->traits = $traits;
+        $this->setUses($uses);
+        $this->setPhpDoc($phpDoc);
 
         $this->properties->setUses($this->uses);
         $this->methods->setUses($this->uses);

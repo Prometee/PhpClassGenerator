@@ -16,12 +16,6 @@ interface GetterSetterInterface extends UsesAwareInterface
 
     public function configure(PropertyInterface $propertyGenerator): void;
 
-    public function getMethodName(?string $prefix = null, ?string $suffix = null): string;
-
-    public function configureSetter(): void;
-
-    public function configureGetter(): void;
-
     /**
      * @return MethodInterface[]
      */

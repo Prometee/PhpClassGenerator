@@ -4,26 +4,20 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Model\Method;
 
+use LogicException;
 use Prometee\PhpClassGenerator\Factory\Model\Method\MethodParameterModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterface
 {
-    /** @var MethodInterface */
-    protected $hasGetterMethod;
-    /** @var MethodInterface */
-    protected $addSetterMethod;
-    /** @var MethodInterface */
-    protected $removeSetterMethod;
-
     public function __construct(
         UsesInterface $uses,
         MethodInterface $getterMethod,
         MethodInterface $setterMethod,
-        MethodInterface $hasGetterMethod,
-        MethodInterface $addSetterMethod,
-        MethodInterface $removeSetterMethod,
+        protected MethodInterface $hasGetterMethod,
+        protected MethodInterface $addSetterMethod,
+        protected MethodInterface $removeSetterMethod,
         MethodParameterModelFactoryInterface $methodParameterFactory
     ) {
         parent::__construct(
@@ -32,10 +26,6 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
             $setterMethod,
             $methodParameterFactory
         );
-
-        $this->hasGetterMethod = $hasGetterMethod;
-        $this->addSetterMethod = $addSetterMethod;
-        $this->removeSetterMethod = $removeSetterMethod;
     }
 
     public function supports(PropertyInterface $propertyGenerator): bool
@@ -56,6 +46,10 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
     public function getMethods(): array
     {
         $methods = parent::getMethods();
+        if (null === $this->property) {
+            throw new LogicException('You must first call "buildGetterSetter" method.');
+        }
+
         if (false === $this->property->isWriteable()) {
             return $methods;
         }
@@ -70,7 +64,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         );
     }
 
-    public function configureSetter(): void
+    protected function configureSetter(): void
     {
         parent::configureSetter();
 
@@ -79,8 +73,12 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         $this->configureRemoveSetter();
     }
 
-    public function configureHasGetter(): void
+    protected function configureHasGetter(): void
     {
+        if (null === $this->property) {
+            return;
+        }
+
         if (false === $this->property->isWriteable()) {
             return;
         }
@@ -99,13 +97,13 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         $this->hasGetterMethod->addParameter($methodParameter);
 
         $format = '';
-        if (in_array('null', $this->property->getTypes())) {
+        if (in_array('null', $this->property->getTypes(), true)) {
             $format .= 'if (null === $this->%2$s) {' . "\n";
             $format .= '%3$sreturn false;' . "\n";
             $format .= '}' . "\n\n";
         }
 
-        $format .= 'return in_array($%1$s, $this->%2$s);';
+        $format .= 'return in_array($%1$s, $this->%2$s, true);';
 
         $this->hasGetterMethod->addMultipleLines(
             sprintf(
@@ -117,8 +115,12 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         );
     }
 
-    public function configureAddSetter(): void
+    protected function configureAddSetter(): void
     {
+        if (null === $this->property) {
+            return;
+        }
+
         if (false === $this->property->isWriteable()) {
             return;
         }
@@ -159,8 +161,12 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         );
     }
 
-    public function configureRemoveSetter(): void
+    protected function configureRemoveSetter(): void
     {
+        if (null === $this->property) {
+            return;
+        }
+
         if (false === $this->property->isWriteable()) {
             return;
         }
@@ -186,7 +192,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         }
 
         $format .= 'if ($this->%1$s(%2$s)) {' . "\n";
-        $format .= '%3$s$index = array_search(%2$s, $this->%4$s);' . "\n";
+        $format .= '%3$s$index = array_search(%2$s, $this->%4$s, true);' . "\n";
         $format .= '%3$sunset($this->%4$s[$index]);' . "\n";
         $format .= '}';
 
@@ -201,7 +207,7 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
         );
     }
 
-    public function getSingleMethodName(?string $prefix = null, ?string $suffix = null): string
+    protected function getSingleMethodName(?string $prefix = null, ?string $suffix = null): string
     {
         return $this->getMethodName($prefix, $suffix);
     }
@@ -210,8 +216,12 @@ class ArrayGetterSetter extends GetterSetter implements ArrayGetterSetterInterfa
     {
         $phpSingleTypes = [];
 
+        if (null === $this->property) {
+            return $phpSingleTypes;
+        }
+
         foreach ($this->property->getTypes() as $type) {
-            if (preg_match('#\[]$#', $type)) {
+            if (str_ends_with($type, '[]')) {
                 $phpSingleTypes[] = rtrim($type, '[]');
             }
 

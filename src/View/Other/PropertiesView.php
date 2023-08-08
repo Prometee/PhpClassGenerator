@@ -9,17 +9,10 @@ use Prometee\PhpClassGenerator\Model\Other\PropertiesInterface;
 
 class PropertiesView extends AbstractArrayView implements PropertiesViewInterface
 {
-    /** @var PropertiesInterface */
-    protected $properties;
-    /** @var PropertyViewFactoryInterface */
-    protected $propertyViewFactory;
-
     public function __construct(
-        PropertiesInterface $properties,
-        PropertyViewFactoryInterface $propertyViewFactory
+        protected PropertiesInterface $properties,
+        protected PropertyViewFactoryInterface $propertyViewFactory
     ) {
-        $this->properties = $properties;
-        $this->propertyViewFactory = $propertyViewFactory;
     }
 
     public function getArrayToBuild(): array

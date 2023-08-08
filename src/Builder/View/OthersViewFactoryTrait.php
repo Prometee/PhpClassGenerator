@@ -17,45 +17,53 @@ use Prometee\PhpClassGenerator\Factory\View\Other\UseViewFactory;
 use Prometee\PhpClassGenerator\Factory\View\Other\UseViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Property\PropertyViewFactoryInterface;
 use Prometee\PhpClassGenerator\View\Other\MethodsView;
+use Prometee\PhpClassGenerator\View\Other\MethodsViewInterface;
 use Prometee\PhpClassGenerator\View\Other\PropertiesView;
+use Prometee\PhpClassGenerator\View\Other\PropertiesViewInterface;
 use Prometee\PhpClassGenerator\View\Other\TraitsView;
+use Prometee\PhpClassGenerator\View\Other\TraitsViewInterface;
 use Prometee\PhpClassGenerator\View\Other\UsesView;
+use Prometee\PhpClassGenerator\View\Other\UsesViewInterface;
 use Prometee\PhpClassGenerator\View\Other\UseView;
+use Prometee\PhpClassGenerator\View\Other\UseViewInterface;
 
 trait OthersViewFactoryTrait
 {
-    /** @var UsesViewFactoryInterface */
-    private $usesViewFactory;
-    /** @var UseViewFactoryInterface */
-    private $useViewFactory;
-    /** @var TraitsViewFactoryInterface */
-    private $traitsViewFactory;
-    /** @var MethodsViewFactoryInterface */
-    private $methodsViewFactory;
-    /** @var PropertiesViewFactoryInterface */
-    private $propertiesViewFactory;
+    private ?UsesViewFactoryInterface $usesViewFactory = null;
 
-    /** @var string */
-    private $usesViewFactoryClass = UsesViewFactory::class;
-    /** @var string */
-    private $useViewFactoryClass = UseViewFactory::class;
-    /** @var string */
-    private $traitsViewFactoryClass = TraitsViewFactory::class;
-    /** @var string */
-    private $methodsViewFactoryClass = MethodsViewFactory::class;
-    /** @var string */
-    private $propertiesViewFactoryClass = PropertiesViewFactory::class;
+    private ?UseViewFactoryInterface $useViewFactory = null;
 
-    /** @var string */
-    private $usesViewClass = UsesView::class;
-    /** @var string */
-    private $useViewClass = UseView::class;
-    /** @var string */
-    private $traitsViewClass = TraitsView::class;
-    /** @var string */
-    private $methodsViewClass = MethodsView::class;
-    /** @var string */
-    private $propertiesViewClass = PropertiesView::class;
+    private ?TraitsViewFactoryInterface $traitsViewFactory = null;
+
+    private ?MethodsViewFactoryInterface $methodsViewFactory = null;
+
+    private ?PropertiesViewFactoryInterface $propertiesViewFactory = null;
+
+    /** @var class-string<UsesViewFactoryInterface> */
+    private string $usesViewFactoryClass = UsesViewFactory::class;
+
+    /** @var class-string<UseViewFactoryInterface> */
+    private string $useViewFactoryClass = UseViewFactory::class;
+
+    /** @var class-string<TraitsViewFactoryInterface> */
+    private string $traitsViewFactoryClass = TraitsViewFactory::class;
+
+    /** @var class-string<MethodsViewFactoryInterface> */
+    private string $methodsViewFactoryClass = MethodsViewFactory::class;
+
+    /** @var class-string<PropertiesViewFactoryInterface> */
+    private string $propertiesViewFactoryClass = PropertiesViewFactory::class;
+
+    /** @var class-string<UsesViewInterface> */
+    private string $usesViewClass = UsesView::class;
+    /** @var class-string<UseViewInterface> */
+    private string $useViewClass = UseView::class;
+    /** @var class-string<TraitsViewInterface> */
+    private string $traitsViewClass = TraitsView::class;
+    /** @var class-string<MethodsViewInterface> */
+    private string $methodsViewClass = MethodsView::class;
+    /** @var class-string<PropertiesViewInterface> */
+    private string $propertiesViewClass = PropertiesView::class;
 
     abstract public function buildMethodViewFactory(): MethodViewFactoryInterface;
     abstract public function buildPropertyViewFactory(): PropertyViewFactoryInterface;

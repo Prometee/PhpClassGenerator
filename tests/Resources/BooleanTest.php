@@ -11,20 +11,13 @@ namespace Tests\Prometee\PhpClassGenerator\Resources;
  */
 final class BooleanTest
 {
-    /** @var bool */
-    private $aBoolField = false;
+    private bool $aBoolField = false;
 
-    /**
-     * @return bool
-     */
     public function isABoolField(): bool
     {
         return $this->aBoolField;
     }
 
-    /**
-     * @param bool $aBoolField
-     */
     public function setABoolField(bool $aBoolField): void
     {
         $this->aBoolField = $aBoolField;
