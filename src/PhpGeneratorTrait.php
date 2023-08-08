@@ -135,7 +135,7 @@ trait PhpGeneratorTrait
     {
         foreach ($propertiesConfig as $propertyConfig) {
             $description = $propertyConfig['description'] ?? [];
-            $description = implode($eol, $description);
+            $description = implode($eol, (array) $description);
 
             $default = $propertyConfig['default'] ?? null;
             if (null !== $default && false === is_string($default)) {
@@ -151,6 +151,10 @@ trait PhpGeneratorTrait
 
             if ($this->classBuilder->getClassType() !== ClassBuilderInterface::CLASS_TYPE_FINAL) {
                 $property->setScope(MethodInterface::SCOPE_PROTECTED);
+            }
+
+            if (isset($propertyConfig['scope'])) {
+                $property->setScope($propertyConfig['scope']);
             }
 
             $property->setReadable($propertyConfig['readable'] ?? true);
