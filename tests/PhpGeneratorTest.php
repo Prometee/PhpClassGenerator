@@ -9,6 +9,7 @@ use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
 use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilder;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilder;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
+use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\PhpGeneratorInterface;
 use stdClass;
 
@@ -110,6 +111,45 @@ class PhpGeneratorTest extends TestCase
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
         $this->assertFileEquals(__DIR__ . '/Resources/ConstantTest.php', $this->path . '/ConstantTest.php');
+    }
+
+    public function testGenerateProperty(): void
+    {
+        $classesConfig = [
+            [
+                'class' => 'PropertyTest',
+                'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Property test class'
+                    ],
+                    'internal' => [''],
+                ],
+                'properties' => [
+                    [
+                        'scope' => 'public',
+                        'name' => 'aString',
+                        'types' => [
+                            'string'
+                        ],
+                        'default' => '\'test_property_value\'',
+                        'description' => 'A string var'
+                    ],
+                    [
+                        'name' => 'aBoolean',
+                        'types' => [
+                            'bool'
+                        ],
+                        'description' => 'A boolean var'
+                    ],
+                ],
+            ],
+        ];
+
+        $this->dummyPhpGenerator->setClassesConfig($classesConfig);
+
+        $this->assertTrue($this->dummyPhpGenerator->generate());
+        $this->assertFileEquals(__DIR__ . '/Resources/PropertyTest.php', $this->path . '/PropertyTest.php');
     }
 
     public function testGenerateBooleanType(): void
