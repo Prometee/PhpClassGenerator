@@ -17,6 +17,7 @@ final class PhpDocTest
         /**
          * ID of this model
          * A second line
+         * A third line with % inside
          *
          * @Required()
          */

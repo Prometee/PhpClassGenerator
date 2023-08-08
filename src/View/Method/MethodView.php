@@ -137,7 +137,7 @@ class MethodView extends AbstractView implements MethodViewInterface
         foreach ($this->method->getParameters() as $methodParameter) {
             $methodParameterView = $this->methodParameterView->create($methodParameter);
             $rendered = $methodParameterView->render('', $this->eol) ?? '';
-            $rendered = str_replace($this->eol, $formatVar, $rendered);
+            $rendered = str_replace(array('%', $this->eol), array('%%', $formatVar), $rendered);
             $methodParameters[] = $rendered;
         }
 

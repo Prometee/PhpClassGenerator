@@ -482,7 +482,8 @@ class PhpGeneratorTest extends TestCase
                         'phpdoc' => [
                             PhpDocInterface::TYPE_DESCRIPTION => [
                                 'ID of this model',
-                                'A second line'
+                                'A second line',
+                                'A third line with % inside',
                             ],
                             '\\Doctrine\\Common\\Annotations\\Annotation\\Required()' => ['']
                         ]
