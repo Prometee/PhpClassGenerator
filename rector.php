@@ -9,8 +9,6 @@ use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromAssignsRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictSetUpRector;
 
 return static function (RectorConfig $rectorConfig): void {
-    $services = $rectorConfig->services();
-
     $rectorConfig->importNames();
     $rectorConfig->ruleWithConfiguration(ClassPropertyAssignToConstructorPromotionRector::class, [
         ClassPropertyAssignToConstructorPromotionRector::INLINE_PUBLIC => true,
