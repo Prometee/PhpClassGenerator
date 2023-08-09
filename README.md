@@ -44,9 +44,11 @@ $classConfig = [
         'class' => 'MyClass',
         'type' => 'final',
         'extends' => stdClass::class,
-        'description' => [
-            'My own class description',
-            'with multiple lines',
+        'phpdoc' => [
+            PhpDocInterface::TYPE_DESCRIPTION => [
+                'My own class description',
+                'with multiple lines',
+            ],
         ],
         'properties' => [
             [
