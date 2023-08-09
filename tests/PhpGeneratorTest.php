@@ -136,11 +136,26 @@ class PhpGeneratorTest extends TestCase
                         'description' => 'A string var'
                     ],
                     [
+                        'name' => 'aSimpleArrayField',
+                        'types' => [
+                            'array'
+                        ],
+                        'default' => '[]',
+                        'description' => 'A simple array var'
+                    ],
+                    [
                         'name' => 'aBoolean',
                         'types' => [
                             'bool'
                         ],
                         'description' => 'A boolean var'
+                    ],
+                    [
+                        'name' => 'anotherBoolean',
+                        'types' => [
+                            'bool'
+                        ],
+                        'description' => 'Another boolean var'
                     ],
                 ],
             ],

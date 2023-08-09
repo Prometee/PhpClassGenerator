@@ -16,11 +16,20 @@ final class PropertyTest
      */
     public string $aString = 'test_property_value';
 
+    /**
+     * A simple array var
+     */
+    private array $aSimpleArrayField = [];
+
     public function __construct(
         /**
          * A boolean var
          */
-        private bool $aBoolean
+        private bool $aBoolean,
+        /**
+         * Another boolean var
+         */
+        private bool $anotherBoolean
     ) {
     }
 
@@ -34,6 +43,38 @@ final class PropertyTest
         $this->aString = $aString;
     }
 
+    public function getASimpleArrayField(): array
+    {
+        return $this->aSimpleArrayField;
+    }
+
+    public function setASimpleArrayField(array $aSimpleArrayField): void
+    {
+        $this->aSimpleArrayField = $aSimpleArrayField;
+    }
+
+    public function hasASimpleArrayField(mixed $item): bool
+    {
+        return in_array($item, $this->aSimpleArrayField, true);
+    }
+
+    public function addASimpleArrayField(mixed $item): void
+    {
+        if ($this->hasASimpleArrayField($item)) {
+            return;
+        }
+
+        $this->aSimpleArrayField[] = $item;
+    }
+
+    public function removeASimpleArrayField(mixed $item): void
+    {
+        if ($this->hasASimpleArrayField($item)) {
+            $index = array_search($item, $this->aSimpleArrayField, true);
+            unset($this->aSimpleArrayField[$index]);
+        }
+    }
+
     public function isABoolean(): bool
     {
         return $this->aBoolean;
@@ -42,5 +83,15 @@ final class PropertyTest
     public function setABoolean(bool $aBoolean): void
     {
         $this->aBoolean = $aBoolean;
+    }
+
+    public function isAnotherBoolean(): bool
+    {
+        return $this->anotherBoolean;
+    }
+
+    public function setAnotherBoolean(bool $anotherBoolean): void
+    {
+        $this->anotherBoolean = $anotherBoolean;
     }
 }
