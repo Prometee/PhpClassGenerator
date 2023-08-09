@@ -6,6 +6,10 @@ namespace Prometee\PhpClassGenerator\Helper;
 
 interface PhpReservedWordsHelperInterface
 {
+    /**
+     * @see https://www.php.net/manual/en/reserved.keywords.php
+     * @see https://www.php.net/manual/en/reserved.other-reserved-words.php
+     */
     public const RESERVED_WORDS = [
         '__halt_compiler',
         'abstract',
@@ -38,6 +42,7 @@ interface PhpReservedWordsHelperInterface
         'exit',
         'extends',
         'final',
+        'fn', // as of PHP 7.4
         'for',
         'foreach',
         'function',
@@ -52,6 +57,7 @@ interface PhpReservedWordsHelperInterface
         'interface',
         'isset',
         'list',
+        'match', //as of PHP 8.0
         'namespace',
         'new',
         'or',
@@ -59,6 +65,7 @@ interface PhpReservedWordsHelperInterface
         'private',
         'protected',
         'public',
+        'readonly', //as of PHP 8.1.0 readonly may be used as function name.
         'require',
         'require_once',
         'return',
