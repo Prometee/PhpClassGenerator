@@ -153,7 +153,7 @@ trait PhpGeneratorTrait
                 $property->setScope(MethodInterface::SCOPE_PROTECTED);
             }
 
-            if (isset($propertyConfig['scope'])) {
+            if (null !== ($propertyConfig['scope'] ?? null)) {
                 $property->setScope($propertyConfig['scope']);
             }
 

@@ -483,7 +483,14 @@ class PhpGeneratorTest extends TestCase
                             'ID of this model',
                             'A second line'
                         ]
-                    ]
+                    ],
+                    [
+                        'name' => 'aString',
+                        'types' => [
+                            'string',
+                            'null',
+                        ],
+                    ],
                 ],
             ],
             [
@@ -504,6 +511,14 @@ class PhpGeneratorTest extends TestCase
                         ],
                         'inherited' => true,
                         'inherited_required' => true,
+                    ],
+                    [
+                        'name' => 'aString',
+                        'types' => [
+                            'string',
+                            'null',
+                        ],
+                        'scope' => 'protected' // @todo try to guess the scope of the property when analysing the parent class
                     ],
                 ],
             ],

@@ -11,6 +11,8 @@ namespace Tests\Prometee\PhpClassGenerator\Resources\SubPath;
  */
 abstract class ExtendedClassTest
 {
+    protected ?string $aString = null;
+
     public function __construct(
         /**
          * ID of this model
@@ -28,5 +30,15 @@ abstract class ExtendedClassTest
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getAString(): ?string
+    {
+        return $this->aString;
+    }
+
+    public function setAString(?string $aString): void
+    {
+        $this->aString = $aString;
     }
 }
