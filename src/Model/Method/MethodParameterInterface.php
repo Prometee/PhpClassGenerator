@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Model\Method;
 
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareInterface;
 use Prometee\PhpClassGenerator\Model\ModelInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
 
-interface MethodParameterInterface extends ModelInterface, UsesAwareInterface, PhpDocAwareInterface
+interface MethodParameterInterface extends ModelInterface, UsesAwareInterface, PhpDocAwareInterface, AttributeAwareInterface
 {
     /**
      * @param string[] $types

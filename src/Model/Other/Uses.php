@@ -177,4 +177,17 @@ class Uses extends AbstractModel implements UsesInterface
 
         return false;
     }
+
+    public function detectAndReplaceUsesInText(string $text, string $prefix = ''): string
+    {
+        $pattern = sprintf('#%s(\\\[\\\a-z0-9_]+)#i', $prefix);
+        if (preg_match_all($pattern, $text, $matches)) {
+            foreach ($matches[1] as $class) {
+                $className = $this->addRawUseOrReturnType($class);
+                $text = (string) preg_replace($pattern, sprintf('%s%s', $prefix, $className), $text);
+            }
+        }
+
+        return $text;
+    }
 }

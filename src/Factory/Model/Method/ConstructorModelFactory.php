@@ -14,7 +14,8 @@ final class ConstructorModelFactory extends AbstractDecoratedMethodModelFactory 
     {
         return new $this->modelClass(
             $uses,
-            $this->decoratedModelFactory->getPhpDocModelFactory()->create()
+            $this->decoratedModelFactory->getPhpDocModelFactory()->create(),
+            $this->decoratedModelFactory->getAttributeModelFactory()->create(),
         );
     }
 }

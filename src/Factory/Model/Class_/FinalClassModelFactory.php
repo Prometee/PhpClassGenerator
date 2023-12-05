@@ -17,6 +17,7 @@ final class FinalClassModelFactory extends AbstractDecoratedClassModelFactory im
         return new $this->modelClass(
             $uses,
             $this->decoratedClassModelFactory->getPhpDocModelFactory()->create(),
+            $this->decoratedClassModelFactory->getAttributeModelFactory()->create(),
             $this->decoratedClassModelFactory->getPropertiesModelFactory()->create($uses),
             $this->decoratedClassModelFactory->getMethodsModelFactory()->create($uses),
             $this->decoratedClassModelFactory->getTraitsModelFactory()->create($uses)

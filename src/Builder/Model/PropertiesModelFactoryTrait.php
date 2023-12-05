@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder\Model;
 
+use Prometee\PhpClassGenerator\Factory\Model\Attribute\AttributeModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
@@ -30,13 +31,15 @@ trait PropertiesModelFactoryTrait
     private string $constantClass = Constant::class;
 
     abstract public function buildPhpDocModelFactory(): PhpDocModelFactoryInterface;
+    abstract public function buildAttributeModelFactory(): AttributeModelFactoryInterface;
 
     public function buildPropertyModelFactory(): PropertyModelFactoryInterface
     {
         if (null === $this->propertyModelFactory) {
             $this->propertyModelFactory = new $this->propertyModelFactoryClass(
                 $this->propertyClass,
-                $this->buildPhpDocModelFactory()
+                $this->buildPhpDocModelFactory(),
+                $this->buildAttributeModelFactory(),
             );
         }
 

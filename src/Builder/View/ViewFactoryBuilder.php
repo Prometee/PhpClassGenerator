@@ -10,5 +10,6 @@ final class ViewFactoryBuilder implements ViewFactoryBuilderInterface
         MethodViewFactoryTrait,
         OthersViewFactoryTrait,
         PhpDocViewFactoryTrait,
+        AttributeViewFactoryTrait,
         PropertyViewFactoryTrait;
 }

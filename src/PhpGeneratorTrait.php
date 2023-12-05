@@ -6,6 +6,7 @@ namespace Prometee\PhpClassGenerator;
 
 use LogicException;
 use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
 
@@ -91,6 +92,7 @@ trait PhpGeneratorTrait
 
             $classModel = $this->classBuilder->buildClass($classNamespace, $className);
             $this->buildPhpDoc($config['phpdoc'] ?? [], $classModel);
+            $this->buildAttribute($config['attribute'] ?? [], $classModel);
 
             $classContent = $this->classBuilder->renderClass($classModel);
             $this->classBuilder->reset();
@@ -126,6 +128,7 @@ trait PhpGeneratorTrait
             $constant->setInherited($constantConfig['inherited'] ?? false);
 
             $this->buildPhpDoc($constantsConfig['phpdoc'] ?? [], $constant);
+            $this->buildAttribute($constantsConfig['attribute'] ?? [], $constant);
 
             $this->classBuilder->addProperty($constant);
         }
@@ -164,6 +167,7 @@ trait PhpGeneratorTrait
             $property->setInheritedRequired($propertyConfig['inherited_required'] ?? false);
 
             $this->buildPhpDoc($propertyConfig['phpdoc'] ?? [], $property);
+            $this->buildAttribute($propertyConfig['attribute'] ?? [], $property);
 
             $this->classBuilder->addProperty($property);
         }
@@ -184,17 +188,25 @@ trait PhpGeneratorTrait
             $method->addMultipleLines(implode($eol, $body), $eol);
 
             $this->buildPhpDoc($methodsConfig['phpdoc'] ?? [], $method);
+            $this->buildAttribute($methodsConfig['attribute'] ?? [], $method);
 
             $this->classBuilder->addMethod($method);
         }
     }
 
-    protected function buildPhpDoc(array $phpdoc, PhpDocAwareInterface $phpDocAware): void
+    protected function buildPhpDoc(array $phpdocLines, PhpDocAwareInterface $phpDocAware): void
     {
-        foreach ($phpdoc as $type => $lines) {
+        foreach ($phpdocLines as $type => $lines) {
             foreach ($lines as $line) {
                 $phpDocAware->getPhpDoc()->addLine($line, $type);
             }
+        }
+    }
+
+    protected function buildAttribute(array $attributeLines, AttributeAwareInterface $attributeAware): void
+    {
+        foreach ($attributeLines as $line) {
+            $attributeAware->getAttribute()->addLine($line);
         }
     }
 

@@ -11,5 +11,6 @@ final class ModelFactoryBuilder implements ModelFactoryBuilderInterface
         MethodsModelFactoryTrait,
         GetterSettersModelFactoryTrait,
         OthersModelFactoryTrait,
-        PhpDocModelFactoryTrait;
+        PhpDocModelFactoryTrait,
+        AttributeModelFactoryTrait;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder\View;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactory;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodViewFactory;
@@ -30,13 +31,15 @@ trait MethodViewFactoryTrait
     private string $methodViewClass = MethodView::class;
 
     abstract public function buildPhpDocViewFactory(): PhpDocViewFactoryInterface;
+    abstract public function buildAttributeViewFactory(): AttributeViewFactoryInterface;
 
     public function buildMethodParameterViewFactory(): MethodParameterViewFactoryInterface
     {
         if (null === $this->methodParameterViewFactory) {
             $this->methodParameterViewFactory = new $this->methodParameterViewFactoryClass(
                 $this->methodParameterViewClass,
-                $this->buildPhpDocViewFactory()
+                $this->buildPhpDocViewFactory(),
+                $this->buildAttributeViewFactory(),
             );
         }
 
@@ -49,7 +52,8 @@ trait MethodViewFactoryTrait
             $this->methodViewFactory = new $this->methodViewFactoryClass(
                 $this->methodViewClass,
                 $this->buildPhpDocViewFactory(),
-                $this->buildMethodParameterViewFactory()
+                $this->buildMethodParameterViewFactory(),
+                $this->buildAttributeViewFactory(),
             );
         }
 

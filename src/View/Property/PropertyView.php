@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Property;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
+use Prometee\PhpClassGenerator\View\Attribute\AttributeViewAwareTrait;
 use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 
 class PropertyView extends AbstractView implements PropertyViewInterface
@@ -16,10 +19,12 @@ class PropertyView extends AbstractView implements PropertyViewInterface
     use PhpDocViewAwareTrait {
         PhpDocViewAwareTrait::configurePhpDoc as private _configurePhpDoc;
     }
+    use AttributeViewAwareTrait;
 
     public function __construct(
         protected PropertyInterface $property,
         protected PhpDocViewFactoryInterface $phpDocViewFactory,
+        protected AttributeViewFactoryInterface $attributeViewFactory,
     ) {
     }
 
@@ -35,11 +40,19 @@ class PropertyView extends AbstractView implements PropertyViewInterface
 
         $this->configurePhpDoc(
             $this->property->getPhpDoc(),
-            $this->property->getUses()
+            $this->property->getUses(),
+        );
+
+        $this->configureAttribute(
+            $this->property->getAttribute(),
+            $this->property->getUses(),
         );
 
         $phpDocView = $this->phpDocViewFactory->create($this->property->getPhpDoc());
         $phpDocView->setLineStartIndent($this->indent);
+
+        $attributeView = $this->attributeViewFactory->create($this->property->getAttribute());
+        $attributeView->setLineStartIndent($this->indent);
 
         $value = '';
         $defaultValue = $this->property->getValue() ?? $this->property->getDefaultValueFromTypes();
@@ -50,10 +63,11 @@ class PropertyView extends AbstractView implements PropertyViewInterface
         $phpType = $this->property->getPhpTypeFromTypes();
         $phpType = $phpType === '' ? '' : ' ' . $phpType;
         return sprintf(
-            '%1$s%3$s%2$s%4$s%5$s %6$s%7$s;%1$s',
+            '%1$s%3$s%4$s%2$s%5$s%6$s %7$s%8$s;%1$s',
             $this->eol,
             $this->indent,
             $phpDocView->render($this->indent, $this->eol),
+            $attributeView->render($this->indent, $this->eol),
             $this->property->getScope(),
             $phpType,
             $this->property->getPhpName(),

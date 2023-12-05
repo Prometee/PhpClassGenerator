@@ -19,6 +19,8 @@ interface UsesInterface extends ModelInterface
         array $uses = []
     ): void;
 
+    public function detectAndReplaceUsesInText(string $text, string $prefix = ''): string;
+
     public function isUsable(string $str): bool;
 
     public function addRawUseOrReturnType(string $use): string;

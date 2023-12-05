@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Factory\View\Property;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\View\Property\PropertyViewInterface;
@@ -14,6 +15,7 @@ final class PropertyViewFactory implements PropertyViewFactoryInterface
         /** @var class-string<PropertyViewInterface> */
         protected string $propertyViewClass,
         protected PhpDocViewFactoryInterface $phpDocViewFactory,
+        protected AttributeViewFactoryInterface $attributeViewFactory,
     ) {
     }
 
@@ -21,7 +23,8 @@ final class PropertyViewFactory implements PropertyViewFactoryInterface
     {
         return new $this->propertyViewClass(
             $property,
-            $this->phpDocViewFactory
+            $this->phpDocViewFactory,
+            $this->attributeViewFactory,
         );
     }
 }

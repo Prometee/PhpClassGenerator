@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder\View;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactory;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\MethodsViewFactoryInterface;
@@ -25,6 +26,7 @@ trait ClassViewFactoryTrait
     private string $classViewClass = ClassView::class;
 
     abstract public function buildPhpDocViewFactory(): PhpDocViewFactoryInterface;
+    abstract public function buildAttributeViewFactory(): AttributeViewFactoryInterface;
     abstract public function buildMethodsViewFactory(): MethodsViewFactoryInterface;
     abstract public function buildUsesViewFactory(): UsesViewFactoryInterface;
     abstract public function buildTraitsViewFactory(): TraitsViewFactoryInterface;
@@ -39,7 +41,8 @@ trait ClassViewFactoryTrait
                 $this->buildMethodsViewFactory(),
                 $this->buildUsesViewFactory(),
                 $this->buildTraitsViewFactory(),
-                $this->buildPropertiesViewFactory()
+                $this->buildPropertiesViewFactory(),
+                $this->buildAttributeViewFactory(),
             );
         }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder\View;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Class_\ClassViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodViewFactoryInterface;
@@ -14,6 +15,7 @@ use Prometee\PhpClassGenerator\Factory\View\Other\UsesViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\UseViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Property\PropertyViewFactoryInterface;
+use Prometee\PhpClassGenerator\View\Attribute\AttributeViewInterface;
 use Prometee\PhpClassGenerator\View\Class_\ClassViewInterface;
 use Prometee\PhpClassGenerator\View\Method\MethodParameterViewInterface;
 use Prometee\PhpClassGenerator\View\Method\MethodViewInterface;
@@ -76,6 +78,8 @@ interface ViewFactoryBuilderInterface
 
     public function getPhpDocViewClass(): string;
 
+    public function getAttributeViewClass(): string;
+
     public function buildUsesViewFactory(): UsesViewFactoryInterface;
 
     public function buildUseViewFactory(): UseViewFactoryInterface;
@@ -85,6 +89,9 @@ interface ViewFactoryBuilderInterface
 
     /** @param class-string<PhpDocViewFactoryInterface> $phpDocViewFactoryClass */
     public function setPhpDocViewFactoryClass(string $phpDocViewFactoryClass): void;
+
+    /** @param class-string<AttributeViewFactoryInterface> $attributeViewFactoryClass */
+    public function setAttributeViewFactoryClass(string $attributeViewFactoryClass): void;
 
     /** @param class-string<TraitsViewInterface> $traitsViewClass */
     public function setTraitsViewClass(string $traitsViewClass): void;
@@ -111,6 +118,10 @@ interface ViewFactoryBuilderInterface
 
     public function buildPhpDocViewFactory(): PhpDocViewFactoryInterface;
 
+    public function getAttributeViewFactoryClass(): string;
+
+    public function buildAttributeViewFactory(): AttributeViewFactoryInterface;
+
     /** @param class-string<MethodsViewInterface> $methodsViewClass */
     public function setMethodsViewClass(string $methodsViewClass): void;
 
@@ -124,6 +135,9 @@ interface ViewFactoryBuilderInterface
 
     /** @param class-string<PhpDocViewInterface> $phpDocViewClass */
     public function setPhpDocViewClass(string $phpDocViewClass): void;
+
+    /** @param class-string<AttributeViewInterface> $attributeViewClass */
+    public function setAttributeViewClass(string $attributeViewClass): void;
 
     /** @param class-string<MethodParameterViewInterface> $methodParameterViewClass */
     public function setMethodParameterViewClass(string $methodParameterViewClass): void;

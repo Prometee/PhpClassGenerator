@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Class_;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\MethodsViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\PropertiesViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\TraitsViewFactoryInterface;
@@ -11,11 +12,13 @@ use Prometee\PhpClassGenerator\Factory\View\Other\UsesViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Class_\ClassInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
+use Prometee\PhpClassGenerator\View\Attribute\AttributeViewAwareTrait;
 use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 
 class ClassView extends AbstractView implements ClassViewInterface
 {
-    use PhpDocViewAwareTrait;
+    use PhpDocViewAwareTrait,
+        AttributeViewAwareTrait;
 
     public function __construct(
         protected ClassInterface $classModel,
@@ -23,7 +26,8 @@ class ClassView extends AbstractView implements ClassViewInterface
         protected UsesViewFactoryInterface $usesViewFactory,
         protected TraitsViewFactoryInterface $traitsViewFactory,
         protected PropertiesViewFactoryInterface $propertiesViewFactory,
-        protected MethodsViewFactoryInterface $methodsViewFactory
+        protected MethodsViewFactoryInterface $methodsViewFactory,
+        protected AttributeViewFactoryInterface $attributeViewFactory,
     ) {
     }
 
@@ -31,6 +35,11 @@ class ClassView extends AbstractView implements ClassViewInterface
     {
         $this->configurePhpDoc(
             $this->classModel->getPhpDoc(),
+            $this->classModel->getUses()
+        );
+
+        $this->configureAttribute(
+            $this->classModel->getAttribute(),
             $this->classModel->getUses()
         );
 
@@ -42,9 +51,10 @@ class ClassView extends AbstractView implements ClassViewInterface
             . '%1$s'
             . '%3$s'
             . '%4$s'
-            . '%5$s%1$s'
+            . '%5$s'
+            . '%6$s%1$s'
             . '{'
-            . '%6$s'
+            . '%7$s'
             . '}%1$s'
         ;
 
@@ -53,6 +63,7 @@ class ClassView extends AbstractView implements ClassViewInterface
         $signature = $this->buildSignature();
 
         $phpDocView = $this->phpDocViewFactory->create($this->classModel->getPhpDoc());
+        $attributeView = $this->attributeViewFactory->create($this->classModel->getAttribute());
         $usesView = $this->usesViewFactory->create($this->classModel->getUses());
 
         return sprintf(
@@ -61,6 +72,7 @@ class ClassView extends AbstractView implements ClassViewInterface
             $this->classModel->getNamespace(),
             $usesView->render($this->indent, $this->eol),
             $phpDocView->render($this->indent, $this->eol),
+            $attributeView->render($this->indent, $this->eol),
             $signature,
             $body
         );

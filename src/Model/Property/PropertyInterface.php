@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Model\Property;
 
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareInterface;
 use Prometee\PhpClassGenerator\Model\ModelInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
 
-interface PropertyInterface extends ModelInterface, PhpDocAwareInterface, UsesAwareInterface
+interface PropertyInterface extends ModelInterface, PhpDocAwareInterface, AttributeAwareInterface, UsesAwareInterface
 {
     public function configure(
         string $name,

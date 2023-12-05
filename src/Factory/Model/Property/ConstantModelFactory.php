@@ -14,7 +14,8 @@ final class ConstantModelFactory extends AbstractDecoratedPropertyModelFactory i
     {
         return new $this->modelClass(
             $uses,
-            $this->decoratedModelFactory->getPhpDocModelFactory()->create()
+            $this->decoratedModelFactory->getPhpDocModelFactory()->create(),
+            $this->decoratedModelFactory->getAttributeModelFactory()->create(),
         );
     }
 }

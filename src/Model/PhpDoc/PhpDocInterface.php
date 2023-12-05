@@ -22,7 +22,7 @@ interface PhpDocInterface extends ModelInterface
         self::TYPE_THROWS,
     ];
 
-    public function configure(array $lines = [], ?int $wrapOn = null): void;
+    public function configure(array $lines = []): void;
 
     public function orderLines(callable $orderingCallable): void;
 

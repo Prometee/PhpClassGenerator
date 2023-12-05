@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder\Model;
 
+use Prometee\PhpClassGenerator\Factory\Model\Attribute\AttributeModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\ClassModelFactory;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\ClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\MethodsModelFactoryInterface;
@@ -23,6 +24,7 @@ trait ClassModelFactoryTrait
     private string $classModelClass = Class_::class;
 
     abstract public function buildPhpDocModelFactory(): PhpDocModelFactoryInterface;
+    abstract public function buildAttributeModelFactory(): AttributeModelFactoryInterface;
     abstract public function buildUsesModelFactory(): UsesModelFactoryInterface;
     abstract public function buildPropertiesModelFactory(): PropertiesModelFactoryInterface;
     abstract public function buildMethodsModelFactory(): MethodsModelFactoryInterface;
@@ -34,6 +36,7 @@ trait ClassModelFactoryTrait
             $this->classModelFactory = new $this->classModelFactoryClass(
                 $this->classModelClass,
                 $this->buildPhpDocModelFactory(),
+                $this->buildAttributeModelFactory(),
                 $this->buildUsesModelFactory(),
                 $this->buildPropertiesModelFactory(),
                 $this->buildMethodsModelFactory(),

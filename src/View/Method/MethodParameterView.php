@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\Method;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodParameterInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
+use Prometee\PhpClassGenerator\View\Attribute\AttributeViewAwareTrait;
 use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 
 class MethodParameterView extends AbstractView implements MethodParameterViewInterface
@@ -16,10 +18,12 @@ class MethodParameterView extends AbstractView implements MethodParameterViewInt
     use PhpDocViewAwareTrait {
         PhpDocViewAwareTrait::configurePhpDoc as private _configurePhpDoc;
     }
+    use AttributeViewAwareTrait;
 
     public function __construct(
         protected MethodParameterInterface $methodParameter,
         protected PhpDocViewFactoryInterface $phpDocViewFactory,
+        protected AttributeViewFactoryInterface $attributeViewFactory,
     ) {
     }
 
@@ -30,8 +34,16 @@ class MethodParameterView extends AbstractView implements MethodParameterViewInt
             $this->methodParameter->getUses()
         );
 
-        $phpDocFactory = $this->phpDocViewFactory->create($this->methodParameter->getPhpDoc());
-        $phpDocFactory->setLineStartIndent($this->indent . $this->indent);
+        $this->configureAttribute(
+            $this->methodParameter->getAttribute(),
+            $this->methodParameter->getUses()
+        );
+
+        $phpDocView = $this->phpDocViewFactory->create($this->methodParameter->getPhpDoc());
+        $phpDocView->setLineStartIndent($this->indent . $this->indent);
+
+        $attributeView = $this->attributeViewFactory->create($this->methodParameter->getAttribute());
+        $attributeView->setLineStartIndent($this->indent . $this->indent);
 
         $content = '';
 
@@ -39,7 +51,8 @@ class MethodParameterView extends AbstractView implements MethodParameterViewInt
         $scope = $this->methodParameter->getScope();
 
         if ($this->methodParameter->hasScope()) {
-            $content .= $phpDocFactory->render($this->indent, $this->eol);
+            $content .= $phpDocView->render($this->indent, $this->eol);
+            $content .= $attributeView->render($this->indent, $this->eol);
         }
 
         $content .= !empty($scope) ? $scope . ' ' : '';
