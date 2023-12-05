@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\View\PhpDoc;
 
-use LogicException;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
 
@@ -18,9 +17,6 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
     ) {
     }
 
-    /**
-     * @throws LogicException
-     */
     protected function doRender(): ?string
     {
         $phpdocLines = $this->buildLines();
@@ -30,7 +26,7 @@ class PhpDocView extends AbstractView implements PhpDocViewInterface
         }
 
         if ($this->phpDoc->hasSingleVarLine()) {
-            return sprintf('%1$s/** %3$s */%2$s', $this->indent, $this->eol, $phpdocLines[0]);
+            return sprintf('%1$s/** %3$s */%2$s', $this->lineStartIndent, $this->eol, $phpdocLines[0]);
         }
 
         $lines = [];

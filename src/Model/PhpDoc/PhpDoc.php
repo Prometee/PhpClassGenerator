@@ -11,7 +11,7 @@ class PhpDoc extends AbstractModel implements PhpDocInterface
     /** @var array<string, array<int, string>> */
     protected array $lines = [];
 
-    public function configure(array $lines = [], ?int $wrapOn = null): void
+    public function configure(array $lines = []): void
     {
         $this->lines = $lines;
     }

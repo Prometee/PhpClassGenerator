@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Model\Class_;
 
 use Prometee\PhpClassGenerator\Model\AbstractModel;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareTrait;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeInterface;
 use Prometee\PhpClassGenerator\Model\Other\MethodsInterface;
 use Prometee\PhpClassGenerator\Model\Other\PropertiesInterface;
 use Prometee\PhpClassGenerator\Model\Other\TraitsInterface;
@@ -17,6 +19,7 @@ class Class_ extends AbstractModel implements ClassInterface
 {
     use UsesAwareTrait;
     use PhpDocAwareTrait;
+    use AttributeAwareTrait;
 
     protected string $type = 'class';
     protected string $namespace = '';
@@ -28,12 +31,14 @@ class Class_ extends AbstractModel implements ClassInterface
     public function __construct(
         UsesInterface $uses,
         PhpDocInterface $phpDoc,
+        AttributeInterface $attribute,
         protected PropertiesInterface $properties,
         protected MethodsInterface $methods,
         protected TraitsInterface $traits
     ) {
         $this->setUses($uses);
         $this->setPhpDoc($phpDoc);
+        $this->setAttribute($attribute);
 
         $this->properties->setUses($this->uses);
         $this->methods->setUses($this->uses);

@@ -10,9 +10,5 @@ use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 
 interface PhpDocViewAwareInterface
 {
-    public function getPhpDocViewFactory(): PhpDocViewFactoryInterface;
-
-    public function setPhpDocViewFactory(PhpDocViewFactoryInterface $phpDocViewFactory): void;
-
     public function configurePhpDoc(PhpDocInterface $phpDoc, UsesInterface $uses): void;
 }

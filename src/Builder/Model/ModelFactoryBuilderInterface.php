@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Builder\Model;
 
+use Prometee\PhpClassGenerator\Factory\Model\Attribute\AttributeModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\AbstractClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\ClassModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Class_\FinalClassModelFactoryInterface;
@@ -24,6 +25,7 @@ use Prometee\PhpClassGenerator\Factory\Model\Other\UsesModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\ConstantModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Property\PropertyModelFactoryInterface;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeInterface;
 use Prometee\PhpClassGenerator\Model\Class_\AbstractClassInterface;
 use Prometee\PhpClassGenerator\Model\Class_\FinalClassInterface;
 use Prometee\PhpClassGenerator\Model\Class_\InterfaceClassInterface;
@@ -109,6 +111,12 @@ interface ModelFactoryBuilderInterface
     /** @param class-string<PhpDocModelFactoryInterface> $phpDocModelFactoryClass */
     public function setPhpDocModelFactoryClass(string $phpDocModelFactoryClass): void;
 
+    /** @param class-string<AttributeInterface> $attributeClass */
+    public function setAttributeClass(string $attributeClass): void;
+
+    /** @param class-string<AttributeModelFactoryInterface> $attributeModelFactoryClass */
+    public function setAttributeModelFactoryClass(string $attributeModelFactoryClass): void;
+
     public function buildUsesModelFactory(): UsesModelFactoryInterface;
 
     public function buildUseModelFactory(): UseModelFactoryInterface;
@@ -118,6 +126,8 @@ interface ModelFactoryBuilderInterface
     public function buildFinalClassModelFactory(): FinalClassModelFactoryInterface;
 
     public function getPhpDocClass(): string;
+
+    public function getAttributeClass(): string;
 
     public function getTraitClassModelFactoryClass(): string;
 
@@ -226,6 +236,8 @@ interface ModelFactoryBuilderInterface
 
     public function getPhpDocModelFactoryClass(): string;
 
+    public function getAttributeModelFactoryClass(): string;
+
     /** @param class-string<MethodParameterInterface> $methodParameterClass */
     public function setMethodParameterClass(string $methodParameterClass): void;
 
@@ -273,6 +285,8 @@ interface ModelFactoryBuilderInterface
     public function setPropertyClass(string $propertyClass): void;
 
     public function buildPhpDocModelFactory(): PhpDocModelFactoryInterface;
+
+    public function buildAttributeModelFactory(): AttributeModelFactoryInterface;
 
     public function buildAutoGetterSetterModelFactory(): AutoGetterSetterModelFactoryInterface;
     public function getAutoGetterSetterModelFactoryClass(): string;

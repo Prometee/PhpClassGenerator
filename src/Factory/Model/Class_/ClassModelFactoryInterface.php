@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Factory\Model\Class_;
 
+use Prometee\PhpClassGenerator\Factory\Model\Attribute\AttributeModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\ModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\MethodsModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\Other\PropertiesModelFactoryInterface;
@@ -18,6 +19,8 @@ interface ClassModelFactoryInterface extends ModelFactoryInterface
     public function create(?UsesInterface $uses = null): ClassInterface;
 
     public function getPhpDocModelFactory(): PhpDocModelFactoryInterface;
+
+    public function getAttributeModelFactory(): AttributeModelFactoryInterface;
 
     public function getPropertiesModelFactory(): PropertiesModelFactoryInterface;
 

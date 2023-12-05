@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Factory\Model\Property;
 
 use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
+use Prometee\PhpClassGenerator\Factory\Model\Attribute\AttributeModelFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\Model\PhpDoc\PhpDocModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
@@ -17,7 +18,8 @@ final class PropertyModelFactory extends AbstractModelFactory implements Propert
      */
     public function __construct(
         string $modelClass,
-        protected PhpDocModelFactoryInterface $phpDocModelFactory
+        private PhpDocModelFactoryInterface $phpDocModelFactory,
+        private AttributeModelFactoryInterface $attributeModelFactory,
     ) {
         parent::__construct($modelClass);
     }
@@ -26,12 +28,18 @@ final class PropertyModelFactory extends AbstractModelFactory implements Propert
     {
         return new $this->modelClass(
             $uses,
-            $this->phpDocModelFactory->create()
+            $this->phpDocModelFactory->create(),
+            $this->attributeModelFactory->create(),
         );
     }
 
     public function getPhpDocModelFactory(): PhpDocModelFactoryInterface
     {
         return $this->phpDocModelFactory;
+    }
+
+    public function getAttributeModelFactory(): AttributeModelFactoryInterface
+    {
+        return $this->attributeModelFactory;
     }
 }

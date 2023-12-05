@@ -294,6 +294,7 @@ class ClassBuilder implements ClassBuilderInterface
         if ($property->isPromoted()) {
             $methodParameter->setScope($property->getScope());
             $methodParameter->setPhpDoc($property->getPhpDoc());
+            $methodParameter->setAttribute($property->getAttribute());
         }
 
         return $methodParameter;

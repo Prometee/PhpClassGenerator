@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Factory\View\Method;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\View\Method\MethodViewInterface;
@@ -14,7 +15,8 @@ final class MethodViewFactory implements MethodViewFactoryInterface
         /** @var class-string<MethodViewInterface> */
         protected string $methodViewClass,
         protected PhpDocViewFactoryInterface $phpDocViewFactory,
-        protected MethodParameterViewFactory $methodParameterViewFactory
+        protected MethodParameterViewFactory $methodParameterViewFactory,
+        protected AttributeViewFactoryInterface $attributeViewFactory,
     ) {
     }
 
@@ -23,7 +25,8 @@ final class MethodViewFactory implements MethodViewFactoryInterface
         return new $this->methodViewClass(
             $method,
             $this->phpDocViewFactory,
-            $this->methodParameterViewFactory
+            $this->methodParameterViewFactory,
+            $this->attributeViewFactory,
         );
     }
 }

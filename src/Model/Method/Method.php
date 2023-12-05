@@ -6,6 +6,8 @@ namespace Prometee\PhpClassGenerator\Model\Method;
 
 use LogicException;
 use Prometee\PhpClassGenerator\Model\AbstractModel;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareTrait;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareTrait;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareTrait;
@@ -15,6 +17,7 @@ class Method extends AbstractModel implements MethodInterface
 {
     use UsesAwareTrait;
     use PhpDocAwareTrait;
+    use AttributeAwareTrait;
 
     protected string $scope = self::SCOPE_PUBLIC;
     protected string $name = '';
@@ -30,10 +33,12 @@ class Method extends AbstractModel implements MethodInterface
 
     public function __construct(
         UsesInterface $uses,
-        PhpDocInterface $phpDoc
+        PhpDocInterface $phpDoc,
+        AttributeInterface $attribute,
     ) {
         $this->setUses($uses);
         $this->setPhpDoc($phpDoc);
+        $this->setAttribute($attribute);
     }
 
     public function configure(
@@ -52,6 +57,7 @@ class Method extends AbstractModel implements MethodInterface
         $this->setLines([]);
 
         $this->phpDoc->configure();
+        $this->attribute->configure();
     }
 
     public function getPhpDocReturnType(): string
@@ -95,7 +101,7 @@ class Method extends AbstractModel implements MethodInterface
 
     public function hasReturnType(string $returnType): bool
     {
-        return in_array($returnType, $this->returnTypes);
+        return in_array($returnType, $this->returnTypes, true);
     }
 
     public function addParameter(MethodParameterInterface $methodParameter): void
@@ -190,16 +196,6 @@ class Method extends AbstractModel implements MethodInterface
     public function setLines(array $lines): void
     {
         $this->lines = $lines;
-    }
-
-    public function getPhpDoc(): PhpDocInterface
-    {
-        return $this->phpDoc;
-    }
-
-    public function setPhpDoc(PhpDocInterface $phpDoc): void
-    {
-        $this->phpDoc = $phpDoc;
     }
 
     public function getLineIndentation(): string

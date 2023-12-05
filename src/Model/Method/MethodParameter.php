@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Model\Method;
 
 use Prometee\PhpClassGenerator\Model\AbstractModel;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareTrait;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareTrait;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareTrait;
@@ -14,6 +16,7 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
 {
     use UsesAwareTrait;
     use PhpDocAwareTrait;
+    use AttributeAwareTrait;
 
     protected string $scope = '';
     /** @var string[] */
@@ -26,9 +29,11 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
     public function __construct(
         UsesInterface $uses,
         PhpDocInterface $phpDoc,
+        AttributeInterface $attribute,
     ) {
         $this->setUses($uses);
         $this->setPhpDoc($phpDoc);
+        $this->setAttribute($attribute);
     }
 
     public function configure(

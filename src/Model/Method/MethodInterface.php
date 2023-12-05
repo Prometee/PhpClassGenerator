@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Model\Method;
 
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareInterface;
 use Prometee\PhpClassGenerator\Model\ModelInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
 
-interface MethodInterface extends ModelInterface, PhpDocAwareInterface, UsesAwareInterface
+interface MethodInterface extends ModelInterface, PhpDocAwareInterface, AttributeAwareInterface, UsesAwareInterface
 {
     public const SCOPE_PUBLIC = 'public';
     public const SCOPE_PROTECTED = 'protected';

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\View\Method;
 
 use LogicException;
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Method\MethodParameterViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\PhpDoc\PhpDocViewFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
@@ -12,6 +13,7 @@ use Prometee\PhpClassGenerator\Model\Method\MethodParameterInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
 use Prometee\PhpClassGenerator\View\AbstractView;
+use Prometee\PhpClassGenerator\View\Attribute\AttributeViewAwareTrait;
 use Prometee\PhpClassGenerator\View\PhpDoc\PhpDocViewAwareTrait;
 
 class MethodView extends AbstractView implements MethodViewInterface
@@ -19,11 +21,13 @@ class MethodView extends AbstractView implements MethodViewInterface
     use PhpDocViewAwareTrait {
         PhpDocViewAwareTrait::configurePhpDoc as private _configurePhpDoc;
     }
+    use AttributeViewAwareTrait;
 
     public function __construct(
         protected MethodInterface $method,
         protected PhpDocViewFactoryInterface $phpDocViewFactory,
-        protected MethodParameterViewFactoryInterface $methodParameterView
+        protected MethodParameterViewFactoryInterface $methodParameterView,
+        protected AttributeViewFactoryInterface $attributeViewFactory,
     ) {
     }
 
@@ -34,14 +38,23 @@ class MethodView extends AbstractView implements MethodViewInterface
             $this->method->getUses()
         );
 
+        $this->configureAttribute(
+            $this->method->getAttribute(),
+            $this->method->getUses()
+        );
+
         $phpDocFactory = $this->phpDocViewFactory->create($this->method->getPhpDoc());
         $phpDocFactory->setLineStartIndent($this->indent);
 
+        $attributeView = $this->attributeViewFactory->create($this->method->getAttribute());
+        $attributeView->setLineStartIndent($this->indent);
+
         return sprintf(
-            '%1$s%3$s%4$s{%1$s%5$s%2$s}%1$s',
+            '%1$s%3$s%4$s%5$s{%1$s%6$s%2$s}%1$s',
             $this->eol,
             $this->indent,
             $phpDocFactory->render($this->indent, $this->eol),
+            $attributeView->render($this->indent, $this->eol),
             $this->buildMethodSignature($phpDocFactory->getWrapOn()),
             $this->buildMethodBody()
         );
@@ -113,8 +126,12 @@ class MethodView extends AbstractView implements MethodViewInterface
         $afterSignature = $this->eol . $this->indent;
 
         $contentLength = strlen($content) - strlen($parametersFutureFormat) + $methodParametersLength;
-        if ($contentLength > $wrapOn || str_contains($methodParameters, '/*')) {
-            // Make parameters go into multiline formation
+        if (
+            $contentLength > $wrapOn
+            || str_contains($methodParameters, '/*') // has phpdoc
+            || str_contains($methodParameters, '#[') // has attribute
+        ) {
+            // Makes parameters go into multiline formation
             $additionalIndentation = $this->eol . $this->indent . $this->indent;
             $parametersStart = $additionalIndentation;
             $parametersEnd = $this->eol . $this->indent;

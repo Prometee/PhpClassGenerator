@@ -567,4 +567,33 @@ class PhpGeneratorTest extends TestCase
         $this->assertTrue($this->dummyPhpGenerator->generate());
         $this->assertFileEquals(__DIR__ . '/Resources/PhpDocTest.php', $this->path . '/PhpDocTest.php');
     }
+
+    public function testGenerateAttribute(): void
+    {
+        $classesConfig = [
+            [
+                'class' => 'AttributeTest',
+                'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
+                'attribute' => [
+                    '\\Attribute(\\Attribute::TARGET_METHOD | \\Attribute::TARGET_PROPERTY)',
+                ],
+                'properties' => [
+                    [
+                        'name' => 'id',
+                        'types' => [
+                            'int',
+                        ],
+                        'attribute' => [
+                            '\\Symfony\\Component\\Serializer\\Attribute\\SerializedName("id")',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $this->dummyPhpGenerator->setClassesConfig($classesConfig);
+
+        $this->assertTrue($this->dummyPhpGenerator->generate());
+        $this->assertFileEquals(__DIR__ . '/Resources/AttributeTest.php', $this->path . '/AttributeTest.php');
+    }
 }

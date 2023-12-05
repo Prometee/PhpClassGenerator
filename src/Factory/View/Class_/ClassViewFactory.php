@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prometee\PhpClassGenerator\Factory\View\Class_;
 
+use Prometee\PhpClassGenerator\Factory\View\Attribute\AttributeViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\MethodsViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\PropertiesViewFactoryInterface;
 use Prometee\PhpClassGenerator\Factory\View\Other\TraitsViewFactoryInterface;
@@ -22,6 +23,7 @@ final class ClassViewFactory implements ClassViewFactoryInterface
         protected UsesViewFactoryInterface $usesViewFactory,
         protected TraitsViewFactoryInterface $traitsViewFactory,
         protected PropertiesViewFactoryInterface $propertiesViewFactory,
+        protected AttributeViewFactoryInterface $attributeViewFactory,
     ) {
     }
 
@@ -34,6 +36,7 @@ final class ClassViewFactory implements ClassViewFactoryInterface
             $this->traitsViewFactory,
             $this->propertiesViewFactory,
             $this->methodsViewFactory,
+            $this->attributeViewFactory,
         );
     }
 

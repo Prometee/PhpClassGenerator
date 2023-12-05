@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Model\Property;
 
 use Prometee\PhpClassGenerator\Model\AbstractModel;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareTrait;
+use Prometee\PhpClassGenerator\Model\Attribute\AttributeInterface;
 use Prometee\PhpClassGenerator\Model\Other\UsesAwareTrait;
 use Prometee\PhpClassGenerator\Model\Other\UsesInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareTrait;
@@ -14,6 +16,7 @@ class Property extends AbstractModel implements PropertyInterface
 {
     use UsesAwareTrait;
     use PhpDocAwareTrait;
+    use AttributeAwareTrait;
 
     protected string $scope = 'private';
     protected string $name = '';
@@ -31,10 +34,12 @@ class Property extends AbstractModel implements PropertyInterface
 
     public function __construct(
         UsesInterface $uses,
-        PhpDocInterface $phpDoc
+        PhpDocInterface $phpDoc,
+        AttributeInterface $attribute,
     ) {
         $this->setUses($uses);
         $this->setPhpDoc($phpDoc);
+        $this->setAttribute($attribute);
     }
 
     public function configure(
