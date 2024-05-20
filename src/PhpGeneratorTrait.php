@@ -6,6 +6,7 @@ namespace Prometee\PhpClassGenerator;
 
 use LogicException;
 use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
+use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
@@ -189,8 +190,30 @@ trait PhpGeneratorTrait
 
             $this->buildPhpDoc($methodsConfig['phpdoc'] ?? [], $method);
             $this->buildAttribute($methodsConfig['attribute'] ?? [], $method);
+            $this->buildParameters($methodConfig['parameters'] ?? [], $method);
 
             $this->classBuilder->addMethod($method);
+        }
+    }
+
+    public function buildParameters(array $parametersConfig, MethodInterface $method): void
+    {
+        foreach ($parametersConfig as $parameterConfig) {
+            $parameter = $this->classBuilder
+                ->getModelFactoryBuilder()
+                ->buildMethodParameterModelFactory()
+                ->create($method->getUses())
+            ;
+
+            $parameter->configure(
+                $parameterConfig['types'] ?? [],
+                $parameterConfig['name'],
+                $parameterConfig['value'] ?? null,
+                $parameterConfig['by_reference'] ?? false,
+                $parameterConfig['description'] ?? '',
+            );
+
+            $method->addParameter($parameter);
         }
     }
 

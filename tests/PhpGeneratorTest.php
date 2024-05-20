@@ -9,7 +9,6 @@ use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
 use Prometee\PhpClassGenerator\Builder\Model\ModelFactoryBuilder;
 use Prometee\PhpClassGenerator\Builder\View\ViewFactoryBuilder;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocInterface;
-use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 use Prometee\PhpClassGenerator\PhpGeneratorInterface;
 use stdClass;
 
@@ -165,6 +164,59 @@ class PhpGeneratorTest extends TestCase
 
         $this->assertTrue($this->dummyPhpGenerator->generate());
         $this->assertFileEquals(__DIR__ . '/Resources/PropertyTest.php', $this->path . '/PropertyTest.php');
+    }
+
+    public function testGenerateMethod(): void
+    {
+        $classesConfig = [
+            [
+                'class' => 'MethodTest',
+                'type' => ClassBuilderInterface::CLASS_TYPE_FINAL,
+                'phpdoc' => [
+                    PhpDocInterface::TYPE_DESCRIPTION => [
+                        'Method test class'
+                    ],
+                    'internal' => [''],
+                ],
+                'methods' => [
+                    [
+                        'scope' => 'public',
+                        'name' => 'aMethod',
+                        'return_types' => [
+                            'void'
+                        ],
+                        'parameters' => [
+                            [
+                                'types' => ['bool'],
+                                'name' => 'aBoolean',
+                            ],
+                            [
+                                'types' => ['int'],
+                                'name' => 'byReference',
+                                'by_reference' => true,
+                            ],
+                            [
+                                'types' => ['mixed'],
+                                'name' => 'aMixed',
+                            ],
+                            [
+                                'types' => ['string'],
+                                'name' => 'aString',
+                                'value' => '\'\'',
+                            ],
+                        ],
+                        'body' => [
+                            'echo \'A method body\';'
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $this->dummyPhpGenerator->setClassesConfig($classesConfig);
+
+        $this->assertTrue($this->dummyPhpGenerator->generate());
+        $this->assertFileEquals(__DIR__ . '/Resources/MethodTest.php', $this->path . '/MethodTest.php');
     }
 
     public function testGenerateBooleanType(): void
