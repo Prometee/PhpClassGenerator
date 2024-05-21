@@ -1,6 +1,5 @@
 parameters:
     reportUnmatchedIgnoredErrors: false
-    checkMissingIterableValueType: false
 
     level: max
 
@@ -9,6 +8,7 @@ parameters:
         - tests/Resources/
 
     ignoreErrors:
+        - identifier: missingType.iterableValue
         -
             message: '/Variable \$body in empty\(\) always exists and is not falsy\./'
             count: 1
