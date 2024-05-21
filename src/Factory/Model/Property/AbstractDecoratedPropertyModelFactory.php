@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prometee\PhpClassGenerator\Factory\Model\Property;
 
 use Prometee\PhpClassGenerator\Factory\Model\AbstractModelFactory;
-use Prometee\PhpClassGenerator\Factory\Model\ModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Property\PropertyInterface;
 
 /** @property class-string<PropertyInterface> $modelClass */

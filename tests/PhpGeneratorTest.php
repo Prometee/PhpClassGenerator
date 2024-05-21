@@ -189,21 +189,28 @@ class PhpGeneratorTest extends TestCase
                             [
                                 'types' => ['bool'],
                                 'name' => 'aBoolean',
+                                'description' => 'A boolean',
                             ],
                             [
                                 'types' => ['int'],
                                 'name' => 'byReference',
                                 'by_reference' => true,
+                                'description' => 'By reference',
                             ],
                             [
                                 'types' => ['mixed'],
                                 'name' => 'aMixed',
+                                'description' => 'A mixed',
                             ],
                             [
                                 'types' => ['string'],
                                 'name' => 'aString',
                                 'value' => '\'\'',
+                                'description' => 'A string with an empty string value',
                             ],
+                        ],
+                        'phpdoc' => [
+                            '' => ['A description']
                         ],
                         'body' => [
                             'echo \'A method body\';'

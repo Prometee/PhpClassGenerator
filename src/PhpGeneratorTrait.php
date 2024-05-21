@@ -6,7 +6,6 @@ namespace Prometee\PhpClassGenerator;
 
 use LogicException;
 use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
-use Prometee\PhpClassGenerator\Factory\Model\Method\MethodModelFactoryInterface;
 use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
@@ -188,8 +187,8 @@ trait PhpGeneratorTrait
             $body = $methodConfig['body'];
             $method->addMultipleLines(implode($eol, $body), $eol);
 
-            $this->buildPhpDoc($methodsConfig['phpdoc'] ?? [], $method);
-            $this->buildAttribute($methodsConfig['attribute'] ?? [], $method);
+            $this->buildPhpDoc($methodConfig['phpdoc'] ?? [], $method);
+            $this->buildAttribute($methodConfig['attribute'] ?? [], $method);
             $this->buildParameters($methodConfig['parameters'] ?? [], $method);
 
             $this->classBuilder->addMethod($method);
