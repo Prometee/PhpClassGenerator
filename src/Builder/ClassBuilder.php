@@ -311,6 +311,9 @@ class ClassBuilder implements ClassBuilderInterface
         $this->setClassType(self::CLASS_TYPE_CLASS);
         $this->uses = $this->usesModelFactory->create();
         $this->properties = [];
+        $this->methods = [];
+        $this->extendClass = null;
+        $this->implements = [];
     }
 
     public function buildClassModel(string $classType): ClassInterface
