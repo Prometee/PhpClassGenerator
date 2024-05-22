@@ -9,6 +9,7 @@ use Prometee\PhpClassGenerator\Builder\ClassBuilderInterface;
 use Prometee\PhpClassGenerator\Model\Attribute\AttributeAwareInterface;
 use Prometee\PhpClassGenerator\Model\Method\MethodInterface;
 use Prometee\PhpClassGenerator\Model\PhpDoc\PhpDocAwareInterface;
+use RuntimeException;
 
 trait PhpGeneratorTrait
 {
@@ -235,8 +236,12 @@ trait PhpGeneratorTrait
     public function writeClass(string $classContent, string $classFilePath): bool
     {
         $classPath = dirname($classFilePath);
-        if (false === is_dir($classPath)) {
-            mkdir($classPath, 0777, true);
+        if (
+            (false === is_dir($classPath)) &&
+            !mkdir($classPath, 0777, true) &&
+            !is_dir($classPath)
+        ) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $classPath));
         }
 
         return file_put_contents($classFilePath, $classContent) !== false;
