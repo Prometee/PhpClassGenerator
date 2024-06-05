@@ -11,7 +11,7 @@
     ],
     "require": {
         "ext-iconv": "*",
-        "symfony/string": "^5.4|^6.4"
+        "symfony/string": "^5.4|^6.4|^7.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
