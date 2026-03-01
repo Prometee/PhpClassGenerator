@@ -11,7 +11,7 @@ abstract class AbstractView implements ViewInterface
     /** @var non-empty-string */
     protected string $eol = PHP_EOL;
 
-    public function render(string $indent = null, string $eol = null): ?string
+    public function render(?string $indent = null, ?string $eol = null): ?string
     {
         $this->indent = $indent ?? $this->indent;
         $this->eol = $eol ?? $this->eol;
