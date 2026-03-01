@@ -23,7 +23,7 @@ class IsserSetter extends GetterSetter implements IsserSetterInterface
         return false;
     }
 
-    public function configureGetter(string $indent = null): void
+    public function configureGetter(?string $indent = null): void
     {
         if (null === $this->property) {
             return;

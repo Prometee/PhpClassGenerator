@@ -98,9 +98,12 @@ class MethodParameter extends AbstractModel implements MethodParameterInterface
 
     public function getPhpTypeFromTypes(): string
     {
-        $type = self::getPhpType($this->types);
+        $types = [];
+        foreach ($this->types as $type) {
+            $types[] = $this->uses->addRawUseOrReturnType($type);
+        }
 
-        return $this->uses->addRawUseOrReturnType($type);
+        return self::getPhpType($types);
     }
 
     public function getPhpDocType(): string

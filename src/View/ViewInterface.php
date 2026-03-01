@@ -12,7 +12,7 @@ interface ViewInterface
      *
      * @return string|null
      */
-    public function render(string $indent = null, string $eol = null): ?string;
+    public function render(?string $indent = null, ?string $eol = null): ?string;
 
     /** @param non-empty-string $eol */
     public function setEol(string $eol): void;

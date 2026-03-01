@@ -10,10 +10,6 @@ parameters:
     ignoreErrors:
         - identifier: missingType.iterableValue
         -
-            message: '/Variable \$body in empty\(\) always exists and is not falsy\./'
-            count: 1
-            path: src/View/Class_/ClassView.php
-        -
             message: '/Property Tests\\Prometee\\PhpClassGenerator\\Resources\\MixedTest::\$anOtherMixedFieldWithArray \(array<Tests\\Prometee\\PhpClassGenerator\\Resources\\MixedTest>\) does not accept array\./'
             count: 1
             path: tests/Resources/MixedTest.php
