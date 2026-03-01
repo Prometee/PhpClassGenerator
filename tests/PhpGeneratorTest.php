@@ -655,4 +655,28 @@ class PhpGeneratorTest extends TestCase
         $this->assertTrue($this->dummyPhpGenerator->generate());
         $this->assertFileEquals(__DIR__ . '/Resources/AttributeTest.php', $this->path . '/AttributeTest.php');
     }
+
+    public function testGenerateMixedObjectAndNativeTypes(): void
+    {
+        $classesConfig = [
+            [
+                'class' => 'MixedObjectAndNativeTypesTest',
+                'type' => 'final',
+                'properties' => [
+                    0 => [
+                        'name' => 'aMixedObjectAndNativeTypesField',
+                        'types' => [
+                            0 => '\\stdClass',
+                            1 => 'false',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $this->dummyPhpGenerator->setClassesConfig($classesConfig);
+
+        $this->assertTrue($this->dummyPhpGenerator->generate());
+        $this->assertFileEquals(__DIR__ . '/Resources/MixedObjectAndNativeTypesTest.php', $this->path . '/MixedObjectAndNativeTypesTest.php');
+    }
 }

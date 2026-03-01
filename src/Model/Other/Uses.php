@@ -30,6 +30,11 @@ class Uses extends AbstractModel implements UsesInterface
 
     public function isUsable(string $str): bool
     {
+        // Union types (e.g., "stdClass|false") are not usable as a single import
+        if (str_contains($str, '|')) {
+            return false;
+        }
+
         if (1 === preg_match('#\\\\#', $str)) {
             return true;
         }
